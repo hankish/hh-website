@@ -213,34 +213,58 @@ export class HhWebsite extends LitElement {
           display: flex;
           flex-direction: row;
           align-items: flex-start;
+          justify-content: center;
 
           height: 100vh;
 
           color: var(--gray-7);
           background: var(--gray-0);
-        
-          --side-padding: 24px;
-          --side-min-width: 150px;
+          
+          --side-display: none;
+          --side-flex: none;
+          --side-padding: 0;
+
+          --main-max-width: none;
           --main-padding: 24px;
-          --main-max-width: 700px;
         }
-        @media(min-width: 1732px) {
+        @media(min-width: 700px) {
           :host {
-            --side-padding: 46px;
-            --side-min-width: 300px;
-            --main-padding: 24px;
+            --main-max-width: 700px;
+          }
+        }
+        @media(min-width: 1000px) {
+          :host {
+            --side-display: flex;
+            --side-flex: 0 0 175px;
+            --side-padding: 24px;
+            
             --main-max-width: 900px;
+          }
+        }
+        @media(min-width: 1200px) {
+          :host {
+            --side-display: flex;
+            --side-flex: 0 0 225px;
+            --side-padding: 36px 24px;
+
+            --main-padding: 36px;
           }
         }
 
         side-left {
-          flex: 1 0 var(--side-min-width);
-          padding: 36px var(--side-padding);
+          flex: var(--side-flex);
+          
+          display: var(--side-display);
+          flex-direction: column;
+          padding: var(--side-padding);
         }
 
         side-right {
-          flex: 1 0 var(--side-min-width);
-          padding: 36px var(--side-padding);
+          flex: var(--side-flex);
+
+          display: var(--side-display);
+          flex-direction: column;
+          padding: var(--side-padding);
           color: var(--gray-5);
         }
         side-right h2 {
@@ -281,14 +305,15 @@ export class HhWebsite extends LitElement {
 
 
         main {
-          flex: 10 0 560px;
-          max-width: var(--main-max-width);
-          background: white;
-          padding: var(--main-padding);
-          
-          height: calc(100vh - 48px);
+          flex: 1 1 auto;
+
           display: flex;
           flex-direction: column;
+          
+          max-width: var(--main-max-width);
+          padding: var(--main-padding);
+          height: calc(100vh - 2 * var(--main-padding));
+          background: white;
         }
 
         h1 {
@@ -321,6 +346,11 @@ export class HhWebsite extends LitElement {
           width: 5px;
           
           background: linear-gradient(180deg, var(--gray-2) 0%, var(--gray-6) 100%);
+        }
+        @media(min-width: 1200px) {
+          main-inner {
+            padding-left: 30px;
+          }
         }
 
         #link-list {
@@ -457,7 +487,10 @@ export class HhWebsite extends LitElement {
                   style=${styleMap({
                     width: page.width,
                     height: page.height,
-                    marginRight: (page.hover ? '15rem' : page.offset),
+                    marginRight: (page.hover
+                      ? `calc(50% - ${page.width} / 2)`
+                      : page.offset
+                    ),
                   })}
                 ></hh-shape>
               </page-item>
