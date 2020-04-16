@@ -51,6 +51,7 @@
   "author": "hh-website",
   "license": "MIT",
   "dependencies": {
+    "@vaadin/router": "^1.7.1",
     "lit-element": "^2.0.1",
     "lit-html": "^1.0.0"
   }
