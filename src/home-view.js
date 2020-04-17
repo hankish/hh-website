@@ -39,7 +39,6 @@ export class HomeView extends ViewBase {
           flex: 0 0 auto;
           margin: 0 0 24px 0;
 
-          font-family: 'Playfair Display', serif;
           font-size: 3rem;
           font-weight: 900;
           max-width: 5em;
@@ -165,7 +164,7 @@ export class HomeView extends ViewBase {
         <ul id="link-list">
           ${this.links.map(link => html`
             <li>
-              <a href="#${link.key}">${link.title}</a>
+              <a href="${link.key}">${link.title}</a>
               <span class="comma">,</span>
             </li>
           `)}

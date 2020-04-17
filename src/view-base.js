@@ -11,6 +11,7 @@ export class ViewBase extends LitElement {
   
   static get properties() {
     return {
+      paths: { type: Array },
       links: { type: Array },
       externalLinks: { type: Array },
       pages: { type: Array },
@@ -22,6 +23,7 @@ export class ViewBase extends LitElement {
   constructor() {
     super();
 
+    this.paths = cmsContent.paths;
     this.links = cmsContent.links;
     this.externalLinks = cmsContent.externalLinks;
     this.pages = cmsContent.pages;
@@ -34,13 +36,12 @@ export class ViewBase extends LitElement {
       colorStyles,
       css`
 
-        :host {
-          display: flex;
-          flex-direction: row;
-          align-items: flex-start;
-          justify-content: center;
+        /*=== HOST CONTAINER & VARIABLES ===*/
 
-          height: 100vh;
+        :host {
+          display: block;
+          width: 100%;
+          height: 100%;
 
           color: var(--gray-7);
           background: var(--gray-0);
@@ -60,7 +61,7 @@ export class ViewBase extends LitElement {
         @media(min-width: 1000px) {
           :host {
             --side-display: flex;
-            --side-flex: 0 0 175px;
+            --side-flex: 0 0 135px;
             --side-padding: 24px;
             
             --main-max-width: 900px;
@@ -74,6 +75,17 @@ export class ViewBase extends LitElement {
 
             --main-padding: 36px;
           }
+        }
+
+        /*=== CORE LAYOUT ===*/
+
+        container {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: center;
+
+          height: 100vh;
         }
 
         side-left {
@@ -92,6 +104,8 @@ export class ViewBase extends LitElement {
           padding: var(--side-padding);
           color: var(--gray-5);
         }
+
+        /*=== MAIN DEFAULT STYLES ===*/
         
         main {
           flex: 1 1 auto;
@@ -104,9 +118,38 @@ export class ViewBase extends LitElement {
           height: calc(100vh - 2 * var(--main-padding));
           background: white;
         }
+        main h1, main h2 {
+          font-family: 'Playfair Display', serif;
+        }
 
+        /*=== SIDE LEFT STYLES ===*/
+
+        side-left {
+          font-size: 0.9rem;
+        }
+        @media(min-width: 1200px) {
+          side-left {
+            font-size: 1rem;
+          }
+        }
+
+        /*=== SIDE RIGHT DEFAULT CONTENT ===*/
+
+        side-right {
+          font-size: 0.9rem;
+        }
         side-right h2 {
-          font-size: 1rem;
+          font-size: 0.9rem;
+          font-weight: 800;
+          margin: 0;
+        }
+        @media(min-width: 1200px) {
+          side-right {
+            font-size: 1rem;
+          }
+          side-right h2 {
+            font-size: 1rem;
+          }
         }
         #external-link-list {
           list-style: none;
@@ -123,15 +166,15 @@ export class ViewBase extends LitElement {
         #external-link-list > li > a {
           display: flex;
           align-items: center;
-          color: var(--gray-5);
+          color: inherit;
           text-decoration: none;
         }
         #external-link-list > li > a:visited {
-          color: var(--gray-5);
+          color: inherit;
           text-decoration: none;
         }
         #external-link-list > li > a > ion-icon {
-          color: var(--gray-5);
+          color: inherit;
           margin-right: 10px;
         }
         #external-link-list > li > a > .title { display: none; }
@@ -176,19 +219,26 @@ export class ViewBase extends LitElement {
     return html``;
   }
 
+  // Overwrite this to add extra classes to the elements in the template
+  get templateElementClasses() {
+    return '';
+  }
+
   render() {
     return html`
-      <side-left>
-        ${this.sideLeftTemplate}
-      </side-left>
+      <container class="${this.templateElementClasses}">
+        <side-left class="${this.templateElementClasses}">
+          ${this.sideLeftTemplate}
+        </side-left>
 
-      <main>
-        ${this.mainTemplate}
-      </main>
+        <main class="${this.templateElementClasses}">
+          ${this.mainTemplate}
+        </main>
 
-      <side-right>
-        ${this.sideRightTemplate}
-      </side-right>
+        <side-right class="${this.templateElementClasses}">
+          ${this.sideRightTemplate}
+        </side-right>
+      </container>
     `;
   }
   
