@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 
-/* eslint-disable class-methods-use-this */
+import Dialog from 'elix/define/Dialog.js';
 
 export class ContentItem extends LitElement {
 
@@ -20,6 +20,18 @@ export class ContentItem extends LitElement {
 
     this.item = {};
     this.format = 'text';
+  }
+
+  // #=== ACTIONS ===#
+
+  openImageDialog(e) {
+    e.preventDefault();
+    this.shadowRoot.querySelector('#image-dialog').open();
+  }
+
+  closeImageDialog(e) {
+    e.preventDefault();
+    this.shadowRoot.querySelector('#image-dialog').close();
   }
 
   // #=== STYLES ===#
@@ -79,6 +91,101 @@ export class ContentItem extends LitElement {
         .card-icon-format .body {
           font-size: 0.9rem;
         }
+        
+        /*=== CARD HERO ICON FORMAT ===*/
+
+        .card-hero-icon-format {
+          display: flex;
+          flex-direction: column;
+
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 9px;
+          overflow: hidden;
+        }
+        .card-hero-icon-format .header-panel {
+          flex: 0 0 auto;
+
+          display: flex;
+          justify-content: flex-start;
+          
+          margin: 1rem 0;
+        }
+        .card-hero-icon-format .header-panel .icon {
+          flex: 0 0 auto;
+          width: 2.5rem;
+          margin: 0 1rem;
+        }
+        .card-hero-icon-format .header-panel .icon img {
+          max-width: 100%;
+          border-radius: 9px;
+        }
+        .card-hero-icon-format .header-panel .title {
+          flex: 1 1 auto;
+        }
+        .card-hero-icon-format .header-panel .title h3 {
+          font-size: 1rem;
+          line-height: 130%;
+          margin: 0;
+        }
+        .card-hero-icon-format .header-panel .title .subtitle {
+          font-size: 0.875rem;
+          line-height: 130%;
+          margin: 2px 0 0 0;
+          font-weight: 200;
+        }
+        .card-hero-icon-format .image {
+          flex: 1 1 10rem;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          overflow: hidden;
+        }
+        .card-hero-icon-format .image img {
+          width: 100%;
+          cursor: pointer;
+        }
+        .card-hero-icon-format .body {
+          font-size: 0.9rem;
+          line-height: 140%;
+          margin: 1rem;
+        }
+
+        /*=== IMAGE DIALOG ===*/
+
+        #image-dialog::part(frame) {
+          border: none;
+          border-radius: 9px;
+          overflow: hidden;
+        }
+        #image-dialog img {
+          max-width: 90vw;
+          max-height: 90vh;
+          margin-bottom: -10px; /* removes bottom spacing in dialog */
+        }
+        #image-dialog .action {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+        }
+        #image-dialog .action a, #image-dialog .action a:visited {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          
+          font-size: 1.6rem;
+          height: 2rem;
+          width: 2rem;
+          border-radius: 500px;
+          
+          text-decoration: none;
+          color: white;
+          background: rgba(0, 0, 0, 0.5);
+          transition: background 0.3s;
+        }
+        #image-dialog .action a:hover {
+          background: rgba(0, 0, 0, 0.9);
+        }
 
       `
     ];
@@ -88,6 +195,7 @@ export class ContentItem extends LitElement {
 
   render() {
     if (this.format === 'card-icon') return this.cardIconFormatTemplate;
+    if (this.format === 'card-hero-icon') return this.cardHeroIconFormatTemplate;
     
     return this.textFormatTemplate;
   }
@@ -101,6 +209,10 @@ export class ContentItem extends LitElement {
   get titleTemplate() {
     return !this.item.title ? null : html`<h3>${this.item.title}</h3>`;
   }
+  
+  get subtitleTemplate() {
+    return !this.item.subtitle ? null : html`<div class="subtitle">${this.item.subtitle}</div>`;
+  }
 
   get bodyTemplate() {
     return !this.item.body ? null : html`<div class="body">${this.item.body}</div>`;
@@ -109,6 +221,29 @@ export class ContentItem extends LitElement {
   get iconTemplate() {
     return !this.item.icon ? null : html`
       <div class="icon"><img src="${this.item.icon}"></div>
+    `;
+  }
+
+  get imageTemplate() {
+    return !this.item.image ? null : html`
+      <div class="image">
+        <img src="${this.item.image}" @click=${this.openImageDialog}>
+      </div>
+    `;
+  }
+  
+  get imageDialogTemplate() {
+    return !this.item.image ? null : html`
+      <elix-dialog id="image-dialog">
+        <div class="image"><img src="${this.item.image}"></div>
+        <div class="action">
+          <a
+            href="#"
+            tabindex="-1"
+            @click=${this.closeImageDialog}
+          ><ion-icon icon="close"></ion-icon></a>
+        </div>
+      </elix-dialog>
     `;
   }
   
@@ -133,6 +268,24 @@ export class ContentItem extends LitElement {
           ${this.bodyTemplate}
         </div>
         ${this.iconTemplate}
+      </div>
+    `;
+  }
+
+  get cardHeroIconFormatTemplate() {
+    return html`
+      ${this.imageDialogTemplate}
+      
+      <div id="wrapper" class="card-hero-icon-format">
+        <div class="header-panel">
+          ${this.iconTemplate}
+          <div class="title">
+            ${this.titleTemplate}
+            ${this.subtitleTemplate}
+          </div>
+        </div>
+        ${this.imageTemplate}
+        ${this.bodyTemplate}
       </div>
     `;
   }

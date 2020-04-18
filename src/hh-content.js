@@ -186,7 +186,7 @@ export const cmsContent = {
           icon: "https://logo.clearbit.com/google.com",
         },
         {
-          tags: ["backend"],
+          tags: ["backend", "general", "architecture"],
           title: "Man sehnt sich nach des Lebens Quelle hin",
           body: "Gewöhnlich glaubt der Mensch, wenn er sie beim Kragen hätte. , Wird selbst ein weiser Mann gewogen. Gewöhnlich glaubt der Mensch, wenn er sie beim Kragen hätte. Vernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu sprechen.",
           icon: "https://logo.clearbit.com/airbnb.com",
@@ -210,7 +210,7 @@ export const cmsContent = {
           icon: "https://logo.clearbit.com/rubyonrails.org",
         },
         {
-          tags: ["frontend"],
+          tags: ["frontend", "design", "general"],
           title: "President pro tempore, in the Absence of the States ",
           body: "ier bin ich nicht; doch viel ist mir bewusst. Es ist ihr ewig Weh und Ach So tausendfach Aus einem Punkte zu kurieren. Vernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu blühn; Man sehnt sich nach des Lebens goldner Bau.",
           icon: "https://logo.clearbit.com/python.org",
@@ -240,6 +240,49 @@ export const cmsContent = {
       hover: false,
       item_format: "card-hero-icon",
       tag_format: "none",
+      items: [
+        {
+          title: "VirtaCal",
+          subtitle: "Custom medical calendaring solution",
+          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          image: "https://images.unsplash.com/photo-1553678324-f84674bd7b24?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2468&q=80",
+          icon: "https://logo.clearbit.com/virtahealth.com",
+        },
+        {
+          title: "VForce Architecture",
+          subtitle: "Complete rebuild of a complex Salesforce implementation",
+          body: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+          image: "https://images.unsplash.com/flagged/photo-1558313728-a3ffd746bd23?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+          icon: "https://logo.clearbit.com/virtahealth.com",
+        },
+        {
+          title: "Patent Sync Engine",
+          subtitle: "Lorem ipsum dolor sit amet, lorem ipsum dolor sit amet",
+          body: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. His an amet petentium voluptatibus, modo malis error nec no. Sed no sumo stet, est ei quodsi feugait liberavisse, in pro quot facete definitiones. No epicuri hendrerit consetetur sit, sit dicta adipiscing ex, in facete detracto deterruisset duo. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Vivendum intellegat et qui, ei denique consequuntur vix. Offendit eleifend moderatius ex vix, quem odio mazim et qui, purto expetendis cotidieque quo cu, veri persius vituperata ei nec. Vivendum intellegat et qui, ei denique consequuntur vix. Vivendum intellegat et qui, ei denique consequuntur vix. Dicit dicant quaestio pri eu, no principes persecuti liberavisse sit. Et clita interesset quo. Scripta periculis ei eam, te pro movet reformidans.",
+          image: "https://images.unsplash.com/photo-1586772662827-b6beb7e7e430?ixlib=rb-1.2.1&auto=format&fit=crop&w=688&q=80",
+          icon: "https://logo.clearbit.com/rpxcorp.com",
+        },
+        {
+          title: "Fleet Manager",
+          subtitle: "Thing with drones flying around",
+          body: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. His an amet petentium voluptatibus, modo malis error nec no. Sed no sumo stet, est ei quodsi feugait liberavisse, in pro quot facete definitiones. No epicuri hendrerit consetetur sit, sit dicta adipiscing ex, in facete detracto deterruisset duo. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Vivendum intellegat et qui, ei denique consequuntur vix. Offendit eleifend moderatius ex vix, quem odio mazim et qui, purto expetendis cotidieque quo cu, veri persius vituperata ei nec. Vivendum intellegat et qui, ei denique consequuntur vix. Vivendum intellegat et qui, ei denique consequuntur vix. Dicit dicant quaestio pri eu, no principes persecuti liberavisse sit. Et clita interesset quo. Scripta periculis ei eam, te pro movet reformidans.",
+          image: "https://images.unsplash.com/photo-1513005862547-c6071dd39fa9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1151&q=80",
+          icon: "https://logo.clearbit.com/airware.com",
+        },
+        {
+          title: "PubSub Integration",
+          subtitle: "Bi-directional syncing of data between AWS and SFDC",
+          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+          image: "https://images.unsplash.com/photo-1575556864535-73ed70512235?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+          icon: "https://logo.clearbit.com/google.com",
+        },
+        {
+          title: "Hardware RMA System",
+          subtitle: "Return Merchandise Authorization worfklow in SFDC",
+          image: "https://images.unsplash.com/photo-1586366461834-d2d65d725a2e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80",
+          icon: "https://logo.clearbit.com/vocera.com",
+        },
+      ],
     },
     {
       key: "portfolio",

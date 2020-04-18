@@ -348,6 +348,8 @@ export class PageView extends ViewBase {
           margin-bottom: 0;
         }
 
+        /*=== ITEM LIST - CARD ICON FORMAT ===*/
+
         item-list.card-icon {
           display: flex;
           flex-wrap: wrap;
@@ -368,6 +370,23 @@ export class PageView extends ViewBase {
           margin: 12px;
           min-width: 17em;
         }
+
+        /*=== ITEM LIST - CARD HERO ICON FORMAT ===*/
+
+        item-list.card-hero-icon {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: stretch;
+
+          padding: 12px;
+        }
+        item-list.card-hero-icon content-item {
+          flex: 1 1 calc(50% - 24px);
+          margin: 12px;
+          min-width: 17em;
+        }
+
+        /*=== TAG LIST (IN MAIN BODY) ===*/
 
         main tag-list {
           position: absolute;
