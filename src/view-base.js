@@ -127,8 +127,16 @@ export class ViewBase extends LitElement {
         side-left {
           font-size: 0.9rem;
         }
+        side-left h2 {
+          font-size: 0.9rem;
+          font-weight: 800;
+          margin: 0;
+        }
         @media(min-width: 1200px) {
           side-left {
+            font-size: 1rem;
+          }
+          side-left h2 {
             font-size: 1rem;
           }
         }

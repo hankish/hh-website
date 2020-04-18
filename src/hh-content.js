@@ -65,18 +65,21 @@ export const cmsContent = {
   ],
 
   paths: {
-    "journey": "journey",
-    "j-section-one": "journey",
+    "architecture": "skills",
+    "backend": "skills",
+    "colleagues": "colleagues",
+    "data": "skills",
+    "design": "skills",
+    "frontend": "skills",
+    "general": "skills",
+    "inspiration": "inspiration",
     "j-section-2": "journey",
     "j-section-3": "journey",
-    "skills": "skills",
-    "backend": "skills",
-    "frontend": "skills",
-    "data": "skills",
-    "projects": "projects",
+    "j-section-one": "journey",
+    "journey": "journey",
     "portfolio": "portfolio",
-    "inspiration": "inspiration",
-    "colleagues": "colleagues",
+    "projects": "projects",
+    "skills": "skills",
   },
   
   pages: [
@@ -89,7 +92,7 @@ export const cmsContent = {
       width: "8.25rem",
       offset: "0.45rem",
       hover: false,
-      item_format: "simple-overline",
+      item_format: "text",
       tag_format: "dropdown",
       tags: [
         {
@@ -159,58 +162,70 @@ export const cmsContent = {
           title: "Frontend"
         },
         {
+          key: "architecture",
+          title: "Architecture"
+        },
+        {
           key: "data",
           title: "Data & Algorithms"
+        },
+        {
+          key: "design",
+          title: "Design"
+        },
+        {
+          key: "general",
+          title: "General"
         },
       ],
       items: [
         {
-          tags: ["backend"],
+          tags: ["backend", "data"],
           title: "Vernunft fängt wieder an zu sprechen Und",
           body: " Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu blühn.",
-          icon: "https://via.placeholder.com/200",
+          icon: "https://logo.clearbit.com/google.com",
         },
         {
           tags: ["backend"],
           title: "Man sehnt sich nach des Lebens Quelle hin",
-          body: "Gewöhnlich glaubt der Mensch, wenn er sie beim Kragen hätte. , Wird selbst ein weiser Mann gewogen. Gewöhnlich glaubt der Mensch, wenn er sie beim Kragen hätte. Vernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu sprechen  nach des Lebens Quelle hin. Hier ist des Volkes wahrer Himmel, Zufrieden jauchzet groß und klein, Hier bin ich nicht; doch viel ist mir bewusst. Es ist ihr ewig Weh und Ach So tausendfach Aus einem Punkte zu kurieren. Vernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu blühn; Man sehnt sich nach des Lebens goldner Baum. Wenn sich der Mensch, wenn er sie beim Kragen hätte.",
-          icon: "https://via.placeholder.com/300",
+          body: "Gewöhnlich glaubt der Mensch, wenn er sie beim Kragen hätte. , Wird selbst ein weiser Mann gewogen. Gewöhnlich glaubt der Mensch, wenn er sie beim Kragen hätte. Vernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu sprechen.",
+          icon: "https://logo.clearbit.com/airbnb.com",
         },
         {
-          tags: ["backend"],
+          tags: ["backend", "data"],
           title: "Es irrt der Mensch, wenn er gut gezogen",
-          body: "Und Hoffnung wieder an zu blühn; Man sehnt sich nach des Lebens goldner Baum. Vernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu blühn; Man sehnt sich",
-          icon: "https://via.placeholder.com/200x300",
+          body: "Ernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu blühn; Man sehnt sich",
+          icon: "https://logo.clearbit.com/microsoft.com",
         },
         {
           tags: ["backend"],
           title: "Vernunft fängt wieder an zu sprechen",
           body: " Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu blühn.",
-          icon: "https://via.placeholder.com/200",
+          icon: "https://logo.clearbit.com/tesla.com",
         },
         {
           tags: ["frontend"],
           title: "Immediately after they shall be assembled in Consequence of the Officers",
           body: " Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu blühn.",
-          icon: "https://via.placeholder.com/200",
+          icon: "https://logo.clearbit.com/rubyonrails.org",
         },
         {
           tags: ["frontend"],
           title: "President pro tempore, in the Absence of the States ",
-          body: "Gewöhnlich glaubt der Mensch, wenn er sie beim Kragen hätte. , Wird selbst ein weiser Mann gewogen. Gewöhnlich glaubt der Mensch, wenn er sie beim Kragen hätte. Vernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu sprechen  nach des Lebens Quelle hin. Hier ist des Volkes wahrer Himmel, Zufrieden jauchzet groß und klein, Hier bin ich nicht; doch viel ist mir bewusst. Es ist ihr ewig Weh und Ach So tausendfach Aus einem Punkte zu kurieren. Vernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu blühn; Man sehnt sich nach des Lebens goldner Baum. Wenn sich der Mensch, wenn er sie beim Kragen hätte.",
-          icon: "https://via.placeholder.com/300",
+          body: "ier bin ich nicht; doch viel ist mir bewusst. Es ist ihr ewig Weh und Ach So tausendfach Aus einem Punkte zu kurieren. Vernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu blühn; Man sehnt sich nach des Lebens goldner Bau.",
+          icon: "https://logo.clearbit.com/python.org",
         },
         {
           tags: ["frontend"],
           title: "Equal to the whole Number of Votes, then the House of Representatives.",
-          body: "Und Hoffnung wieder an zu blühn; Man sehnt sich nach des Lebens goldner Baum. Vernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu blühn; Man sehnt sich",
-          icon: "https://via.placeholder.com/200x300",
+          body: "Und Hoffnung wieder an zu blühn; Man sehnt sich nach des Lebens goldner Baum. Vernunft fängt wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an.",
+          icon: "https://logo.clearbit.com/adobe.com",
         },
         {
           tags: ["frontend"],
           title: "Immediately after they ",
           body: " Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu sprechen Und Hoffnung wieder an zu blühn.",
-          icon: "https://via.placeholder.com/200",
+          icon: "https://logo.clearbit.com/intel.com",
         },
       ],
     },

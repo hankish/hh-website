@@ -4,6 +4,9 @@ import { html, css } from 'lit-element';
 
 import { ViewBase } from './view-base.js';
 import { HhSelect } from './hh-select.js';
+import { ContentItem } from './content-item.js';
+import { LitScrollListener } from './lit-scroll-listener.js';
+import { LitScrollNav } from './lit-scroll-nav.js';
 
 /* eslint-disable class-methods-use-this */
 
@@ -25,6 +28,8 @@ export class PageView extends ViewBase {
       
       locationPath: { type: String },
       selectedTag: { type: String },
+
+      scrollListener: { type: Object },
     };
   }
 
@@ -53,7 +58,7 @@ export class PageView extends ViewBase {
       this.tags = page.tags;
       this.items = page.items;
       this.color = page.color;
-
+      
       if (this.tags && this.tags.length) {
         this.selectedTag = (this.locationPath === this.pageKey)
           ? this.tags[0].key
@@ -64,8 +69,79 @@ export class PageView extends ViewBase {
     }
   }
 
+  // onBeforeLeave(location, commands, router) {
+  //   // Check whether the new location is a tag within the current page
+  //   const newLocationPath = (location.params.key || '').toLowerCase();
+  //   const newPageKey = this.paths[newLocationPath];
+
+  //   if (newPageKey === this.pageKey && this.tagFormat === 'scroll-nav') {
+  //     this.scrollToItem(newLocationPath);
+  //     return commands.prevent();
+  //   }
+
+  //   return null;
+  // }
+
+  firstUpdated() {
+    if (this.tagFormat === 'scroll-nav') {
+      this.scrollListener = new LitScrollListener(
+        this.shadowRoot.querySelector('item-list-wrapper'),
+        this.tags,
+      );
+      
+      if (this.locationPath !== this.pageKey) {
+        // If the location path points to one of the child tags, scroll to it
+        this.updateComplete.then(() => {
+          this.scrollToItem(this.locationPath)
+        });
+      }
+
+      // Queue up one more update to recalculate the offset tops once the update is complete
+      this.updateComplete.then(() => {
+        this.scrollListener.recalculateOffsetTops();
+      });
+    }
+  }
+
+  onAfterLeave() {
+    if (this.scrollListener) {
+      this.scrollListener.unregister();
+    }
+  }
+
   selectValueChanged(e) {
     window.location = `${window.location.origin}/${e.detail.value}`;
+  }
+
+  tagScrollItemClick(e) {
+    const firingElement = e.path[0];
+
+    if (
+      firingElement.id
+      && firingElement.tagName === 'A'
+      && !e.metaKey && !e.shiftKey && !e.ctrlKey // let the user open in a new tab
+    ) {
+      // If this is a click on one of the anchor tags, prevent the navigation.
+      // Instead we want to scroll down to the appropriate tag section header.
+      e.preventDefault();
+      this.scrollToItem(firingElement.id);
+    }
+  }
+
+  // #=== ACTIONS ===#
+
+  scrollToItem(targetItemElementId) {
+    const itemListWrapperElement = this.shadowRoot.querySelector('item-list-wrapper');
+    const targetItemElement = itemListWrapperElement.querySelector(`#${targetItemElementId}`);
+    const extraOffset = -189;
+
+    if (targetItemElement) {
+      itemListWrapperElement.scrollTo({
+        top: targetItemElement.offsetTop + extraOffset,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }
   }
 
   // #=== STYLES ===#
@@ -76,6 +152,10 @@ export class PageView extends ViewBase {
       css`
 
         /*=== LEFT SIDEBAR STYLES ===*/
+
+        side-left {
+          color: rgba(255, 255, 255, 0.6);
+        }
 
         link-panel a {
           display: flex;
@@ -91,6 +171,13 @@ export class PageView extends ViewBase {
         }
         link-panel a ion-icon {
           margin-right: 6px;
+        }
+
+        side-left tag-list {
+          margin-top: 136px;
+        }
+        side-left tag-list h2 {
+          margin-bottom: 36px;
         }
 
         /*=== RIGHT SIDEBAR STYLE OVERRIDES ===*/
@@ -115,13 +202,15 @@ export class PageView extends ViewBase {
 
         /*=== COLOR MODES ===*/
 
-        main.blue { background: var(--blue-5); }
-        main.green { background: var(--green-5); }
-        main.indigo { background: var(--indigo-5); }
-        main.orange { background: var(--orange-5); }
-        main.purple { background: var(--purple-5); }
-        main.red { background: var(--red-5); }
-        main.yellow { background: var(--yellow-7); }
+        main.blue { --main-background-color: var(--blue-5); }
+        main.green { --main-background-color: var(--green-5); }
+        main.indigo { --main-background-color: var(--indigo-5); }
+        main.orange { --main-background-color: var(--orange-5); }
+        main.purple { --main-background-color: var(--purple-5); }
+        main.red { --main-background-color: var(--red-5); }
+        main.yellow { --main-background-color: var(--yellow-7); }
+
+        main { background: var(--main-background-color); }
 
         container.blue { background: var(--blue-6); }
         container.green { background: var(--green-6); }
@@ -181,6 +270,7 @@ export class PageView extends ViewBase {
           flex-direction: column;
           height: calc(100vh - 24px);
           padding: 24px 0 0 24px;
+          position: relative;
         }
 
         page-header {
@@ -227,11 +317,23 @@ export class PageView extends ViewBase {
           border-left: 5px solid white;
         }
 
+        /*=== ITEM LIST ===*/
+
         item-list-wrapper {
           flex: 1 1 auto;
-          overflow: scroll;
           padding: 0 0 24px 0;
+          
+          overflow: scroll;
         }
+        item-list-wrapper.scroll-nav {
+          padding-bottom: 8rem;
+        }
+        @media(min-width: 1000px) {
+          item-list-wrapper.scroll-nav {
+            padding-bottom: 24px;
+          }
+        }
+
         item-list {
           display: block;
           min-height: calc(100% - 24px);
@@ -239,9 +341,48 @@ export class PageView extends ViewBase {
           border-left: 5px solid white;
           padding: 12px 24px;
         }
-        item {
-          display: block;
-          margin: 12px 0;
+        content-item {
+          margin-bottom: 30px;
+        }
+        content-item:last-of-type {
+          margin-bottom: 0;
+        }
+
+        item-list.card-icon {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: stretch;
+
+          padding: 12px;
+        }
+        item-list.card-icon h2 {
+          flex: 1 1 100%;
+          margin: 30px 12px;
+          font-family: 'Public Sans', sans-serif;
+          
+          font-size: 1.13rem;
+          font-weight: 200;
+        }
+        item-list.card-icon content-item {
+          flex: 1 1 calc(50% - 24px);
+          margin: 12px;
+          min-width: 17em;
+        }
+
+        main tag-list {
+          position: absolute;
+          right: 12px;
+          bottom: 0;
+          left: 41px;
+          padding: 12px 6px;
+
+          background: var(--main-background-color);
+          border-top: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        @media(min-width: 1000px) {
+          main tag-list {
+            display: none;
+          }
         }
 
 
@@ -259,6 +400,18 @@ export class PageView extends ViewBase {
           Back Home
         </a>
       </link-panel>
+
+      ${this.tagFormat !== 'scroll-nav' ? null : html`
+        <tag-list>
+          <h2>Sections</h2>
+          <lit-scroll-nav
+            .scrollListener=${this.scrollListener}
+            scrollItemTitleKey="title"
+            itemLinkIdPrefix="/"
+            @click=${this.tagScrollItemClick}
+          ></lit-scroll-nav>
+        </tag-list>
+      `}
     `;
   }
   
@@ -294,6 +447,21 @@ export class PageView extends ViewBase {
   get mainTemplate() {
     if (this.notFound) return this.notFoundTemplate();
 
+    let itemList = this.items || [];
+    if (this.tags && this.tags.length && (this.tagFormat === 'scroll-nav')) {
+      // Group the items by tag and insert section headers between them
+      itemList = this.tags.reduce((list, tag) => {
+        return [
+          ...list, 
+          { ...tag, type: 'tag' },
+          ...this.items.filter(item => item.tags.includes(tag.key))
+        ]
+      }, []);
+    } else if (this.items && this.selectedTag && (this.tagFormat === 'dropdown')) {
+      // Filter the items based on the selected tag
+      itemList = this.items.filter(item => item.tags.includes(this.selectedTag));
+    }
+
     return html`
       <page-header>
         <page-title>
@@ -315,17 +483,26 @@ export class PageView extends ViewBase {
         </tag-dropdown>
       ` : html``}
 
-      <item-list-wrapper>
-        <item-list>
-          ${(this.items || []).filter(item =>
-            !this.selectedTag || item.tags.includes(this.selectedTag)
-          ).map(item => html`
-            <item>
-              <h3>${item.title}</h3>
-              <p>${item.body}</p>
-            </item>
-          `)}
+      <item-list-wrapper class="${this.tagFormat}">
+        <item-list class="${this.itemFormat}">
+          ${itemList.map(item => {
+            return item.type === 'tag'
+              ? html`<h2 id="${item.key}">${item.title}</h2>`
+              : html`<content-item .item=${item} .format=${this.itemFormat}></content-item>`;
+          })}
         </item-list>
+
+        ${this.tagFormat !== 'scroll-nav' ? null : html`
+          <tag-list>
+            <lit-scroll-nav
+              class="pill-mode"
+              .scrollListener=${this.scrollListener}
+              scrollItemTitleKey="title"
+              itemLinkIdPrefix="/"
+              @click=${this.tagScrollItemClick}
+            ></lit-scroll-nav>
+          </tag-list>
+        `}
       </item-list-wrapper>
     `;
   }
