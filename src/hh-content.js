@@ -238,7 +238,7 @@ export const cmsContent = {
       width: "5.8rem",
       offset: "2.3rem",
       hover: false,
-      item_format: "card-hero-icon",
+      item_format: "card-hero",
       tag_format: "none",
       items: [
         {
@@ -357,6 +357,81 @@ export const cmsContent = {
       hover: false,
       item_format: "card-hero",
       tag_format: "scroll-nav",
+      tags: [
+        {
+          title: "Social Architecture",
+          key: "social-architecture",
+        },
+        {
+          title: "Technology",
+          key: "technology",
+        },
+        {
+          title: "Creators",
+          key: "creators",
+        },
+        {
+          title: "Companies",
+          key: "companies",
+        },
+        {
+          title: "Design",
+          key: "design",
+        },
+        {
+          title: "Social Entrepreneurship",
+          key: "social-entrepreneurship",
+        },
+      ],
+      items: [
+        {
+          tags: ["social-architecture", "technology"],
+          title: "Hubert Jobentok",
+          subtitle: "Item the first goes here",
+          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          image: "https://images.unsplash.com/photo-1553678324-f84674bd7b24?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2468&q=80",
+          link: "https://www.wired.com/",
+        },
+        {
+          tags: ["social-architecture", "social-entrepreneurship"],
+          title: "Dorothy Mantooth",
+          subtitle: "Second item follows after first by going here",
+          body: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+          image: "https://images.unsplash.com/flagged/photo-1558313728-a3ffd746bd23?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+          link: "https://www.wired.com/",
+        },
+        {
+          tags: ["technology", "creators", "companies"],
+          title: "Albertina Humperdink",
+          subtitle: "More items ensue due to the way that items exist in a quantum coherence paradigm",
+          body: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. His an amet petentium voluptatibus, modo malis error nec no. Sed no sumo stet, est ei quodsi feugait liberavisse, in pro quot facete definitiones. No epicuri hendrerit consetetur sit, sit dicta adipiscing ex, in facete detracto deterruisset duo. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Vivendum intellegat et qui, ei denique consequuntur vix. Offendit eleifend moderatius ex vix, quem odio mazim et qui, purto expetendis cotidieque quo cu, veri persius vituperata ei nec. Vivendum intellegat et qui, ei denique consequuntur vix. Vivendum intellegat et qui, ei denique consequuntur vix. Dicit dicant quaestio pri eu, no principes persecuti liberavisse sit. Et clita interesset quo. Scripta periculis ei eam, te pro movet reformidans.",
+          image: "https://images.unsplash.com/photo-1586772662827-b6beb7e7e430?ixlib=rb-1.2.1&auto=format&fit=crop&w=688&q=80",
+          link: "https://www.wired.com/",
+        },
+        {
+          tags: ["creators", "companies", "design"],
+          title: "John Lee Quincy",
+          subtitle: "The itemality of following items begins to decohere",
+          body: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. His an amet petentium voluptatibus, modo malis error nec no. Sed no sumo stet, est ei quodsi feugait liberavisse, in pro quot facete definitiones. No epicuri hendrerit consetetur sit, sit dicta adipiscing ex, in facete detracto deterruisset duo. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Vivendum intellegat et qui, ei denique consequuntur vix. Offendit eleifend moderatius ex vix, quem odio mazim et qui, purto expetendis cotidieque quo cu, veri persius vituperata ei nec. Vivendum intellegat et qui, ei denique consequuntur vix. Vivendum intellegat et qui, ei denique consequuntur vix. Dicit dicant quaestio pri eu, no principes persecuti liberavisse sit. Et clita interesset quo. Scripta periculis ei eam, te pro movet reformidans.",
+          image: "https://images.unsplash.com/photo-1513005862547-c6071dd39fa9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1151&q=80",
+          link: "https://www.wired.com/",
+        },
+        {
+          tags: ["social-architecture", "technology", "creators", "companies", "design", "social-entrepreneurship"],
+          title: "Jebediah Testingtons",
+          subtitle: "And we are left with a confusing world in which nothing means anything",
+          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+          image: "https://images.unsplash.com/photo-1575556864535-73ed70512235?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+          link: "https://www.wired.com/",
+        },
+        {
+          tags: ["social-architecture", "technology", "creators", "companies", "design", "social-entrepreneurship"],
+          title: "Acme Corp",
+          subtitle: "Hardware RMA System",
+          image: "https://images.unsplash.com/photo-1586366461834-d2d65d725a2e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80",
+          link: "https://www.wired.com/",
+        },
+      ],
     },
     {
       key: "colleagues",

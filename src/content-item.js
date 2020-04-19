@@ -24,9 +24,14 @@ export class ContentItem extends LitElement {
 
   // #=== ACTIONS ===#
 
-  openImageDialog(e) {
+  imageClick(e) {
     e.preventDefault();
-    this.shadowRoot.querySelector('#image-dialog').open();
+
+    if (this.item.link) {
+      window.open(this.item.link, '_blank');
+    } else {
+      this.shadowRoot.querySelector('#image-dialog').open();
+    }
   }
 
   closeImageDialog(e) {
@@ -66,6 +71,22 @@ export class ContentItem extends LitElement {
           line-height: 125%;
           font-weight: 200;
         }
+        
+        h3 a,
+        .subtitle a {
+          text-decoration: none;
+          color: white;
+          transition: all 0.3s;
+        }
+        h3 a:visited,
+        .subtitle a:visited {
+          color: rgba(255, 255, 255, 0.8);
+        }
+        h3 a:focus, h3 a:hover,
+        .subtitle a:focus, .subtitle a:hover {
+          text-decoration: underline;
+        }
+
 
         /*=== CARD ICON FORMAT ===*/
 
@@ -92,9 +113,9 @@ export class ContentItem extends LitElement {
           font-size: 0.9rem;
         }
         
-        /*=== CARD HERO ICON FORMAT ===*/
+        /*=== CARD HERO FORMAT ===*/
 
-        .card-hero-icon-format {
+        .card-hero-format {
           display: flex;
           flex-direction: column;
 
@@ -102,55 +123,56 @@ export class ContentItem extends LitElement {
           border-radius: 9px;
           overflow: hidden;
         }
-        .card-hero-icon-format .header-panel {
+        .card-hero-format .header-panel {
           flex: 0 0 auto;
 
           display: flex;
           justify-content: flex-start;
           
           margin: 1rem 0;
+          padding: 0 1rem;
         }
-        .card-hero-icon-format .header-panel .icon {
+        .card-hero-format .header-panel .icon {
           flex: 0 0 auto;
           width: 2.5rem;
-          margin: 0 1rem;
+          margin: 0 1rem 0 0;
         }
-        .card-hero-icon-format .header-panel .icon img {
+        .card-hero-format .header-panel .icon img {
           max-width: 100%;
           border-radius: 9px;
         }
-        .card-hero-icon-format .header-panel .title {
+        .card-hero-format .header-panel .title {
           flex: 1 1 auto;
         }
-        .card-hero-icon-format .header-panel .title h3 {
+        .card-hero-format .header-panel .title h3 {
           font-size: 1rem;
           line-height: 130%;
           margin: 0;
         }
-        .card-hero-icon-format .header-panel .title .subtitle {
+        .card-hero-format .header-panel .title .subtitle {
           font-size: 0.875rem;
           line-height: 130%;
           margin: 2px 0 0 0;
           font-weight: 200;
         }
-        .card-hero-icon-format .image {
+        .card-hero-format .image {
           flex: 1 1 10rem;
           display: flex;
           flex-direction: row;
           align-items: center;
           overflow: hidden;
         }
-        .card-hero-icon-format .image img {
+        .card-hero-format .image img {
           width: 100%;
           cursor: pointer;
         }
-        .card-hero-icon-format .body {
+        .card-hero-format .body {
           font-size: 0.9rem;
           line-height: 140%;
           margin: 1rem;
         }
 
-        /*=== CARD HERO ICON FORMAT ===*/
+        /*=== IMAGE FORMAT ===*/
 
         .image-format {
           display: flex;
@@ -217,7 +239,7 @@ export class ContentItem extends LitElement {
 
   render() {
     if (this.format === 'card-icon') return this.cardIconFormatTemplate;
-    if (this.format === 'card-hero-icon') return this.cardHeroIconFormatTemplate;
+    if (this.format === 'card-hero') return this.cardHeroFormatTemplate;
     if (this.format === 'image') return this.imageFormatTemplate;
     
     return this.textFormatTemplate;
@@ -230,11 +252,23 @@ export class ContentItem extends LitElement {
   }
 
   get titleTemplate() {
-    return !this.item.title ? null : html`<h3>${this.item.title}</h3>`;
+    if (!this.item.title) return null;
+    
+    return !this.item.link
+      ? html`<h3>${this.item.title}</h3>`
+      : html`<h3><a href="${this.item.link}" target="_blank">${this.item.title}</a></h3>`;
   }
   
   get subtitleTemplate() {
-    return !this.item.subtitle ? null : html`<div class="subtitle">${this.item.subtitle}</div>`;
+    if (!this.item.subtitle) return null;
+    
+    return !this.item.link
+      ? html`<div class="subtitle">${this.item.subtitle}</div>`
+      : html`
+        <div class="subtitle">
+          <a href="${this.item.link}" target="_blank">${this.item.subtitle}</a>
+        </div>
+      `;
   }
 
   get bodyTemplate() {
@@ -250,7 +284,7 @@ export class ContentItem extends LitElement {
   get imageTemplate() {
     return !this.item.image ? null : html`
       <div class="image">
-        <img src="${this.item.image}" @click=${this.openImageDialog}>
+        <img src="${this.item.image}" @click=${this.imageClick}>
       </div>
     `;
   }
@@ -306,11 +340,11 @@ export class ContentItem extends LitElement {
     `;
   }
   
-  get cardHeroIconFormatTemplate() {
+  get cardHeroFormatTemplate() {
     return html`
-      ${this.imageDialogTemplate}
+      ${this.item.link ? null : this.imageDialogTemplate}
       
-      <div id="wrapper" class="card-hero-icon-format">
+      <div id="wrapper" class="card-hero-format">
         <div class="header-panel">
           ${this.iconTemplate}
           <div class="title">

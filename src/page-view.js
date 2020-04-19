@@ -348,16 +348,16 @@ export class PageView extends ViewBase {
           margin-bottom: 0;
         }
 
-        /*=== ITEM LIST - CARD ICON FORMAT ===*/
+        /*=== ITEM LIST - CARD ICON FORMAT & CARD HERO ICON FORMAT ===*/
 
-        item-list.card-icon {
+        item-list.card-icon, item-list.card-hero {
           display: flex;
           flex-wrap: wrap;
           align-items: stretch;
 
           padding: 12px;
         }
-        item-list.card-icon h2 {
+        item-list.card-icon h2, item-list.card-hero h2 {
           flex: 1 1 100%;
           margin: 30px 12px;
           font-family: 'Public Sans', sans-serif;
@@ -365,22 +365,7 @@ export class PageView extends ViewBase {
           font-size: 1.13rem;
           font-weight: 200;
         }
-        item-list.card-icon content-item {
-          flex: 1 1 calc(50% - 24px);
-          margin: 12px;
-          min-width: 17em;
-        }
-
-        /*=== ITEM LIST - CARD HERO ICON FORMAT ===*/
-
-        item-list.card-hero-icon {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: stretch;
-
-          padding: 12px;
-        }
-        item-list.card-hero-icon content-item {
+        item-list.card-icon content-item, item-list.card-hero content-item {
           flex: 1 1 calc(50% - 24px);
           margin: 12px;
           min-width: 17em;
