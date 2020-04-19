@@ -1,7 +1,5 @@
 import { html, css } from 'lit-element';
 
-// import DropdownList from 'elix/define/DropdownList';
-
 import { ViewBase } from './view-base.js';
 import { HhSelect } from './hh-select.js';
 import { ContentItem } from './content-item.js';
@@ -68,19 +66,6 @@ export class PageView extends ViewBase {
       }
     }
   }
-
-  // onBeforeLeave(location, commands, router) {
-  //   // Check whether the new location is a tag within the current page
-  //   const newLocationPath = (location.params.key || '').toLowerCase();
-  //   const newPageKey = this.paths[newLocationPath];
-
-  //   if (newPageKey === this.pageKey && this.tagFormat === 'scroll-nav') {
-  //     this.scrollToItem(newLocationPath);
-  //     return commands.prevent();
-  //   }
-
-  //   return null;
-  // }
 
   firstUpdated() {
     if (this.tagFormat === 'scroll-nav') {
@@ -469,6 +454,8 @@ export class PageView extends ViewBase {
   get mainTemplate() {
     if (this.notFound) return this.notFoundTemplate();
 
+    // ITEM LIST LOGIC
+    
     let itemList = this.items || [];
     if (this.tags && this.tags.length && (this.tagFormat === 'scroll-nav')) {
       // Group the items by tag and insert section headers between them
@@ -484,7 +471,10 @@ export class PageView extends ViewBase {
       itemList = this.items.filter(item => item.tags.includes(this.selectedTag));
     }
 
+    // MAIN HTML CONTENT
+
     return html`
+      <!-- #=== PAGE HEADER ===# -->
       <page-header>
         <page-title>
           <h1>Hank Holiday</h1>
@@ -494,6 +484,7 @@ export class PageView extends ViewBase {
       </page-header>
 
       ${(this.tags && this.tagFormat === 'dropdown') ? html`
+        <!-- #=== TAG DROPDOWN ===# -->
         <tag-dropdown>
           <hh-select
             .value=${this.selectedTag}
@@ -505,6 +496,7 @@ export class PageView extends ViewBase {
         </tag-dropdown>
       ` : html``}
 
+      <!-- #=== ITEM LIST ===# -->
       <item-list-wrapper class="${this.tagFormat}">
         <item-list class="${this.itemFormat}">
           ${itemList.map(item => {

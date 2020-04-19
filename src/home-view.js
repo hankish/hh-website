@@ -1,12 +1,20 @@
 import { html, css } from 'lit-element';
 import { styleMap } from 'lit-html/directives/style-map';
 
+import '@material/mwc-menu';
+import '@material/mwc-list/mwc-list-item';
+
 import { ViewBase } from './view-base.js';
 import './hh-shape.js';
 
-/* eslint-disable class-methods-use-this */
-
 export class HomeView extends ViewBase {
+
+  // #=== LIFECYCLE ===#
+
+  firstUpdated() {
+    this.shadowRoot.querySelector('#external-links-menu').anchor
+      = this.shadowRoot.querySelector('#external-links-button');
+  }
 
   // #=== EVENTS ===#
 
@@ -28,6 +36,13 @@ export class HomeView extends ViewBase {
     });
   }
 
+  // #=== ACTIONS ===#
+
+  externalLinksButtonClick(e) {
+    e.preventDefault();
+    this.shadowRoot.querySelector('#external-links-menu').open = true;
+  }
+
   // #=== STYLES ===#
 
   static get styles() {
@@ -35,14 +50,7 @@ export class HomeView extends ViewBase {
       super.styles,
       css`
 
-        h1 {
-          flex: 0 0 auto;
-          margin: 0 0 24px 0;
-
-          font-size: 3rem;
-          font-weight: 900;
-          max-width: 5em;
-        }
+        /*=== MAIN BODY LAYOUT ===*/
 
         main-inner {
           flex: 1 1 auto;
@@ -71,6 +79,64 @@ export class HomeView extends ViewBase {
           }
         }
 
+        /*=== MAIN BODY HEADER ===*/
+
+        page-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          width: 100%;
+        }
+
+        h1 {
+          flex: 0 0 5em;
+          margin: 0 0 24px 0;
+
+          font-size: 3rem;
+          font-weight: 900;
+          max-width: 5em;
+        }
+
+        #external-links-button {
+          flex: 0 0 auto;
+          
+          display: inline-flex;
+          justify-content: center;
+
+          font-size: 2rem;
+          padding: 12px;
+
+          color: var(--gray-4);
+          transition: color 0.3s;
+        }
+        #external-links-button:focus, #external-links-button:hover {
+          color: var(--gray-6);
+        }
+        @media(min-width: 1000px) {
+          #external-links-button {
+            display: none;
+          }
+        }
+
+        #external-links-menu a {
+          display: flex;
+          align-items: center;
+          --mdc-theme-text-primary: var(--gray-7);
+        }
+        #external-links-menu a, #external-links-menu a:visited {
+          color: var(--gray-7);
+          text-decoration: none;
+          transition: color 0.3s;
+        }
+        #external-links-menu a:focus, #external-links-menu a:hover {
+          color: var(--gray-9);
+        }
+        #external-links-menu a ion-icon {
+          margin-right: 6px;
+        }
+
+        /*=== INTERNAL LINK LIST ===*/
+
         #link-list {
           list-style: none;
           padding: 0;
@@ -94,6 +160,8 @@ export class HomeView extends ViewBase {
         #link-list > li:last-of-type > .comma {
           display: none;
         }
+
+        /*=== PAGE LIST ===*/
 
         page-list {
           display: block;
@@ -123,6 +191,8 @@ export class HomeView extends ViewBase {
         page-item a.blue:hover { color: var(--blue-6); }
         page-item a.indigo:hover { color: var(--indigo-6); }
         page-item a.purple:hover { color: var(--purple-6); }
+
+        /*=== PAGE LIST - CONNECTOR LINES ===*/
         
         connector-line {
           flex: 1 1 auto;
@@ -138,6 +208,8 @@ export class HomeView extends ViewBase {
         connector-line.hover.blue { background: var(--blue-3); }
         connector-line.hover.indigo { background: var(--indigo-3); }
         connector-line.hover.purple { background: var(--purple-3); }
+
+        /*=== PAGE LIST - SHAPES ===*/
 
         hh-shape {
           transition: margin 700ms;
@@ -158,9 +230,38 @@ export class HomeView extends ViewBase {
   
   get mainTemplate() {
     return html`
-      <h1>Hank Holiday</h1>
+      <!-- #=== EXTERNAL LINKS DROPDOWN MENU ===# -->
+      <mwc-menu
+        id="external-links-menu"
+        fixed
+        corner="BOTTOM_START"
+      >
+        ${this.externalLinks.map(link => html`
+          <mwc-list-item>
+            <a href="${link.url}" target="_blank">
+              <ion-icon name="${link.icon}"></ion-icon>
+              <span class="title">${link.title}</span>
+            </a>
+          </mwc-list-item>
+        `)}
+      </mwc-menu>
 
+      <!-- #=== HEADER ===# -->
+      <page-header>
+        <h1>Hank Holiday</h1>
+
+        <a
+          id="external-links-button"
+          href="#"
+          @click=${this.externalLinksButtonClick}
+        >
+          <ion-icon icon="link"></ion-icon>
+          <ion-icon icon="md-arrow-dropdown"></ion-icon>
+        </a>
+      </page-header>
+      
       <main-inner>
+        <!-- #=== LINK LIST ===# -->
         <ul id="link-list">
           ${this.links.map(link => html`
             <li>
@@ -170,6 +271,7 @@ export class HomeView extends ViewBase {
           `)}
         </ul>
 
+        <!-- #=== PAGE NAV LIST ===# -->
         <page-list>
           ${this.pages.map(page => html`
             <page-item

@@ -112,6 +112,7 @@ export class ViewBase extends LitElement {
 
           display: flex;
           flex-direction: column;
+          position: relative;
           
           max-width: var(--main-max-width);
           padding: var(--main-padding);
