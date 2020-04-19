@@ -295,6 +295,56 @@ export const cmsContent = {
       hover: false,
       item_format: "image",
       tag_format: "none",
+      items: [
+        {
+          title: "Custom medical calendaring solution",
+          image: "https://images.unsplash.com/photo-1553678324-f84674bd7b24?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2468&q=80",
+        },
+        {
+          title: "Lorem ipsum dolor sit amet, lorem ipsum dolor sit amet",
+          image: "https://images.unsplash.com/photo-1586772662827-b6beb7e7e430?ixlib=rb-1.2.1&auto=format&fit=crop&w=688&q=80",
+        },
+        {
+          title: "Complete rebuild of a complex Salesforce implementation",
+          image: "https://images.unsplash.com/flagged/photo-1558313728-a3ffd746bd23?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+        },
+        {
+          title: "Thing with drones flying around",
+          image: "https://images.unsplash.com/photo-1513005862547-c6071dd39fa9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1151&q=80",
+        },
+        {
+          title: "Bi-directional syncing of data between AWS and SFDC",
+          image: "https://images.unsplash.com/photo-1575556864535-73ed70512235?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+        },
+        {
+          title: "There's another title here",
+          image: "https://images.unsplash.com/photo-1553678324-f84674bd7b24?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2468&q=80",
+        },
+        {
+          title: "More titles go on and on, lorem ipsum dolor sit amet",
+          image: "https://images.unsplash.com/photo-1586366461834-d2d65d725a2e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80",
+        },
+        {
+          title: "Ebenso ergibt sich der Betrag, der 10% übersteigt",
+          image: "https://images.unsplash.com/flagged/photo-1558313728-a3ffd746bd23?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+        },
+        {
+          title: ", mittels eines entsprechenden Abzugsverfahrens abgezogen werden. In der Bilanz ausgewiesene Verbindlichkeiten",
+          image: "https://images.unsplash.com/photo-1586772662827-b6beb7e7e430?ixlib=rb-1.2.1&auto=format&fit=crop&w=688&q=80",
+        },
+        {
+          title: "Zusammenhang mit leistungsorientierten Pensionsfonds sind bei der Ermittlung des harten Kernkapitals",
+          image: "https://images.unsplash.com/photo-1586366461834-d2d65d725a2e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80",
+        },
+        {
+          title: "Für international tätige Banken analysieren die geografische Struktur ihrer",
+          image: "https://images.unsplash.com/photo-1513005862547-c6071dd39fa9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1151&q=80",
+        },
+        {
+          title: "Bi-directional syncing of data between AWS and SFDC",
+          image: "https://images.unsplash.com/photo-1575556864535-73ed70512235?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80",
+        },
+      ],
     },
     {
       key: "inspiration",

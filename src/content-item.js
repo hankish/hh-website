@@ -41,7 +41,7 @@ export class ContentItem extends LitElement {
       css`
 
         :host {
-          display: flex;
+          display: inline-flex;
         }
 
         /*=== DEFAULT STYLES ===*/
@@ -150,6 +150,28 @@ export class ContentItem extends LitElement {
           margin: 1rem;
         }
 
+        /*=== CARD HERO ICON FORMAT ===*/
+
+        .image-format {
+          display: flex;
+          flex-direction: column;
+        }
+        .image-format .image {
+          flex: 0 0 auto;
+          display: block;
+        }
+        .image-format .image img {
+          display: block;
+          max-width: 100%;
+          cursor: pointer;
+        }
+        .image-format h3 {
+          font-size: 1rem;
+          font-weight: normal;
+          line-height: 130%;
+          margin: 0.5rem 0 0 0;
+        }
+
         /*=== IMAGE DIALOG ===*/
 
         #image-dialog::part(frame) {
@@ -196,6 +218,7 @@ export class ContentItem extends LitElement {
   render() {
     if (this.format === 'card-icon') return this.cardIconFormatTemplate;
     if (this.format === 'card-hero-icon') return this.cardHeroIconFormatTemplate;
+    if (this.format === 'image') return this.imageFormatTemplate;
     
     return this.textFormatTemplate;
   }
@@ -259,6 +282,17 @@ export class ContentItem extends LitElement {
     `;
   }
 
+  get imageFormatTemplate() {
+    return html`
+      ${this.imageDialogTemplate}
+      
+      <div id="wrapper" class="image-format">
+        ${this.imageTemplate}
+        ${this.titleTemplate}
+      </div>
+    `;
+  }
+
   get cardIconFormatTemplate() {
     return html`
       <div id="wrapper" class="card-icon-format">
@@ -271,7 +305,7 @@ export class ContentItem extends LitElement {
       </div>
     `;
   }
-
+  
   get cardHeroIconFormatTemplate() {
     return html`
       ${this.imageDialogTemplate}

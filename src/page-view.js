@@ -386,6 +386,24 @@ export class PageView extends ViewBase {
           min-width: 17em;
         }
 
+        /*=== ITEM LIST - IMAGE FORMAT ===*/
+
+        item-list.image {
+          column-count: 2;
+          column-gap: 1rem;
+
+          padding: 12px;
+        }
+        item-list.image content-item {
+          display: inline-flex;
+          margin-bottom: 1rem;
+        }
+        @media(min-width: 1000px) {
+          item-list.image {
+            column-count: 3;
+          }
+        }
+
         /*=== TAG LIST (IN MAIN BODY) ===*/
 
         main tag-list {
