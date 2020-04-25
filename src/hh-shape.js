@@ -27,7 +27,7 @@ export class HhShape extends LitElement {
           height: 100%;
 
           background: var(--hh-shape-color, black);
-          opacity: 0.6;
+          opacity: var(--hh-shape-opacity, 0.6);
         }
         the-shape.circle {
           border-radius: 50%;

@@ -50,14 +50,14 @@ export class HhSelect extends LitElement {
           font-weight: 500;
           line-height: 1.3;
           
-          border: 1px solid white;
+          border: 1px solid var(--gray-7);
           box-sizing: border-box;
           border-radius: 500px;
           
-          color: white;
+          color: var(--gray-7);
           background-color: transparent;
           
-          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: white'></polygon></svg>");
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: var(--gray-7)'></polygon></svg>");
           background-repeat: no-repeat, repeat;
           background-position: right .7em top 50%, 0 0;
           background-size: .65em auto, 100%;
@@ -66,12 +66,12 @@ export class HhSelect extends LitElement {
           display: none;
         }
         select:hover {
-          border-color: white;
+          border-color: var(--gray-7);
         }
         select:focus {
-          border-color: white;
+          border-color: var(--gray-7);
           box-shadow: none;
-          color: white; 
+          color: var(--gray-7); 
           outline: none;
         }
 

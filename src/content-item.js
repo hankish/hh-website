@@ -47,6 +47,7 @@ export class ContentItem extends LitElement {
 
         :host {
           display: inline-flex;
+          position: relative;
         }
 
         /*=== DEFAULT STYLES ===*/
@@ -75,15 +76,16 @@ export class ContentItem extends LitElement {
         h3 a,
         .subtitle a {
           text-decoration: none;
-          color: white;
+          color: var(--gray-7);
           transition: all 0.3s;
         }
         h3 a:visited,
         .subtitle a:visited {
-          color: rgba(255, 255, 255, 0.8);
+          color: var(--gray-6);
         }
         h3 a:focus, h3 a:hover,
         .subtitle a:focus, .subtitle a:hover {
+          color: var(--gray-9);
           text-decoration: underline;
         }
 
@@ -94,7 +96,8 @@ export class ContentItem extends LitElement {
           display: flex;
           padding: 1rem;
 
-          background: rgba(255, 255, 255, 0.1);
+          background: var(--gray-0-30);
+          border: 0.5px solid var(--gray-1);
           border-radius: 9px;
         }
         .card-icon-format .text-panel {
@@ -119,7 +122,8 @@ export class ContentItem extends LitElement {
           display: flex;
           flex-direction: column;
 
-          background: rgba(255, 255, 255, 0.1);
+          background: var(--gray-0-30);
+          border: 0.5px solid var(--gray-1);
           border-radius: 9px;
           overflow: hidden;
         }
@@ -200,6 +204,9 @@ export class ContentItem extends LitElement {
           border: none;
           border-radius: 9px;
           overflow: hidden;
+        }
+        #image-dialog::part(backdrop) {
+          background: rgba(0, 0, 0, 0.82);
         }
         #image-dialog img {
           max-width: 90vw;

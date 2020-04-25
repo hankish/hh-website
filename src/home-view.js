@@ -54,6 +54,7 @@ export class HomeView extends ViewBase {
 
         main-inner {
           flex: 1 1 auto;
+          min-height: 20rem;
 
           position: relative;
           display: flex;
@@ -173,8 +174,44 @@ export class HomeView extends ViewBase {
           flex-direction: row;
           align-items: center;
 
-          height: 30px;
-          padding: 12px 0;
+          height: 1.5rem;
+          padding: 0.4rem 0;
+        }
+
+        page-item.red {
+          --item-color-dark: var(--red-6);
+          --item-color-medium: var(--red-4);
+          --item-color-light: var(--red-3);
+        }
+        page-item.orange {
+          --item-color-dark: var(--orange-6);
+          --item-color-medium: var(--orange-4);
+          --item-color-light: var(--orange-3);
+        }
+        page-item.yellow {
+          --item-color-dark: var(--yellow-6);
+          --item-color-medium: var(--yellow-4);
+          --item-color-light: var(--yellow-3);
+        }
+        page-item.green {
+          --item-color-dark: var(--green-6);
+          --item-color-medium: var(--green-4);
+          --item-color-light: var(--green-3);
+        }
+        page-item.blue {
+          --item-color-dark: var(--blue-6);
+          --item-color-medium: var(--blue-4);
+          --item-color-light: var(--blue-3);
+        }
+        page-item.indigo {
+          --item-color-dark: var(--indigo-6);
+          --item-color-medium: var(--indigo-4);
+          --item-color-light: var(--indigo-3);
+        }
+        page-item.purple {
+          --item-color-dark: var(--purple-6);
+          --item-color-medium: var(--purple-4);
+          --item-color-light: var(--purple-3);
         }
 
         page-item a {
@@ -182,52 +219,45 @@ export class HomeView extends ViewBase {
           font-weight: 300;
           
           color: var(--gray-7);
-          transition: color 700ms;
+          transition: color 0.3ms;
         }
-        page-item a.red:hover { color: var(--red-6); }
-        page-item a.orange:hover { color: var(--orange-6); }
-        page-item a.yellow:hover { color: var(--yellow-6); }
-        page-item a.green:hover { color: var(--green-6); }
-        page-item a.blue:hover { color: var(--blue-6); }
-        page-item a.indigo:hover { color: var(--indigo-6); }
-        page-item a.purple:hover { color: var(--purple-6); }
+        page-item.hover a, page-item.hover a:visited {
+          color: var(--item-color-dark); 
+        }
 
         /*=== PAGE LIST - CONNECTOR LINES ===*/
         
         connector-line {
           flex: 1 1 auto;
-          height: 3px;
-          margin: 0 12px;
+          height: 0.15rem;
+          margin: 0 0.4rem;
           background: transparent;
           transition: background 700ms;
         }
-        connector-line.hover.red { background: var(--red-3); }
-        connector-line.hover.orange { background: var(--orange-3); }
-        connector-line.hover.yellow { background: var(--yellow-3); }
-        connector-line.hover.green { background: var(--green-3); }
-        connector-line.hover.blue { background: var(--blue-3); }
-        connector-line.hover.indigo { background: var(--indigo-3); }
-        connector-line.hover.purple { background: var(--purple-3); }
+        page-item.hover connector-line {
+          background: var(--item-color-light);
+        }
 
         /*=== PAGE LIST - SHAPES ===*/
 
         hh-shape {
           transition: margin 700ms;
+          --hh-shape-color: var(--item-color-medium);
         }
-        hh-shape.red { --hh-shape-color: var(--red-4); }
-        hh-shape.orange { --hh-shape-color: var(--orange-4); }
-        hh-shape.yellow { --hh-shape-color: var(--yellow-4); }
-        hh-shape.green { --hh-shape-color: var(--green-4); }
-        hh-shape.blue { --hh-shape-color: var(--blue-4); }
-        hh-shape.indigo { --hh-shape-color: var(--indigo-4); }
-        hh-shape.purple { --hh-shape-color: var(--purple-4); }
-
       `
     ];
   }
 
   // #=== TEMPLATE ===#
   
+  get sideLeftTemplate() {
+    return null;
+  }
+
+  get mainTopNavTemplate() {
+    return null;
+  }
+
   get mainTemplate() {
     return html`
       <!-- #=== EXTERNAL LINKS DROPDOWN MENU ===# -->
@@ -275,34 +305,28 @@ export class HomeView extends ViewBase {
         <page-list>
           ${this.pages.map(page => html`
             <page-item
+              class="${page.color} ${page.hover ? 'hover' : ''}"
               data-key="${page.key}"
               @mouseenter="${this.pageItemEnter}"
               @mouseleave="${this.pageItemLeave}"
             >
               <label>
-                <a
-                  href="/${page.key}"
-                  class="${page.color}"
-                >${page.title}</a>
+                <a href="/${page.key}">${page.title}</a>
               </label>
-              <connector-line
-                class="${page.color} ${page.shape} ${page.hover ? 'hover' : ''}"
-                style=${styleMap({
-                  marginRight: (page.shape === 'triangle'
-                    ? `calc(-${page.width} / 7)`
-                    : '12px'
-                  ),
-                })}
-              ></connector-line>
+              <connector-line style=${styleMap({
+                marginRight: (page.shape === 'triangle'
+                  ? `calc(-${page.width}rem / 7)`
+                  : '12px'
+                ),
+              })}></connector-line>
               <hh-shape
                 .shape=${page.shape}
-                class="${page.color}"
                 style=${styleMap({
-                  width: page.width,
-                  height: page.height,
+                  width: `${page.width}rem`,
+                  height: `${page.height}rem`,
                   marginRight: (page.hover
-                    ? `calc(50% - ${page.width} / 2)`
-                    : page.offset
+                    ? `calc(50% - ${page.width}rem / 2)`
+                    : `${page.offset}rem`
                   ),
                 })}
               ></hh-shape>

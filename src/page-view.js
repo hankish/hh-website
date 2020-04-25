@@ -5,6 +5,7 @@ import { HhSelect } from './hh-select.js';
 import { ContentItem } from './content-item.js';
 import { LitScrollListener } from './lit-scroll-listener.js';
 import { LitScrollNav } from './lit-scroll-nav.js';
+import { backgroundStyles } from './styles/backgrounds.js';
 
 /* eslint-disable class-methods-use-this */
 
@@ -23,6 +24,7 @@ export class PageView extends ViewBase {
       tags: { type: Array },
       items: { type: Array },
       color: { type: String },
+      shape: { type: String },
       
       locationPath: { type: String },
       selectedTag: { type: String },
@@ -49,6 +51,7 @@ export class PageView extends ViewBase {
       this.tags = null;
       this.items = null;
       this.color = '';
+      this.shape = '';
     } else {
       this.title = page.title;
       this.itemFormat = page.item_format;
@@ -56,6 +59,7 @@ export class PageView extends ViewBase {
       this.tags = page.tags;
       this.items = page.items;
       this.color = page.color;
+      this.shape = page.shape;
       
       if (this.tags && this.tags.length) {
         this.selectedTag = (this.locationPath === this.pageKey)
@@ -70,7 +74,7 @@ export class PageView extends ViewBase {
   firstUpdated() {
     if (this.tagFormat === 'scroll-nav') {
       this.scrollListener = new LitScrollListener(
-        this.shadowRoot.querySelector('item-list-wrapper'),
+        this.shadowRoot.querySelector('main-wrapper'),
         this.tags,
       );
       
@@ -116,12 +120,12 @@ export class PageView extends ViewBase {
   // #=== ACTIONS ===#
 
   scrollToItem(targetItemElementId) {
-    const itemListWrapperElement = this.shadowRoot.querySelector('item-list-wrapper');
-    const targetItemElement = itemListWrapperElement.querySelector(`#${targetItemElementId}`);
+    const scrollingElement = this.shadowRoot.querySelector('main-wrapper');
+    const targetItemElement = scrollingElement.querySelector(`#${targetItemElementId}`);
     const extraOffset = -189;
 
     if (targetItemElement) {
-      itemListWrapperElement.scrollTo({
+      scrollingElement.scrollTo({
         top: targetItemElement.offsetTop + extraOffset,
         left: 0,
         behavior: 'smooth',
@@ -134,76 +138,75 @@ export class PageView extends ViewBase {
   static get styles() {
     return [
       super.styles,
+      backgroundStyles,
       css`
+
+        /*=== COLOR MODES ===*/
+
+        container.blue {
+          --page-color-main: var(--blue-5);
+        }
+        
+        container.green {
+          --page-color-main: var(--green-5);
+        }
+        
+        container.indigo {
+          --page-color-main: var(--indigo-5);
+        }
+        
+        container.orange {
+          --page-color-main: var(--orange-5);
+        }
+        
+        container.purple {
+          --page-color-main: var(--purple-5);
+        }
+        
+        container.red {
+          --page-color-main: var(--red-5);
+        }
+        
+        container.yellow {
+          --page-color-main: var(--yellow-7);
+        }
+
+        /*=== CONTAINER STYLES ===*/
+
+        container {
+          background: var(--gray-0);
+        }
+        container.rectangle {
+          background-image: var(--background-image-rectangle-1);
+        }
+        container.circle {
+          background-image: var(--background-image-circle-1);
+        }
+        container.triangle {
+          background-image: var(--background-image-triangle-1);
+        }
 
         /*=== LEFT SIDEBAR STYLES ===*/
 
-        side-left {
-          color: rgba(255, 255, 255, 0.6);
-        }
-
-        link-panel a {
-          display: flex;
-          align-items: center;
-        }
-        link-panel a, link-panel a:visited {
-          color: rgba(255, 255, 255, 0.6);
-          text-decoration: none;
-          transition: color 0.3s;
-        }
-        link-panel a:focus, link-panel a:hover {
-          color: white;
-        }
-        link-panel a ion-icon {
-          margin-right: 6px;
-        }
-
         side-left tag-list {
-          margin-top: 136px;
+          display: block;
+          margin-top: 30px;
+          padding: 24px 0;
+          border-top: 1px solid var(--gray-3);
+          border-bottom: 1px solid var(--gray-3);
         }
         side-left tag-list h2 {
-          margin-bottom: 36px;
-        }
-
-        /*=== RIGHT SIDEBAR STYLE OVERRIDES ===*/
-
-        side-right {
-          color: rgba(255, 255, 255, 0.6);
-        }
-
-        #external-link-list > li > a {
-          color: rgba(255, 255, 255, 0.6);
-          transition: color 0.3s;
-        }
-        #external-link-list > li > a:hover, #external-link-list > li > a:focus {
-          color: white;
+          margin-bottom: 18px;
         }
 
         /*=== MAIN STYLE OVERRIDES ===*/
         
-        main {
-          color: white;
+        main h1 {
+          color: var(--page-color-main);
         }
-
-        /*=== COLOR MODES ===*/
-
-        main.blue { --main-background-color: var(--blue-5); }
-        main.green { --main-background-color: var(--green-5); }
-        main.indigo { --main-background-color: var(--indigo-5); }
-        main.orange { --main-background-color: var(--orange-5); }
-        main.purple { --main-background-color: var(--purple-5); }
-        main.red { --main-background-color: var(--red-5); }
-        main.yellow { --main-background-color: var(--yellow-7); }
-
-        main { background: var(--main-background-color); }
-
-        container.blue { background: var(--blue-6); }
-        container.green { background: var(--green-6); }
-        container.indigo { background: var(--indigo-6); }
-        container.orange { background: var(--orange-6); }
-        container.purple { background: var(--purple-6); }
-        container.red { background: var(--red-6); }
-        container.yellow { background: var(--yellow-8); }
+        main h2 {
+          color: var(--page-color-main);
+        }
         
         /*=== RAINBOW MODE ===*/
 
@@ -253,8 +256,7 @@ export class PageView extends ViewBase {
         main {
           display: flex;
           flex-direction: column;
-          height: calc(100vh - 24px);
-          padding: 24px 0 0 24px;
+          padding-right: 0;
           position: relative;
         }
 
@@ -262,19 +264,13 @@ export class PageView extends ViewBase {
           flex: 0 0 auto;
           display: flex;
           flex-direction: row;
-          padding: 12px 24px;
+          padding: 0 24px;
           
-          border-left: 5px solid white;
+          border-left: 5px solid var(--page-color-main);
         }
         page-title {
           flex: 1 1 auto;
           margin-top: 12px;
-        }
-        page-header > .action {
-          flex: 0 0 auto;
-          display: block;
-          color: white;
-          font-size: 1.6rem;
         }
         h1 {
           font-size: 1rem;
@@ -287,11 +283,11 @@ export class PageView extends ViewBase {
           margin: 0;
         }
         main a, main a:visited {
-          color: rgba(255, 255, 255, 0.85);
+          color: var(--gray-7);
           transition: color 0.3s;
         }
         main a:focus, main a:hover {
-          color: rgba(255, 255, 255, 1);
+          color: var(--gray-9);
         }
 
         tag-dropdown {
@@ -299,34 +295,29 @@ export class PageView extends ViewBase {
           padding: 12px 24px;
           max-width: 400px;
           
-          border-left: 5px solid white;
+          border-left: 5px solid var(--page-color-main);
         }
 
         /*=== ITEM LIST ===*/
-
-        item-list-wrapper {
-          flex: 1 1 auto;
-          padding: 0 0 24px 0;
-          
-          overflow: scroll;
-        }
-        item-list-wrapper.scroll-nav {
-          padding-bottom: 8rem;
-        }
-        @media(min-width: 1000px) {
-          item-list-wrapper.scroll-nav {
-            padding-bottom: 24px;
-          }
-        }
 
         item-list {
           display: block;
           min-height: calc(100% - 24px);
 
-          border-left: 5px solid white;
+          border-left: 5px solid var(--page-color-main);
           padding: 12px 24px;
         }
+        item-list.scroll-nav {
+          margin-bottom: 8rem;
+        }
+        @media(min-width: 1000px) {
+          item-list.scroll-nav {
+            margin-bottom: 24px;
+          }
+        }
+
         content-item {
+          display: flex;
           margin-bottom: 30px;
         }
         content-item:last-of-type {
@@ -348,7 +339,10 @@ export class PageView extends ViewBase {
           font-family: 'Public Sans', sans-serif;
           
           font-size: 1.13rem;
-          font-weight: 200;
+          font-weight: 300;
+        }
+        item-list.card-icon h2:first-child, item-list.card-hero h2:first-child {
+          margin-top: 12px;
         }
         item-list.card-icon content-item, item-list.card-hero content-item {
           flex: 1 1 calc(50% - 24px);
@@ -360,31 +354,26 @@ export class PageView extends ViewBase {
 
         item-list.image {
           column-count: 2;
-          column-gap: 1rem;
+          column-gap: 2rem;
 
-          padding: 12px;
+          padding: 24px;
         }
         item-list.image content-item {
           display: inline-flex;
-          margin-bottom: 1rem;
-        }
-        @media(min-width: 1000px) {
-          item-list.image {
-            column-count: 3;
-          }
+          margin-bottom: 2rem;
         }
 
         /*=== TAG LIST (IN MAIN BODY) ===*/
 
         main tag-list {
-          position: absolute;
+          position: fixed;
           right: 12px;
           bottom: 0;
           left: 41px;
           padding: 12px 6px;
 
-          background: var(--main-background-color);
-          border-top: 2px solid rgba(255, 255, 255, 0.3);
+          background: white;
+          border-top: 2px solid var(--gray-3-50);
         }
         @media(min-width: 1000px) {
           main tag-list {
@@ -401,12 +390,7 @@ export class PageView extends ViewBase {
 
   get sideLeftTemplate() {
     return html`
-      <link-panel>
-        <a href="/">
-          <ion-icon name="arrow-back"></ion-icon>
-          Back Home
-        </a>
-      </link-panel>
+      ${super.sideLeftTemplate}
 
       ${this.tagFormat !== 'scroll-nav' ? null : html`
         <tag-list>
@@ -429,26 +413,26 @@ export class PageView extends ViewBase {
           <h1>Hank Holiday's Website</h1>
           <h2>Page Not Found</h2>
         </page-title>
-        <a href="/" title="Back to Home" class="action"><ion-icon name="close"></ion-icon></a>
       </page-header>
-      <item-list-wrapper>
-        <item-list>
-          <p>Hmm, it looks like this page couldn't be found.</p>
-          <p>
-            Need something to do? This 
-            <a
-              href="https://www.modernhoney.com/the-best-snickerdoodle-cookie-recipe/"
-              target="_blank"
-            >recipe for snickerdoodles</a>
-            is fantastic.
-          </p>
-        </item-list>
-      </item-list-wrapper>
+      
+      <item-list>
+        <p>Hmm, it looks like this page couldn't be found.</p>
+        <p>
+          Need something to do? This 
+          <a
+            href="https://www.modernhoney.com/the-best-snickerdoodle-cookie-recipe/"
+            target="_blank"
+          >recipe for snickerdoodles</a>
+          is fantastic.
+        </p>
+      </item-list>
     `;
   }
 
   get templateElementClasses() {
-    return this.notFound ? 'rainbow' : this.color;
+    return this.notFound
+      ? 'rainbow'
+      : `${this.color} ${this.shape}`;
   }
 
   get mainTemplate() {
@@ -480,7 +464,6 @@ export class PageView extends ViewBase {
           <h1>Hank Holiday</h1>
           <h2>${this.title}</h2>
         </page-title>
-        <a href="/" title="Back to Home" class="action"><ion-icon name="close"></ion-icon></a>
       </page-header>
 
       ${(this.tags && this.tagFormat === 'dropdown') ? html`
@@ -497,27 +480,25 @@ export class PageView extends ViewBase {
       ` : html``}
 
       <!-- #=== ITEM LIST ===# -->
-      <item-list-wrapper class="${this.tagFormat}">
-        <item-list class="${this.itemFormat}">
-          ${itemList.map(item => {
-            return item.type === 'tag'
-              ? html`<h2 id="${item.key}">${item.title}</h2>`
-              : html`<content-item .item=${item} .format=${this.itemFormat}></content-item>`;
-          })}
-        </item-list>
+      <item-list class="${this.itemFormat} ${this.tagFormat}">
+        ${itemList.map(item => {
+          return item.type === 'tag'
+            ? html`<h2 id="${item.key}">${item.title}</h2>`
+            : html`<content-item .item=${item} .format=${this.itemFormat}></content-item>`;
+        })}
+      </item-list>
 
-        ${this.tagFormat !== 'scroll-nav' ? null : html`
-          <tag-list>
-            <lit-scroll-nav
-              class="pill-mode"
-              .scrollListener=${this.scrollListener}
-              scrollItemTitleKey="title"
-              itemLinkIdPrefix="/"
-              @click=${this.tagScrollItemClick}
-            ></lit-scroll-nav>
-          </tag-list>
-        `}
-      </item-list-wrapper>
+      ${this.tagFormat !== 'scroll-nav' ? null : html`
+        <tag-list>
+          <lit-scroll-nav
+            class="pill-mode"
+            .scrollListener=${this.scrollListener}
+            scrollItemTitleKey="title"
+            itemLinkIdPrefix="/"
+            @click=${this.tagScrollItemClick}
+          ></lit-scroll-nav>
+        </tag-list>
+      `}
     `;
   }
   

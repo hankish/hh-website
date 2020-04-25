@@ -77,7 +77,6 @@ export class LitScrollNav extends LitElement {
         }
         li.selected {
           font-weight: 600;
-          color: white;
         }        
 
         li > a {
@@ -86,11 +85,15 @@ export class LitScrollNav extends LitElement {
           transition: all 0.2s;
         }
         li > a, li > a:visited {
-          color: inherit;
+          color: var(--gray-5);
           text-decoration: none;
+          transition: color 0.3s;
         }
         li > a:hover {
-          color: white;
+          color: var(--gray-6);
+        }
+        li.selected > a, li.selected > a:visited {
+          color: var(--gray-7);
         }
         li > a > ion-icon {
           margin-right: 6px;
@@ -106,16 +109,16 @@ export class LitScrollNav extends LitElement {
         :host(.pill-mode) li {
           display: inline-block;
           flex: 0 0 auto;
-          margin: 6px;
+          margin: 3px;
         }
         :host(.pill-mode) li > a {
-          border: 0.5px solid white;
+          border: 0.5px solid var(--lsn-pill-border-color, var(--gray-3-50));
           border-radius: 500px;
-          padding: 3.25px 12.25px;
+          padding: 3.75px 12.25px 3px 12.25px;
           line-height: 150%;
         }
         :host(.pill-mode) li > a:hover {
-          background: rgba(255, 255, 255, 0.2);
+          background: var(--lsn-pill-background, var(--gray-0-30));
         }
         :host(.pill-mode) li > a > ion-icon {
           display: none;
@@ -124,6 +127,7 @@ export class LitScrollNav extends LitElement {
           border-width: 1px;
           padding: 3px 12px;
           background: rgba(255, 255, 255, 0.2);
+          background: var(--lsn-pill-background-selected, var(--gray-0-70));
         }
 
       `
