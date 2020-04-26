@@ -350,6 +350,7 @@ export class PageView extends ViewBase {
 
           background: white;
           border-top: 2px solid var(--gray-3-50);
+          z-index: 10;
         }
         @media(min-width: 1000px) {
           main tag-list {
