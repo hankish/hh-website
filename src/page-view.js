@@ -6,6 +6,7 @@ import { ContentItem } from './content-item.js';
 import { LitScrollListener } from './lit-scroll-listener.js';
 import { LitScrollNav } from './lit-scroll-nav.js';
 import { backgroundStyles } from './styles/backgrounds.js';
+import { HhDoodle } from './hh-doodle.js';
 
 /* eslint-disable class-methods-use-this */
 
@@ -264,13 +265,26 @@ export class PageView extends ViewBase {
           flex: 0 0 auto;
           display: flex;
           flex-direction: row;
-          padding: 0 24px;
+          padding: 0 8rem 0 24px;
+          position: relative;
           
           border-left: 5px solid var(--page-color-main);
         }
         page-title {
           flex: 1 1 auto;
           margin-top: 12px;
+
+          z-index: 2;
+        }
+        page-header hh-doodle {
+          position: absolute;
+          top: 0;
+          right: 1.5rem;
+          z-index: 1;
+        }
+        page-header hh-doodle.rectangle {
+          top: 1.3rem;
+          right: 2.5rem;
         }
         h1 {
           font-size: 1rem;
@@ -294,6 +308,7 @@ export class PageView extends ViewBase {
           flex: 0 0 auto;
           padding: 12px 24px;
           max-width: 400px;
+          z-index: 3;
           
           border-left: 5px solid var(--page-color-main);
         }
@@ -306,6 +321,8 @@ export class PageView extends ViewBase {
 
           border-left: 5px solid var(--page-color-main);
           padding: 12px 24px;
+
+          z-index: 5;
         }
         item-list.scroll-nav {
           margin-bottom: 8rem;
@@ -464,6 +481,11 @@ export class PageView extends ViewBase {
           <h1>Hank Holiday</h1>
           <h2>${this.title}</h2>
         </page-title>
+
+        <hh-doodle
+          .shape=${this.shape}
+          class="${this.color} ${this.shape}"
+        ></hh-doodle>
       </page-header>
 
       ${(this.tags && this.tagFormat === 'dropdown') ? html`
