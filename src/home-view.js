@@ -152,8 +152,22 @@ export class HomeView extends ViewBase {
           line-height: 1.5em;
         }
         #link-list > li > a {
+          display: inline-block;
           color: var(--gray-5);
           text-decoration: none;
+          border-bottom: 0.5px solid var(--gray-5-70);
+          line-height: 85%;
+          text-shadow:
+            1px 1px white,
+            1px -1px white,
+            -1px 1px white,
+            -1px -1px white;
+          transition: all 0.2s;
+        }
+        #link-list > li > a:hover, #link-list > li > a:focus {
+          border-bottom-color: var(--gray-5);
+          border-bottom-width: 1px;
+          color: var(--gray-7);
         }
         #link-list > li > .comma {
           margin-left: -0.2em;

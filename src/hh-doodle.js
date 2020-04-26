@@ -26,100 +26,68 @@ export class HhDoodle extends LitElement {
         }
 
         :host {
-          --c-0: var(--gray-0);
-          --c-1: var(--gray-1);
-          --c-2: var(--gray-2);
           --c-3: var(--gray-3);
           --c-4: var(--gray-4);
-          --c-5: var(--gray-5);
 
           --c-3-30: var(--gray-3-30);
           --c-4-30: var(--gray-4-30);
           --c-5-30: var(--gray-5-30);
         }
         :host(.blue) {
-          --c-0: var(--blue-0);
-          --c-1: var(--blue-1);
-          --c-2: var(--blue-2);
           --c-3: var(--blue-3);
           --c-4: var(--blue-4);
-          --c-5: var(--blue-5);
 
           --c-3-30: var(--blue-3-30);
           --c-4-30: var(--blue-4-30);
           --c-5-30: var(--blue-5-30);
         }
         :host(.green) {
-          --c-0: var(--green-0);
-          --c-1: var(--green-1);
-          --c-2: var(--green-2);
           --c-3: var(--green-3);
           --c-4: var(--green-4);
-          --c-5: var(--green-5);
 
           --c-3-30: var(--green-3-30);
           --c-4-30: var(--green-4-30);
           --c-5-30: var(--green-5-30);
         }
         :host(.indigo) {
-          --c-0: var(--indigo-0);
-          --c-1: var(--indigo-1);
-          --c-2: var(--indigo-2);
           --c-3: var(--indigo-3);
           --c-4: var(--indigo-4);
-          --c-5: var(--indigo-5);
 
           --c-3-30: var(--indigo-3-30);
           --c-4-30: var(--indigo-4-30);
           --c-5-30: var(--indigo-5-30);
         }
         :host(.orange) {
-          --c-0: var(--orange-0);
-          --c-1: var(--orange-1);
-          --c-2: var(--orange-2);
           --c-3: var(--orange-3);
           --c-4: var(--orange-4);
-          --c-5: var(--orange-5);
 
           --c-3-30: var(--orange-3-30);
           --c-4-30: var(--orange-4-30);
           --c-5-30: var(--orange-5-30);
         }
         :host(.purple) {
-          --c-0: var(--purple-0);
-          --c-1: var(--purple-1);
-          --c-2: var(--purple-2);
           --c-3: var(--purple-3);
           --c-4: var(--purple-4);
-          --c-5: var(--purple-5);
 
           --c-3-30: var(--purple-3-30);
           --c-4-30: var(--purple-4-30);
           --c-5-30: var(--purple-5-30);
         }
         :host(.red) {
-          --c-0: var(--red-0);
-          --c-1: var(--red-1);
-          --c-2: var(--red-2);
           --c-3: var(--red-3);
           --c-4: var(--red-4);
-          --c-5: var(--red-5);
 
           --c-3-30: var(--red-3-30);
           --c-4-30: var(--red-4-30);
           --c-5-30: var(--red-5-30);
         }
         :host(.yellow) {
-          --c-0: var(--yellow-1);
-          --c-1: var(--yellow-2);
-          --c-2: var(--yellow-3);
-          --c-3: var(--yellow-4);
-          --c-4: var(--yellow-5);
-          --c-5: var(--yellow-6);
+          --c-3: var(--yellow-6);
+          --c-4: var(--yellow-7);
 
-          --c-3-30: var(--yellow-4-30);
-          --c-4-30: var(--yellow-5-30);
-          --c-5-30: var(--yellow-6-30);
+          --c-3-30: var(--yellow-6-30);
+          --c-4-30: var(--yellow-7-30);
+          --c-5-30: var(--yellow-8-30);
         }
 
       `

@@ -20,7 +20,7 @@ router.setRoutes([
   },
   {
     path: '(.*)',
-    component: 'not-found-view',
+    component: 'page-view',
   },
 ]);
 

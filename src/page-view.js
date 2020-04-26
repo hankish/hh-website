@@ -1,5 +1,7 @@
 import { html, css } from 'lit-element';
 
+import 'css-doodle';
+
 import { ViewBase } from './view-base.js';
 import { HhSelect } from './hh-select.js';
 import { ContentItem } from './content-item.js';
@@ -38,7 +40,7 @@ export class PageView extends ViewBase {
 
   onBeforeEnter(location, commands, router) {
     // Extract location path from the router params then get its corresponding page key from paths
-    this.locationPath = location.params.key.toLowerCase();
+    this.locationPath = (location.params.key || '').toLowerCase();
     this.pageKey = this.paths[this.locationPath];
 
     // Retrieve the matching page from pages
@@ -208,49 +210,6 @@ export class PageView extends ViewBase {
         main h2 {
           color: var(--page-color-main);
         }
-        
-        /*=== RAINBOW MODE ===*/
-
-        main.rainbow {
-          background: rgba(255, 255, 255, 0.05);
-        }
-        container.rainbow {
-          background: linear-gradient(124deg,
-            var(--red-5),
-            var(--orange-5),
-            var(--green-5),
-            var(--blue-5),
-            var(--indigo-5),
-            var(--purple-5)
-          );
-          background-size: 400% 400%;
-
-          -webkit-animation: rainbow 8s ease infinite;
-          -z-animation: rainbow 8s ease infinite;
-          -o-animation: rainbow 8s ease infinite;
-          animation: rainbow 8s ease infinite;
-        }
-
-        @-webkit-keyframes rainbow {
-          0% { background-position: 0% 0%; }
-          50% { background-position: 100% 100%; }
-          100% { background-position: 0% 0%; }
-        }
-        @-moz-keyframes rainbow {
-          0% { background-position: 0% 0%; }
-          50% { background-position: 100% 100%; }
-          100% { background-position: 0% 0%; }
-        }
-        @-o-keyframes rainbow {
-          0% { background-position: 0% 0%; }
-          50% { background-position: 100% 100%; }
-          100% { background-position: 0% 0%; }
-        }
-        @keyframes rainbow { 
-          0% { background-position: 0% 0%; }
-          50% { background-position: 100% 100%; }
-          100% { background-position: 0% 0%; }
-        }
 
         /*=== MAIN BODY LAYOUT ===*/
 
@@ -398,6 +357,18 @@ export class PageView extends ViewBase {
           }
         }
 
+        /*=== NOT FOUND MODE ===*/
+
+        doodle-wrapper {
+          display: block;
+          width: calc(100% - var(--main-padding));
+          height: 20rem;
+          border: 2px solid var(--gray-3);
+          border-radius: 23px;
+          overflow: hidden;
+          margin-top: 36px;
+        }
+
 
       `
     ];
@@ -422,38 +393,15 @@ export class PageView extends ViewBase {
       `}
     `;
   }
-  
-  notFoundTemplate() {
-    return html`
-      <page-header>
-        <page-title>
-          <h1>Hank Holiday's Website</h1>
-          <h2>Page Not Found</h2>
-        </page-title>
-      </page-header>
-      
-      <item-list>
-        <p>Hmm, it looks like this page couldn't be found.</p>
-        <p>
-          Need something to do? This 
-          <a
-            href="https://www.modernhoney.com/the-best-snickerdoodle-cookie-recipe/"
-            target="_blank"
-          >recipe for snickerdoodles</a>
-          is fantastic.
-        </p>
-      </item-list>
-    `;
-  }
 
   get templateElementClasses() {
     return this.notFound
-      ? 'rainbow'
+      ? 'notFound'
       : `${this.color} ${this.shape}`;
   }
 
   get mainTemplate() {
-    if (this.notFound) return this.notFoundTemplate();
+    if (this.notFound) return this.notFoundTemplate;
 
     // ITEM LIST LOGIC
     
@@ -521,6 +469,143 @@ export class PageView extends ViewBase {
           ></lit-scroll-nav>
         </tag-list>
       `}
+    `;
+  }
+
+  get notFoundTemplate() {
+    return html`
+      <page-header>
+        <page-title>
+          <h1>Hank Holiday's Website</h1>
+          <h2>Page Not Found</h2>
+        </page-title>
+      </page-header>
+      
+      <item-list>
+        <p>Hmm, it looks like this page couldn't be found.</p>
+        <p>
+          Need something to do? This 
+          <a
+            href="https://www.modernhoney.com/the-best-snickerdoodle-cookie-recipe/"
+            target="_blank"
+          >recipe for snickerdoodles</a>
+          is fantastic.
+        </p>
+
+        <doodle-wrapper>
+          <css-doodle class="not-found">
+          :doodle {
+            flex: none;
+            @grid: 12x16;
+            @size: 800px 600px;
+            overflow: hidden;
+            background-color: var(--blue-0);
+          }
+          :container {
+            animation: container 8s linear infinite both;
+          }
+          overflow: hidden;
+          opacity: .85;
+          @row(even) {
+            animation: rowEven 8s ease both infinite @r(0, .15s);
+
+            ::before { animation: before 8s ease both infinite @r(0, .15s); }
+            ::after { animation: after 8s ease both infinite @r(0, .15s); }
+
+            @odd {
+              ::before { background-image: linear-gradient(var(--blue-5) 50%, var(--blue-4) 50%); }
+              ::after { background-image: linear-gradient(var(--blue-6) 50%, var(--blue-2) 50%); }
+            }
+            @even {
+              ::before {
+                background-image: linear-gradient(90deg, var(--green-7) 50%, var(--green-3) 50%);
+              }
+              ::after {
+                background-image: linear-gradient(90deg, var(--green-4) 50%, var(--green-2) 50%);
+              }
+            }
+          }
+          @row(odd) {
+            animation: rowOdd 8s ease both infinite @r(2s, 2.15s);
+
+            ::before { animation: before 8s ease both infinite @r(2s, 2.15s); }
+            ::after { animation: after 8s ease both infinite @r(2s, 2.15s); }
+
+            @odd {
+              ::before { background-image: linear-gradient(var(--indigo-4) 50%, var(--indigo-3) 50%); }
+              ::after { background-image: linear-gradient(var(--indigo-5) 50%, var(--indigo-7) 50%); } 
+            }
+            @even {
+              ::before { background-image: linear-gradient(90deg, var(--purple-4) 50%, var(--purple-2) 50%); }
+              ::after {
+                background-image: linear-gradient(90deg, var(--purple-6) 50%, var(--purple-5) 50%);
+              }
+            }
+          }
+          ::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            @size: 100%;
+          }
+          ::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            @size: 80%;
+            margin-top: -40%;
+            margin-left: -40%;
+            border-radius: 100%;
+          }
+          @keyframes rowEven {
+            0% { transform: translate(50%, 0);}
+            6% { transform: translate(155%, 0);}
+            10% { transform: translate(150%, 0);}
+            50% { transform: translate(150%, 0);}
+            55% { transform: translate(45%, 0);}
+            60% { transform: translate(50%, 0);}
+            100% { transform: translate(50%, 0); }
+          }
+          @keyframes rowOdd {
+            0% { transform: translate(0%, 0);}
+            6% { transform: translate(105%, 0);}
+            10% { transform: translate(100%, 0);}
+            50% { transform: translate(100%, 0);}
+            55% { transform: translate(-5%, 0);}
+            60% { transform: translate(0%, 0);}
+            100% { transform: translate(0%, 0); }
+          }
+          @keyframes before {
+            0% { transform: rotate(0deg) }
+            6% { transform: rotate(95deg) }
+            10% { transform: rotate(90deg) }
+            50% { transform: rotate(90deg) }
+            55% { transform: rotate(-5deg) }
+            60% { transform: rotate(0deg) }
+          }
+          @keyframes after {
+            0% { transform: rotate(0deg) }
+            6% { transform: rotate(-95deg) }
+            10% { transform: rotate(-90deg) }
+            50% { transform: rotate(-90deg) }
+            55% { transform: rotate(5deg) }
+            60% { transform: rotate(0deg) }
+          }
+          @keyframes container {
+            0% { transform: scale(3) rotate(-45deg) translate3d(50px, -50px, 0); }
+            100% { transform: scale(3) rotate(-45deg) translate3d(-50px, 50px, 0); }
+          }
+          </css-doodle>
+        </doodle-wrapper>
+
+        <p>
+          The CSS doodle above was stolen with ♥️ from 
+          <a href="https://codepen.io/aragakey/pen/LowQdY" target="_blank">this Codepen</a> by
+          <a href="https://twitter.com/jiangyijie27" target="_blank">@Aragakey</a>.
+        </p>
+      </item-list>
     `;
   }
   
