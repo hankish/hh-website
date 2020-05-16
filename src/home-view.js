@@ -19,7 +19,7 @@ export class HomeView extends ViewBase {
   // #=== EVENTS ===#
 
   pageItemEnter(e) {
-    this.pages = this.pages.map(page => {
+    this.mainPages = this.mainPages.map(page => {
       return {
         ...page,
         hover: (e.target.dataset.key === page.key),
@@ -28,7 +28,7 @@ export class HomeView extends ViewBase {
   }
   
   pageItemLeave(e) {
-    this.pages = this.pages.map(page => {
+    this.mainPages = this.mainPages.map(page => {
       return {
         ...page,
         hover: ((e.target.dataset.key === page.key) ? false : page.hover),
@@ -307,7 +307,7 @@ export class HomeView extends ViewBase {
       <main-inner>
         <!-- #=== LINK LIST ===# -->
         <ul id="link-list">
-          ${this.links.map(link => html`
+          ${this.internalLinks.map(link => html`
             <li>
               <a href="${link.key}">${link.title}</a>
               <span class="comma">,</span>
@@ -317,35 +317,49 @@ export class HomeView extends ViewBase {
 
         <!-- #=== PAGE NAV LIST ===# -->
         <page-list>
-          ${this.pages.map(page => html`
-            <page-item
-              class="${page.color} ${page.hover ? 'hover' : ''}"
-              data-key="${page.key}"
-              @mouseenter="${this.pageItemEnter}"
-              @mouseleave="${this.pageItemLeave}"
-            >
-              <label>
-                <a href="/${page.key}">${page.title}</a>
-              </label>
-              <connector-line style=${styleMap({
-                marginRight: (page.shape === 'triangle'
-                  ? `calc(-${page.width}rem / 7)`
-                  : '12px'
-                ),
-              })}></connector-line>
-              <hh-shape
-                .shape=${page.shape}
-                style=${styleMap({
-                  width: `${page.width}rem`,
-                  height: `${page.height}rem`,
-                  marginRight: (page.hover
-                    ? `calc(50% - ${page.width}rem / 2)`
-                    : `${page.offset}rem`
+          ${this.mainPages.map(page => (page.key
+            ? html`
+              <page-item
+                class="${page.color} ${page.hover ? 'hover' : ''}"
+                data-key="${page.key}"
+                @mouseenter="${this.pageItemEnter}"
+                @mouseleave="${this.pageItemLeave}"
+              >
+                <label>
+                  <a href="/${page.key}">${page.title}</a>
+                </label>
+                <connector-line style=${styleMap({
+                  marginRight: (page.shape === 'triangle'
+                    ? `calc(-${page.width}rem / 7)`
+                    : '12px'
                   ),
-                })}
-              ></hh-shape>
-            </page-item>
-          `)}
+                })}></connector-line>
+                <hh-shape
+                  .shape=${page.shape}
+                  style=${styleMap({
+                    width: `${page.width}rem`,
+                    height: `${page.height}rem`,
+                    marginRight: (page.hover
+                      ? `calc(50% - ${page.width}rem / 2)`
+                      : `${page.offset}rem`
+                    ),
+                  })}
+                ></hh-shape>
+              </page-item>
+            ` : html`
+              <page-item class="${page.color}">
+                <connector-line></connector-line>
+                <hh-shape
+                  .shape=${page.shape}
+                  style=${styleMap({
+                    width: `${page.width}rem`,
+                    height: `${page.height}rem`,
+                    marginRight: `${page.offset}rem`,
+                  })}
+                ></hh-shape>
+              </page-item>
+            `
+          ))}
         </page-list>
       </main-inner>
     `;

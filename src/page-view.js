@@ -18,14 +18,15 @@ export class PageView extends ViewBase {
   
   static get properties() {
     return {
+      pageInitialized: { type: Boolean },
       notFound: { type: Boolean },
 
       title: { type: String },
       pageKey: { type: String },
       itemFormat: { type: String },
-      tagFormat: { type: String },
+      sectionFormat: { type: String },
       tags: { type: Array },
-      items: { type: Array },
+      sections: { type: Array },
       color: { type: String },
       shape: { type: String },
       
@@ -36,46 +37,16 @@ export class PageView extends ViewBase {
     };
   }
 
-  // #=== EVENTS ===#
+  // #=== LIFECYCLE ===#
 
-  onBeforeEnter(location, commands, router) {
-    // Extract location path from the router params then get its corresponding page key from paths
-    this.locationPath = (location.params.key || '').toLowerCase();
-    this.pageKey = this.paths[this.locationPath];
+  constructor() {
+    super();
 
-    // Retrieve the matching page from pages
-    const page = this.pageKey ? this.pages.find(p => p.key === this.pageKey) : null;
-    this.notFound = !page;
-    
-    if (this.notFound) {
-      this.title = null;
-      this.itemFormat = null;
-      this.tagFormat = null;
-      this.tags = null;
-      this.items = null;
-      this.color = '';
-      this.shape = '';
-    } else {
-      this.title = page.title;
-      this.itemFormat = page.item_format;
-      this.tagFormat = page.tag_format;
-      this.tags = page.tags;
-      this.items = page.items;
-      this.color = page.color;
-      this.shape = page.shape;
-      
-      if (this.tags && this.tags.length) {
-        this.selectedTag = (this.locationPath === this.pageKey)
-          ? this.tags[0].key
-          : this.locationPath;
-      } else {
-        this.selectedTag = null;
-      }
-    }
+    this.pageInitialized = false;
   }
 
   firstUpdated() {
-    if (this.tagFormat === 'scroll-nav') {
+    if (this.sectionFormat === 'scroll-nav') {
       this.scrollListener = new LitScrollListener(
         this.shadowRoot.querySelector('main-wrapper'),
         this.tags,
@@ -95,11 +66,28 @@ export class PageView extends ViewBase {
     }
   }
 
+  onAfterEnter(location, commands, router) {
+    // Extract location path from the router params then get its corresponding page key from paths
+    this.locationPath = (location.params.key || '').toLowerCase();
+
+    if (!this.loading && !this.pageInitialized) {
+      this.initPageProperties();
+    }
+  }
+
   onAfterLeave() {
     if (this.scrollListener) {
       this.scrollListener.unregister();
     }
   }
+
+  contentLoaded() {
+    if (!this.loading && !this.pageInitialized) {
+      this.initPageProperties();
+    }
+  }
+
+  // #=== EVENTS ===#
 
   selectValueChanged(e) {
     window.location = `${window.location.origin}/${e.detail.value}`;
@@ -134,6 +122,44 @@ export class PageView extends ViewBase {
         behavior: 'smooth',
       });
     }
+  }
+
+  initPageProperties() {
+    this.pageKey = this.paths[this.locationPath];
+
+    // Retrieve the matching page from pages
+    const page = this.pageKey ? this.allPages.find(p => p.key === this.pageKey) : null;
+    this.notFound = !page;
+
+    console.log(page);
+    
+    if (this.notFound) {
+      this.title = null;
+      this.itemFormat = null;
+      this.sectionFormat = null;
+      this.tags = null;
+      this.sections = null;
+      this.color = '';
+      this.shape = '';
+    } else {
+      this.title = page.title;
+      this.itemFormat = page.item_format;
+      this.sectionFormat = page.tag_format;
+      this.tags = page.tags;
+      this.sections = page.sections;
+      this.color = page.color;
+      this.shape = page.shape;
+      
+      if (this.tags && this.tags.length) {
+        this.selectedTag = (this.locationPath === this.pageKey)
+          ? this.tags[0].key
+          : this.locationPath;
+      } else {
+        this.selectedTag = null;
+      }
+    }
+
+    this.pageInitialized = true;
   }
 
   // #=== STYLES ===#
@@ -381,7 +407,7 @@ export class PageView extends ViewBase {
     return html`
       ${super.sideLeftTemplate}
 
-      ${this.tagFormat !== 'scroll-nav' ? null : html`
+      ${this.sectionFormat !== 'scroll-nav' ? null : html`
         <tag-list>
           <h2>Sections</h2>
           <lit-scroll-nav
@@ -407,7 +433,7 @@ export class PageView extends ViewBase {
     // ITEM LIST LOGIC
     
     let itemList = this.items || [];
-    if (this.tags && this.tags.length && (this.tagFormat === 'scroll-nav')) {
+    if (this.tags && this.tags.length && (this.sectionFormat === 'scroll-nav')) {
       // Group the items by tag and insert section headers between them
       itemList = this.tags.reduce((list, tag) => {
         return [
@@ -416,7 +442,7 @@ export class PageView extends ViewBase {
           ...this.items.filter(item => item.tags.includes(tag.key))
         ]
       }, []);
-    } else if (this.items && this.selectedTag && (this.tagFormat === 'dropdown')) {
+    } else if (this.items && this.selectedTag && (this.sectionFormat === 'dropdown')) {
       // Filter the items based on the selected tag
       itemList = this.items.filter(item => item.tags.includes(this.selectedTag));
     }
@@ -437,7 +463,7 @@ export class PageView extends ViewBase {
         ></hh-doodle>
       </page-header>
 
-      ${(this.tags && this.tagFormat === 'dropdown') ? html`
+      ${(this.tags && this.sectionFormat === 'dropdown') ? html`
         <!-- #=== TAG DROPDOWN ===# -->
         <tag-dropdown>
           <hh-select
@@ -451,15 +477,18 @@ export class PageView extends ViewBase {
       ` : html``}
 
       <!-- #=== ITEM LIST ===# -->
-      <item-list class="${this.itemFormat} ${this.tagFormat}">
-        ${itemList.map(item => {
-          return item.type === 'tag'
-            ? html`<h2 id="${item.key}">${item.title}</h2>`
-            : html`<content-item .item=${item} .format=${this.itemFormat}></content-item>`;
-        })}
+      <item-list class="${this.itemFormat} ${this.sectionFormat}">
+        ${(this.sections || []).map(section => html`
+          ${this.sectionFormat === 'none' ? null : html`
+            <h2 id="${section.key}">${section.title}</h2>
+          `}
+          ${(section.items || []).map(item => html`
+            <content-item .item=${item} .format=${this.itemFormat}></content-item>
+          `)}
+        `)}
       </item-list>
 
-      ${this.tagFormat !== 'scroll-nav' ? null : html`
+      ${this.sectionFormat !== 'scroll-nav' ? null : html`
         <tag-list>
           <lit-scroll-nav
             class="pill-mode"

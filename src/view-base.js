@@ -1,8 +1,9 @@
 import { LitElement, html, css } from 'lit-element';
 import { styleMap } from 'lit-html/directives/style-map';
 
-import { cmsContent } from './hh-content.js';
+import { cms } from './hh-content.js';
 import { colorStyles } from './styles/colors.js';
+import { HhSpinner } from './hh-spinner.js';
 
 /* eslint-disable class-methods-use-this */
 
@@ -13,9 +14,11 @@ export class ViewBase extends LitElement {
   static get properties() {
     return {
       paths: { type: Array },
-      links: { type: Array },
+      internalLinks: { type: Array },
       externalLinks: { type: Array },
-      pages: { type: Array },
+      mainPages: { type: Array },
+      allPages: { type: Array },
+      loading: { type: Boolean },
     };
   }
 
@@ -24,11 +27,31 @@ export class ViewBase extends LitElement {
   constructor() {
     super();
 
-    this.paths = cmsContent.paths;
-    this.links = cmsContent.links;
-    this.externalLinks = cmsContent.externalLinks;
-    this.pages = cmsContent.pages;
+    this.paths = [];
+    this.externalLinks = [];
+    this.internalLinks = [];
+    this.mainPages = [];
+    this.allPages = [];
+    this.loading = true;
   }
+
+  connectedCallback() {
+    super.connectedCallback();
+    
+    cms.getContent().then(response => {
+      this.paths = response.paths;
+      this.externalLinks = response.externalLinks;
+      this.internalLinks = response.internalLinks;
+      this.mainPages = response.mainPages;
+      this.allPages = response.allPages;
+      this.loading = false;
+
+      this.contentLoaded();
+    });
+  }
+
+  // This method is fired when the CMS content is loaded. Overwrite it if needed.
+  contentLoaded() {}
 
   // #=== STYLES ===#
 
@@ -134,6 +157,17 @@ export class ViewBase extends LitElement {
         }
         main h1, main h2 {
           font-family: 'Playfair Display', serif;
+        }
+
+        /*=== LOADING MODE ===*/
+
+        container.loading {
+          align-items: center;
+          background: radial-gradient(white, white 20%, var(--gray-1) 100%);
+        }
+        container.loading hh-spinner {
+          width: 7rem;
+          height: 7rem;
         }
 
         /*=== MAIN TOP NAV ===*/
@@ -474,7 +508,7 @@ export class ViewBase extends LitElement {
 
       <!-- #=== PAGE NAV LIST ===# -->
       <page-list>
-        ${this.pages.map(page => html`
+        ${this.mainPages.map(page => html`
           <page-item class="${page.color} ${page.shape}">
             <a href="/${page.key}">${page.title}</a>
             <spacer style=${styleMap({
@@ -515,7 +549,7 @@ export class ViewBase extends LitElement {
           <a href="/"><ion-icon icon="arrow-back"></ion-icon> Back Home</a>
         </home-link>
         <page-links>
-          ${this.pages.map(page => html`
+          ${this.mainPages.map(page => html`
             <a
               href="/${page.key}"
               class="${page.color} ${page.shape}"
@@ -537,6 +571,12 @@ export class ViewBase extends LitElement {
   }
 
   render() {
+    if (this.loading) return html`
+      <container class="loading">
+        <hh-spinner></hh-spinner>
+      </container>
+    `;
+
     return html`
       <container class="${this.templateElementClasses}">
         <side-left class="${this.templateElementClasses}">

@@ -10,21 +10,21 @@
     "test:watch": "karma start --auto-watch=true --single-run=false",
     "start:build": "es-dev-server --root-dir dist --app-index index.html --open --compatibility none",
     "build": "rimraf dist && rollup -c rollup.config.js",
-    "start": "es-dev-server --app-index index.html --node-resolve --open --watch"
+    "start": "es-dev-server"
   },
   "devDependencies": {
-    "eslint": "^6.1.0",
-    "@open-wc/eslint-config": "^2.0.0",
-    "@open-wc/prettier-config": "^0.1.10",
-    "husky": "^1.0.0",
-    "lint-staged": "^8.0.0",
-    "@open-wc/testing-karma": "^3.0.0",
-    "deepmerge": "^3.2.0",
-    "@open-wc/testing": "^2.0.0",
-    "@open-wc/building-rollup": "^0.21.0",
-    "rimraf": "^2.6.3",
-    "rollup": "^1.15.4",
-    "es-dev-server": "^1.5.0"
+    "@open-wc/building-rollup": "^1.2.4",
+    "@open-wc/eslint-config": "^2.0.5",
+    "@open-wc/prettier-config": "^1.1.0",
+    "@open-wc/testing": "^2.5.16",
+    "@open-wc/testing-karma": "^3.3.17",
+    "deepmerge": "^4.2.2",
+    "es-dev-server": "^1.50.5",
+    "eslint": "^6.8.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.2",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.7.6"
   },
   "eslintConfig": {
     "extends": [
@@ -53,10 +53,11 @@
   "dependencies": {
     "@material/mwc-list": "^0.14.1",
     "@material/mwc-menu": "^0.14.1",
-    "@vaadin/router": "^1.7.1",
+    "@vaadin/router": "^1.7.2",
+    "contentful": "^7.14.4",
     "css-doodle": "^0.8.5",
-    "elix": "^12.1.2",
-    "lit-element": "^2.0.1",
-    "lit-html": "^1.0.0"
+    "elix": "^12.1.4",
+    "lit-element": "^2.3.1",
+    "lit-html": "^1.2.1"
   }
 }
