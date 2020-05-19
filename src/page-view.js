@@ -68,15 +68,24 @@ export class PageView extends ViewBase {
 
     this.initPageProperties();
   }
-
+  
   onAfterLeave() {
     if (this.scrollListener) {
       this.scrollListener.unregister();
     }
   }
-
+  
   contentLoaded() {
     this.initPageProperties();
+  }
+
+  contentLoadComplete() {
+    if (this.sectionFormat === 'scroll-nav') {
+      this.scrollListener = new LitScrollListener(
+        this.shadowRoot.querySelector('main-wrapper'),
+        this.sections,
+      );
+    }
   }
 
   // #=== EVENTS ===#
@@ -117,52 +126,39 @@ export class PageView extends ViewBase {
   }
 
   initPageProperties() {
-    if (!this.loading && !this.pageInitialized) {
+    this.pageKey = this.paths[this.locationPath];
+    
+    // Retrieve the matching page from pages
+    const page = this.pageKey ? this.allPages.find(p => p.key === this.pageKey) : null;
+    this.notFound = !page;
+          
+    if (this.notFound) {
+      this.title = null;
+      this.summary = null;
+      this.itemFormat = null;
+      this.sectionFormat = null;
+      this.sections = null;
+      this.color = '';
+      this.shape = '';
+    } else {
+      this.title = page.title;
+      this.summary = page.summary;
+      this.itemFormat = page.itemFormat;
+      this.sectionFormat = page.sectionFormat;
+      this.sections = page.sections;
+      this.color = page.color;
+      this.shape = page.shape;
       
-      this.pageKey = this.paths[this.locationPath];
-      
-      // Retrieve the matching page from pages
-      const page = this.pageKey ? this.allPages.find(p => p.key === this.pageKey) : null;
-      this.notFound = !page;
-      
-      console.log(page);
-      console.log(page.summary);
-      
-      if (this.notFound) {
-        this.title = null;
-        this.summary = null;
-        this.itemFormat = null;
-        this.sectionFormat = null;
-        this.sections = null;
-        this.color = '';
-        this.shape = '';
+      if (this.tags && this.tags.length) {
+        this.selectedTag = (this.locationPath === this.pageKey)
+        ? this.tags[0].key
+        : this.locationPath;
       } else {
-        this.title = page.title;
-        this.summary = page.summary;
-        this.itemFormat = page.itemFormat;
-        this.sectionFormat = page.sectionFormat;
-        this.sections = page.sections;
-        this.color = page.color;
-        this.shape = page.shape;
-        
-        if (this.tags && this.tags.length) {
-          this.selectedTag = (this.locationPath === this.pageKey)
-          ? this.tags[0].key
-          : this.locationPath;
-        } else {
-          this.selectedTag = null;
-        }
-        
-        if (this.sectionFormat === 'scroll-nav') {
-          this.scrollListener = new LitScrollListener(
-            this.shadowRoot.querySelector('main-wrapper'),
-            this.sections,
-          );
-        }
+        this.selectedTag = null;
       }
-      
-      this.pageInitialized = true;
     }
+    
+    this.pageInitialized = true;
   }
 
   // #=== STYLES ===#
@@ -303,6 +299,9 @@ export class PageView extends ViewBase {
           
           border-left: 5px solid var(--page-color-main);
         }
+        page-summary lit-cf-rich-text {
+          --cfrt-p-margin: 0;
+        }
 
         /*=== ITEM LIST ===*/
 
@@ -369,6 +368,9 @@ export class PageView extends ViewBase {
         item-list.image content-item {
           display: inline-flex;
           margin-bottom: 2rem;
+        }
+        item-list.text.none {
+          padding-top: 24px;
         }
 
         /*=== CONTENTFUL RICH TEXT ===*/

@@ -47,14 +47,25 @@ export class ViewBase extends LitElement {
       this.mainNavItems = response.mainNavItems;
       this.mainPages = response.mainPages;
       this.allPages = response.allPages;
+      
+      // First fire the content loaded callback
+      this.contentLoaded();
+      
+      // Then switch the loading boolean (which will cause the page content to render)
       this.loading = false;
 
-      this.contentLoaded();
+      // Then queue up the content load complete callback
+      this.updateComplete.then(() => { this.contentLoadComplete(); });
     });
   }
 
-  // This method is fired when the CMS content is loaded. Overwrite it if needed.
+  // This method is fired when the CMS content is loaded but before the page body is rendered.
+  // Overwrite it if needed.
   contentLoaded() {}
+
+  // This method is fired after CMS content is loaded and rendered. Useful for adding listeners
+  // to rendered shadow children. Overwrite it if needed.
+  contentLoadComplete() {}
 
   // #=== STYLES ===#
 
@@ -208,6 +219,7 @@ export class ViewBase extends LitElement {
           display: flex;
           width: 100%;
           overflow: hidden;
+          white-space: nowrap;
           border-bottom: 1px solid var(--gray-3-50);
         }
         @media(min-width: 1000px) {

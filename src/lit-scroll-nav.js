@@ -37,8 +37,8 @@ export class LitScrollNav extends LitElement {
       this.scrollItemSelectedKey = value.scrollItemSelectedKey;
       this.scrollItems = value.scrollItems;
 
-      // value.scrollingElement
-      //   .addEventListener('scroll-items-changed', (e) => this.scrollItemsChanged(e));
+      value.scrollingElement
+        .addEventListener('scroll-items-changed', (e) => this.scrollItemsChanged(e));
 
       this.initialized = true;
     }

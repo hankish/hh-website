@@ -16,10 +16,10 @@ export class LitScrollListener {
     this.scrollItems = scrollItems;
 
     this.rebuildScrollItems();
-    // this._fireScrollItemsChanged();
-    // this.recalculateOffsetTops();
+    this._fireScrollItemsChanged();
+    this.recalculateOffsetTops();
 
-    // this.scrollingElement.addEventListener('scroll', (e) => this.scrollEvent(e));
+    this.scrollingElement.addEventListener('scroll', (e) => this.scrollEvent(e));
   }
 
   unregister() {

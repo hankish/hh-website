@@ -58,9 +58,11 @@ export class LitContentfulRichText extends LitElement {
 
         :host { display: block; }
 
-        img { max-width: 100%; }
+        p { margin: var(--cfrt-p-margin, 1em 0); }
 
-        h1, h2, h3, h4, h5, h6 { margin: 1em 0; }
+        img { max-width: 100%; max-height: 50vh; }
+
+        h1, h2, h3, h4, h5, h6 { margin: var(--cfrt-h-margin, 1em 0); }
 
         h1 { font-size: 1.3em; font-weight: 600; }
         h2 { font-size: 1.2em; font-weight: 500; }
