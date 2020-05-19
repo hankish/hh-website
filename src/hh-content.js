@@ -1,4 +1,4 @@
-import 'contentful/dist/contentful.browser.min.js';
+import 'contentful/dist/contentful.browser.min.js'; /* global contentful */
 import { contentfulClientParams } from './credentials.js';
 
 // This constant is used to build the mainPages list. Each of these items will appear in mainPages
@@ -6,43 +6,43 @@ import { contentfulClientParams } from './credentials.js';
 // be associated with the last values of this list.
 const mainPageStyles = [
   {
-    color: "red",
-    shape: "circle",
+    color: 'red',
+    shape: 'circle',
     height: 8.25,
     width: 8.25,
     offset: 0.45,
   },
   {
-    color: "orange",
-    shape: "triangle",
+    color: 'orange',
+    shape: 'triangle',
     height: 17.75,
     width: 17.75,
     offset: 0,
   },
   {
-    color: "yellow",
-    shape: "rectangle",
+    color: 'yellow',
+    shape: 'rectangle',
     height: 5.8,
     width: 5.8,
     offset: 2.3,
   },
   {
-    color: "green",
-    shape: "circle",
+    color: 'green',
+    shape: 'circle',
     height: 9.4,
     width: 9.4,
     offset: 1.2,
   },
   {
-    color: "blue",
-    shape: "triangle",
+    color: 'blue',
+    shape: 'triangle',
     height: 8,
     width: 8,
     offset: 6.4,
   },
   {
-    color: "indigo",
-    shape: "rectangle",
+    color: 'indigo',
+    shape: 'rectangle',
     height: 3.7,
     width: 6.4,
     offset: 2.3,
@@ -51,18 +51,18 @@ const mainPageStyles = [
 
 // These are used to add colors / styles to hidden pages
 const pageShapes = ['circle', 'triangle', 'rectangle'];
-const pageColors = [ 'blue', 'green', 'indigo', 'orange', 'purple', 'red', 'yellow' ];
+const pageColors = ['blue', 'green', 'indigo', 'orange', 'purple', 'red', 'yellow'];
 
 export class cms {
-
-  // This method recursively loops through a (potentially deeply nested) Contenful object and 
+  // This method recursively loops through a (potentially deeply nested) Contenful object and
   // replaces each nested object with its own 'fields' key.
   static flattenContentfulFields(contentfulReturnObject) {
     if (contentfulReturnObject.fields === undefined) return contentfulReturnObject;
-    
+
     return Object.fromEntries(
       Object.entries(contentfulReturnObject.fields).map(item => {
-        let [key, value] = item;
+        const key = item[0];
+        let value = item[1];
 
         if (value instanceof Array) {
           value = value.map(subItem => this.flattenContentfulFields(subItem));
@@ -71,7 +71,7 @@ export class cms {
         }
 
         return [key, value];
-      })
+      }),
     );
   }
 
@@ -80,7 +80,7 @@ export class cms {
   static buildMainNavItems(mainPages) {
     return [
       ...Array(Math.max(0, mainPageStyles.length - mainPages.length)).fill({}),
-      ...mainPages
+      ...mainPages,
     ].map((page, index) => ({
       ...page,
       ...mainPageStyles[index % mainPageStyles.length],
@@ -105,9 +105,9 @@ export class cms {
     });
 
     return new Promise((resolve, reject) => {
-      siteEntries.then((values) => {
+      siteEntries.then(values => {
         const siteContent = this.flattenContentfulFields(
-          values.items.find(s => s.fields.key === 'main')
+          values.items.find(s => s.fields.key === 'main'),
         );
 
         siteContent.mainNavItems = this.buildMainNavItems(siteContent.mainPages);
@@ -135,21 +135,23 @@ export class cms {
           // First extract all of the section keys from their pages and create entry pairs.
           // A page starts like this => { key:'page-key', sections: [{ key:'s1' }, { key:'s2' }] }
           // And we want to conver it to this => ['s1': 'page-key'], ['s2': 'page-key']
-          ...siteContent.allPages.reduce((outerList, page) => [
-            ...outerList,
-            ...page.sections.reduce((innerList, section) => [
-              ...innerList,
-              [section.key, page.key]
-            ], [])
-          ], []),
-          
+          ...siteContent.allPages.reduce(
+            (outerList, page) => [
+              ...outerList,
+              ...page.sections.reduce(
+                (innerList, section) => [...innerList, [section.key, page.key]],
+                [],
+              ),
+            ],
+            [],
+          ),
+
           // Then add all of the page keys themselves => ['page-key': 'page-key']
-          ...siteContent.allPages.map((page) => [page.key, page.key]),
+          ...siteContent.allPages.map(page => [page.key, page.key]),
         ]);
 
         resolve(siteContent);
       });
     });
   }
-
 }

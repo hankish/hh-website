@@ -3,9 +3,8 @@ import { LitElement, html, css } from 'lit-element';
 import Dialog from 'elix/define/Dialog.js';
 
 export class ContentItem extends LitElement {
-
   // #=== PROPERTIES ===#
-  
+
   static get properties() {
     return {
       item: { type: Object },
@@ -26,7 +25,6 @@ export class ContentItem extends LitElement {
 
   imageClick(e) {
     e.preventDefault();
-    console.log(this.item);
 
     if (this.item.link) {
       window.open(this.item.link, '_blank');
@@ -45,7 +43,6 @@ export class ContentItem extends LitElement {
   static get styles() {
     return [
       css`
-
         :host {
           display: inline-flex;
           position: relative;
@@ -73,7 +70,7 @@ export class ContentItem extends LitElement {
           line-height: 125%;
           font-weight: 200;
         }
-        
+
         h3 a,
         .subtitle a {
           text-decoration: none;
@@ -84,12 +81,13 @@ export class ContentItem extends LitElement {
         .subtitle a:visited {
           color: var(--gray-6);
         }
-        h3 a:focus, h3 a:hover,
-        .subtitle a:focus, .subtitle a:hover {
+        h3 a:focus,
+        h3 a:hover,
+        .subtitle a:focus,
+        .subtitle a:hover {
           color: var(--gray-9);
           text-decoration: underline;
         }
-
 
         /*=== CARD ICON FORMAT ===*/
 
@@ -116,7 +114,7 @@ export class ContentItem extends LitElement {
         .card-icon-format .body {
           font-size: 0.9rem;
         }
-        
+
         /*=== CARD HERO FORMAT ===*/
 
         .card-hero-format {
@@ -133,7 +131,7 @@ export class ContentItem extends LitElement {
 
           display: flex;
           justify-content: flex-start;
-          
+
           margin: 1rem 0;
           padding: 0 1rem;
         }
@@ -219,17 +217,18 @@ export class ContentItem extends LitElement {
           top: 1rem;
           right: 1rem;
         }
-        #image-dialog .action a, #image-dialog .action a:visited {
+        #image-dialog .action a,
+        #image-dialog .action a:visited {
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          
+
           font-size: 1.6rem;
           height: 2rem;
           width: 2rem;
           border-radius: 500px;
-          
+
           text-decoration: none;
           color: white;
           background: rgba(0, 0, 0, 0.5);
@@ -238,8 +237,7 @@ export class ContentItem extends LitElement {
         #image-dialog .action a:hover {
           background: rgba(0, 0, 0, 0.9);
         }
-
-      `
+      `,
     ];
   }
 
@@ -249,88 +247,89 @@ export class ContentItem extends LitElement {
     if (this.format === 'card-icon') return this.cardIconFormatTemplate;
     if (this.format === 'card-hero') return this.cardHeroFormatTemplate;
     if (this.format === 'image') return this.imageFormatTemplate;
-    
+
     return this.textFormatTemplate;
   }
 
   // #=== ITEM FIELD PARTIAL TEMPLATES ===#
-  
+
   get overlineTemplate() {
     return !this.item.overline ? null : html`<small>${this.item.overline}</small>`;
   }
 
   get titleTemplate() {
     if (!this.item.title) return null;
-    
+
     return !this.item.link
       ? html`<h3>${this.item.title}</h3>`
       : html`<h3><a href="${this.item.link}" target="_blank">${this.item.title}</a></h3>`;
   }
-  
+
   get subtitleTemplate() {
     if (!this.item.subtitle) return null;
-    
+
     return !this.item.link
       ? html`<div class="subtitle">${this.item.subtitle}</div>`
       : html`
-        <div class="subtitle">
-          <a href="${this.item.link}" target="_blank">${this.item.subtitle}</a>
-        </div>
-      `;
+          <div class="subtitle">
+            <a href="${this.item.link}" target="_blank">${this.item.subtitle}</a>
+          </div>
+        `;
   }
 
   get bodyTemplate() {
-    return !this.item.body ? null : html`
-      <div class="body">
-        <lit-cf-rich-text .value=${this.item.body}></lit-cf-rich-text>
-      </div>
-    `;
+    return !this.item.body
+      ? null
+      : html`
+          <div class="body">
+            <lit-cf-rich-text .value=${this.item.body}></lit-cf-rich-text>
+          </div>
+        `;
   }
 
   get iconTemplate() {
-    return !this.item.icon ? null : html`
-      <div class="icon">
-        <img src="${this.item.icon.file.url}?w=300&h=300">
-      </div>
-    `;
+    return !this.item.icon
+      ? null
+      : html`
+          <div class="icon">
+            <img src="${`${this.item.icon.file.url}?w=300&h=300`}" />
+          </div>
+        `;
   }
 
   get imageTemplate() {
-    return !this.item.image ? null : html`
-      <div class="image">
-        <img
-          src="${this.item.image.file.url}?w=700&h=700"
-          @click=${this.imageClick}
-        >
-      </div>
-    `;
+    return !this.item.image
+      ? null
+      : html`
+          <div class="image">
+            <img src="${`${this.item.image.file.url}?w=700&h=700`}" @click=${this.imageClick} />
+          </div>
+        `;
   }
-  
+
   get imageDialogTemplate() {
-    return !this.item.image ? null : html`
-      <elix-dialog id="image-dialog">
-        <div class="image">
-          <img src="${this.item.image.file.url}">
-        </div>
-        <div class="action">
-          <a
-            href="#"
-            tabindex="-1"
-            @click=${this.closeImageDialog}
-          ><ion-icon icon="close"></ion-icon></a>
-        </div>
-      </elix-dialog>
-    `;
+    return !this.item.image
+      ? null
+      : html`
+          <elix-dialog id="image-dialog">
+            <div class="image">
+              <img src="${this.item.image.file.url}" />
+            </div>
+            <div class="action">
+              <a href="#" tabindex="-1" @click=${this.closeImageDialog}
+                ><ion-icon icon="close"></ion-icon
+              ></a>
+            </div>
+          </elix-dialog>
+        `;
   }
-  
+
   // #=== FORMAT TEMPLATES ===#
 
   get textFormatTemplate() {
     return html`
       <div id="wrapper" class="text-format">
-        ${this.overlineTemplate}
-        ${this.titleTemplate}
-        ${this.bodyTemplate}
+        ${this.overlineTemplate} ${this.titleTemplate} ${this.bodyTemplate}
       </div>
     `;
   }
@@ -338,10 +337,9 @@ export class ContentItem extends LitElement {
   get imageFormatTemplate() {
     return html`
       ${this.imageDialogTemplate}
-      
+
       <div id="wrapper" class="image-format">
-        ${this.imageTemplate}
-        ${this.titleTemplate}
+        ${this.imageTemplate} ${this.titleTemplate}
       </div>
     `;
   }
@@ -350,33 +348,28 @@ export class ContentItem extends LitElement {
     return html`
       <div id="wrapper" class="card-icon-format">
         <div class="text-panel">
-          ${this.overlineTemplate}
-          ${this.titleTemplate}
-          ${this.bodyTemplate}
+          ${this.overlineTemplate} ${this.titleTemplate} ${this.bodyTemplate}
         </div>
         ${this.iconTemplate}
       </div>
     `;
   }
-  
+
   get cardHeroFormatTemplate() {
     return html`
       ${this.item.link ? null : this.imageDialogTemplate}
-      
+
       <div id="wrapper" class="card-hero-format">
         <div class="header-panel">
           ${this.iconTemplate}
           <div class="title">
-            ${this.titleTemplate}
-            ${this.subtitleTemplate}
+            ${this.titleTemplate} ${this.subtitleTemplate}
           </div>
         </div>
-        ${this.imageTemplate}
-        ${this.bodyTemplate}
+        ${this.imageTemplate} ${this.bodyTemplate}
       </div>
     `;
   }
-  
 }
 
 customElements.define('content-item', ContentItem);

@@ -1,13 +1,11 @@
 import { html, fixture, expect } from '@open-wc/testing';
 
-import '../src/hh-website.js';
+import '../src/hh-main.js';
 
-describe('HhWebsite', () => {
+describe('HhMain', () => {
   let element;
   beforeEach(async () => {
-    element = await fixture(html`
-      <hh-website></hh-website>
-    `);
+    element = await fixture(html` <hh-website></hh-website> `);
   });
 
   it('renders a h1', () => {
