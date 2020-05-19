@@ -115,18 +115,36 @@ export class cms {
         siteContent.hiddenPages = this.decorateHiddenPages(siteContent.hiddenPages);
         siteContent.allPages = [...siteContent.mainPages, ...siteContent.hiddenPages];
 
+        /*
+          SITE CONTENT PATHS SETUP
+
+          The paths object contains keys for all of the navigable top-level url paths. It contains 
+          keys for each page and for each section within each page.
+
+          A page path maps to itself, a section path maps to the parent page. It looks like this:
+
+          ```
+            {
+              'example-page-key': 'example-page-key',
+              'example-section-key': 'parent-page-key',
+              'another-section-key': 'parent-page-key',
+            }
+          ```
+        */
         siteContent.paths = Object.fromEntries([
-          ...siteContent.allPages.map((page) => [
-            page.key,
-            page.key
-          ]),
-          // ...pages.reduce((paths, page) => {
-          //   return page.items.map
-          //   // LEFT OFF HERE... trying to figure out how to extract and dedupe the tags.
-          //   // FIRST THOUGH ... I might need to tweak the data model to link tags to pages
-          // otherwise i can't sort the tags within the page
-          //   // https://medium.com/dailyjs/how-to-remove-array-duplicates-in-es6-5daa8789641c
-          // })
+          // First extract all of the section keys from their pages and create entry pairs.
+          // A page starts like this => { key:'page-key', sections: [{ key:'s1' }, { key:'s2' }] }
+          // And we want to conver it to this => ['s1': 'page-key'], ['s2': 'page-key']
+          ...siteContent.allPages.reduce((outerList, page) => [
+            ...outerList,
+            ...page.sections.reduce((innerList, section) => [
+              ...innerList,
+              [section.key, page.key]
+            ], [])
+          ], []),
+          
+          // Then add all of the page keys themselves => ['page-key': 'page-key']
+          ...siteContent.allPages.map((page) => [page.key, page.key]),
         ]);
 
         resolve(siteContent);

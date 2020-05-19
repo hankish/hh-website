@@ -46,22 +46,6 @@ export class PageView extends ViewBase {
     this.pageInitialized = false;
   }
 
-  firstUpdated() {
-    if (this.sectionFormat === 'scroll-nav') {
-      if (this.locationPath !== this.pageKey) {
-        // If the location path points to one of the child sections, scroll to it
-        this.updateComplete.then(() => {
-          this.scrollToItem(this.locationPath)
-        });
-      }
-      
-      // Queue up one more update to recalculate the offset tops once the update is complete
-      this.updateComplete.then(() => {
-        this.scrollListener.recalculateOffsetTops();
-      });
-    }
-  }
-
   onAfterEnter(location, commands, router) {
     // Extract location path from the router params then get its corresponding page key from paths
     this.locationPath = (location.params.key || '').toLowerCase();
@@ -85,6 +69,13 @@ export class PageView extends ViewBase {
         this.shadowRoot.querySelector('main-wrapper'),
         this.sections,
       );
+      
+      if (this.locationPath !== this.pageKey) {
+        // If the location path points to one of the child sections, scroll to it
+        this.updateComplete.then(() => {
+          this.scrollToItem(this.locationPath)
+        });
+      }
     }
   }
 
