@@ -60,7 +60,7 @@ export class cms {
     if (contentfulReturnObject.fields === undefined) return contentfulReturnObject;
 
     return Object.fromEntries(
-      Object.entries(contentfulReturnObject.fields).map(item => {
+      Object.entries(contentfulReturnObject.fields).map((item) => {
         const key = item[0];
         let value = item[1];
 
@@ -105,7 +105,7 @@ export class cms {
     });
 
     return new Promise((resolve, reject) => {
-      siteEntries.then(values => {
+      siteEntries.then((values) => {
         const siteContent = this.flattenContentfulFields(
           values.items.find(s => s.fields.key === 'main'),
         );
@@ -118,7 +118,7 @@ export class cms {
         /*
           SITE CONTENT PATHS SETUP
 
-          The paths object contains keys for all of the navigable top-level url paths. It contains 
+          The paths object contains keys for all of the navigable top-level url paths. It contains
           keys for each page and for each section within each page.
 
           A page path maps to itself, a section path maps to the parent page. It looks like this:
@@ -135,16 +135,13 @@ export class cms {
           // First extract all of the section keys from their pages and create entry pairs.
           // A page starts like this => { key:'page-key', sections: [{ key:'s1' }, { key:'s2' }] }
           // And we want to conver it to this => ['s1': 'page-key'], ['s2': 'page-key']
-          ...siteContent.allPages.reduce(
-            (outerList, page) => [
-              ...outerList,
-              ...page.sections.reduce(
-                (innerList, section) => [...innerList, [section.key, page.key]],
-                [],
-              ),
-            ],
-            [],
-          ),
+          ...siteContent.allPages.reduce((outerList, page) => [
+            ...outerList,
+            ...page.sections.reduce((innerList, section) => [
+              ...innerList,
+              [section.key, page.key],
+            ], []),
+          ], []),
 
           // Then add all of the page keys themselves => ['page-key': 'page-key']
           ...siteContent.allPages.map(page => [page.key, page.key]),

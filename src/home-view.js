@@ -17,9 +17,7 @@ export class HomeView extends ViewBase {
     this.setDocumentTitle();
 
     // Anchor the external links menu to the menu button
-    this.shadowRoot.querySelector('#external-links-menu').anchor = this.shadowRoot.querySelector(
-      '#external-links-button',
-    );
+    this.shadowRoot.querySelector('#external-links-menu').anchor = this.shadowRoot.querySelector('#external-links-button');
   }
 
   // #=== EVENTS ===#
@@ -27,14 +25,14 @@ export class HomeView extends ViewBase {
   pageItemEnter(e) {
     this.mainNavItems = this.mainNavItems.map(page => ({
       ...page,
-      hover: e.target.dataset.key === page.key,
+      hover: (e.target.dataset.key === page.key),
     }));
   }
 
   pageItemLeave(e) {
     this.mainNavItems = this.mainNavItems.map(page => ({
       ...page,
-      hover: e.target.dataset.key === page.key ? false : page.hover,
+      hover: ((e.target.dataset.key === page.key) ? false : page.hover),
     }));
   }
 
@@ -51,6 +49,7 @@ export class HomeView extends ViewBase {
     return [
       super.styles,
       css`
+
         /*=== MAIN BODY LAYOUT ===*/
 
         main-inner {
@@ -72,10 +71,10 @@ export class HomeView extends ViewBase {
           bottom: 0;
           left: 0;
           width: 5px;
-
+          
           background: linear-gradient(180deg, var(--gray-2) 0%, var(--gray-6) 100%);
         }
-        @media (min-width: 1200px) {
+        @media(min-width: 1200px) {
           main-inner {
             padding-left: 30px;
           }
@@ -101,7 +100,7 @@ export class HomeView extends ViewBase {
 
         #external-links-button {
           flex: 0 0 auto;
-
+          
           display: inline-flex;
           justify-content: center;
 
@@ -111,11 +110,10 @@ export class HomeView extends ViewBase {
           color: var(--gray-4);
           transition: color 0.3s;
         }
-        #external-links-button:focus,
-        #external-links-button:hover {
+        #external-links-button:focus, #external-links-button:hover {
           color: var(--gray-6);
         }
-        @media (min-width: 1000px) {
+        @media(min-width: 1000px) {
           #external-links-button {
             display: none;
           }
@@ -126,14 +124,12 @@ export class HomeView extends ViewBase {
           align-items: center;
           --mdc-theme-text-primary: var(--gray-7);
         }
-        #external-links-menu a,
-        #external-links-menu a:visited {
+        #external-links-menu a, #external-links-menu a:visited {
           color: var(--gray-7);
           text-decoration: none;
           transition: color 0.3s;
         }
-        #external-links-menu a:focus,
-        #external-links-menu a:hover {
+        #external-links-menu a:focus, #external-links-menu a:hover {
           color: var(--gray-9);
         }
         #external-links-menu a ion-icon {
@@ -161,11 +157,14 @@ export class HomeView extends ViewBase {
           text-decoration: none;
           border-bottom: 0.5px solid var(--gray-5-70);
           line-height: 85%;
-          text-shadow: 1px 1px white, 1px -1px white, -1px 1px white, -1px -1px white;
+          text-shadow:
+            1px 1px white,
+            1px -1px white,
+            -1px 1px white,
+            -1px -1px white;
           transition: all 0.2s;
         }
-        #link-list > li > a:hover,
-        #link-list > li > a:focus {
+        #link-list > li > a:hover, #link-list > li > a:focus {
           border-bottom-color: var(--gray-5);
           border-bottom-width: 1px;
           color: var(--gray-7);
@@ -232,17 +231,16 @@ export class HomeView extends ViewBase {
         page-item a {
           text-decoration: none;
           font-weight: 300;
-
+          
           color: var(--gray-7);
           transition: color 0.3ms;
         }
-        page-item.hover a,
-        page-item.hover a:visited {
-          color: var(--item-color-dark);
+        page-item.hover a, page-item.hover a:visited {
+          color: var(--item-color-dark); 
         }
 
         /*=== PAGE LIST - CONNECTOR LINES ===*/
-
+        
         connector-line {
           flex: 1 1 auto;
           height: 0.15rem;
@@ -277,88 +275,91 @@ export class HomeView extends ViewBase {
   get mainTemplate() {
     return html`
       <!-- #=== EXTERNAL LINKS DROPDOWN MENU ===# -->
-      <mwc-menu id="external-links-menu" fixed corner="BOTTOM_START">
-        ${this.externalLinks.map(
-          link => html`
-            <mwc-list-item>
-              <a href="${link.url}" target="_blank">
-                <ion-icon name="${link.icon}"></ion-icon>
-                <span class="title">${link.title}</span>
-              </a>
-            </mwc-list-item>
-          `,
-        )}
+      <mwc-menu
+        id="external-links-menu"
+        fixed
+        corner="BOTTOM_START"
+      >
+        ${this.externalLinks.map(link => html`
+          <mwc-list-item>
+            <a href="${link.url}" target="_blank">
+              <ion-icon name="${link.icon}"></ion-icon>
+              <span class="title">${link.title}</span>
+            </a>
+          </mwc-list-item>
+        `)}
       </mwc-menu>
 
       <!-- #=== HEADER ===# -->
       <page-header>
         <h1>Hank Holiday</h1>
 
-        <a id="external-links-button" href="#" @click=${this.externalLinksButtonClick}>
+        <a
+          id="external-links-button"
+          href="#"
+          @click=${this.externalLinksButtonClick}
+        >
           <ion-icon icon="link"></ion-icon>
           <ion-icon icon="md-arrow-dropdown"></ion-icon>
         </a>
       </page-header>
-
+      
       <main-inner>
         <!-- #=== LINK LIST ===# -->
         <ul id="link-list">
-          ${this.internalLinks.map(
-            item => html`
-              <li>
-                <a href="${item.link.key}">${item.title}</a>
-                <span class="comma">,</span>
-              </li>
-            `,
-          )}
+          ${this.internalLinks.map(item => html`
+            <li>
+              <a href="${item.link.key}">${item.title}</a>
+              <span class="comma">,</span>
+            </li>
+          `)}
         </ul>
 
         <!-- #=== PAGE NAV LIST ===# -->
         <page-list>
-          ${this.mainNavItems.map(page =>
-            page.key
-              ? html`
-                  <page-item
-                    class="${page.color} ${page.hover ? 'hover' : ''}"
-                    data-key="${page.key}"
-                    @mouseenter="${this.pageItemEnter}"
-                    @mouseleave="${this.pageItemLeave}"
-                  >
-                    <label>
-                      <a href="/${page.key}">${page.title}</a>
-                    </label>
-                    <connector-line
-                      style=${styleMap({
-                        marginRight:
-                          page.shape === 'triangle' ? `calc(-${page.width}rem / 7)` : '12px',
-                      })}
-                    ></connector-line>
-                    <hh-shape
-                      .shape=${page.shape}
-                      style=${styleMap({
-                        width: `${page.width}rem`,
-                        height: `${page.height}rem`,
-                        marginRight: page.hover
-                          ? `calc(50% - ${page.width}rem / 2)`
-                          : `${page.offset}rem`,
-                      })}
-                    ></hh-shape>
-                  </page-item>
-                `
-              : html`
-                  <page-item class="${page.color}">
-                    <connector-line></connector-line>
-                    <hh-shape
-                      .shape=${page.shape}
-                      style=${styleMap({
-                        width: `${page.width}rem`,
-                        height: `${page.height}rem`,
-                        marginRight: `${page.offset}rem`,
-                      })}
-                    ></hh-shape>
-                  </page-item>
-                `,
-          )}
+          ${this.mainNavItems.map(page => (page.key
+    ? html`
+              <page-item
+                class="${page.color} ${page.hover ? 'hover' : ''}"
+                data-key="${page.key}"
+                @mouseenter="${this.pageItemEnter}"
+                @mouseleave="${this.pageItemLeave}"
+              >
+                <label>
+                  <a href="/${page.key}">${page.title}</a>
+                </label>
+                <connector-line style=${styleMap({
+      marginRight: (page.shape === 'triangle'
+        ? `calc(-${page.width}rem / 7)`
+        : '12px'
+      ),
+    })}></connector-line>
+                <hh-shape
+                  .shape=${page.shape}
+                  style=${styleMap({
+      width: `${page.width}rem`,
+      height: `${page.height}rem`,
+      marginRight: (page.hover
+        ? `calc(50% - ${page.width}rem / 2)`
+        : `${page.offset}rem`
+      ),
+    })}
+                ></hh-shape>
+              </page-item>
+            ` : html`
+              <page-item class="${page.color}">
+                <connector-line></connector-line>
+                <hh-shape
+                  .shape=${page.shape}
+                  style=${styleMap({
+      width: `${page.width}rem`,
+      height: `${page.height}rem`,
+      marginRight: `${page.offset}rem`,
+    })}
+                ></hh-shape>
+              </page-item>
+            `
+  ))}
         </page-list>
       </main-inner>
     `;

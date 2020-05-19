@@ -5,7 +5,9 @@ import '../src/hh-main.js';
 describe('HhMain', () => {
   let element;
   beforeEach(async () => {
-    element = await fixture(html` <hh-website></hh-website> `);
+    element = await fixture(html`
+      <hh-website></hh-website>
+    `);
   });
 
   it('renders a h1', () => {
