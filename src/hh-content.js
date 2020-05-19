@@ -49,6 +49,10 @@ const mainPageStyles = [
   },
 ];
 
+// These are used to add colors / styles to hidden pages
+const pageShapes = ['circle', 'triangle', 'rectangle'];
+const pageColors = [ 'blue', 'green', 'indigo', 'orange', 'purple', 'red', 'yellow' ];
+
 export class cms {
 
   // This method recursively loops through a (potentially deeply nested) Contenful object and 
@@ -73,7 +77,7 @@ export class cms {
 
   // This method builds the mainPages list by padding the list of main pages returned by the CMS
   // and decorating them with the mainPageStyles.
-  static buildMainPages(mainPages) {
+  static buildMainNavItems(mainPages) {
     return [
       ...Array(Math.max(0, mainPageStyles.length - mainPages.length)).fill({}),
       ...mainPages
@@ -81,6 +85,14 @@ export class cms {
       ...page,
       ...mainPageStyles[index % mainPageStyles.length],
       hover: false,
+    }));
+  }
+
+  static decorateHiddenPages(hiddenPages) {
+    return hiddenPages.map(p => ({
+      ...p,
+      shape: pageShapes[Math.floor(Math.random() * pageShapes.length)],
+      color: pageColors[Math.floor(Math.random() * pageColors.length)],
     }));
   }
 
@@ -98,10 +110,13 @@ export class cms {
           values.items.find(s => s.fields.key === 'main')
         );
 
-        const allPages = [...siteContent.mainPages, ...siteContent.hiddenPages];
+        siteContent.mainNavItems = this.buildMainNavItems(siteContent.mainPages);
+        siteContent.mainPages = siteContent.mainNavItems.filter(p => !!p.key);
+        siteContent.hiddenPages = this.decorateHiddenPages(siteContent.hiddenPages);
+        siteContent.allPages = [...siteContent.mainPages, ...siteContent.hiddenPages];
 
-        const paths = Object.fromEntries([
-          ...allPages.map((page) => [
+        siteContent.paths = Object.fromEntries([
+          ...siteContent.allPages.map((page) => [
             page.key,
             page.key
           ]),
@@ -114,12 +129,7 @@ export class cms {
           // })
         ]);
 
-        resolve({
-          ...siteContent,
-          mainPages: this.buildMainPages(siteContent.mainPages),
-          allPages,
-          paths
-        });
+        resolve(siteContent);
       });
     });
   }

@@ -26,6 +26,7 @@ export class ContentItem extends LitElement {
 
   imageClick(e) {
     e.preventDefault();
+    console.log(this.item);
 
     if (this.item.link) {
       window.open(this.item.link, '_blank');
@@ -279,19 +280,28 @@ export class ContentItem extends LitElement {
   }
 
   get bodyTemplate() {
-    return !this.item.body ? null : html`<div class="body">${this.item.body}</div>`;
+    return !this.item.body ? null : html`
+      <div class="body">
+        <lit-cf-rich-text .value=${this.item.body}></lit-cf-rich-text>
+      </div>
+    `;
   }
 
   get iconTemplate() {
     return !this.item.icon ? null : html`
-      <div class="icon"><img src="${this.item.icon}"></div>
+      <div class="icon">
+        <img src="${this.item.icon.file.url}?w=300&h=300">
+      </div>
     `;
   }
 
   get imageTemplate() {
     return !this.item.image ? null : html`
       <div class="image">
-        <img src="${this.item.image}" @click=${this.imageClick}>
+        <img
+          src="${this.item.image.file.url}?w=700&h=700"
+          @click=${this.imageClick}
+        >
       </div>
     `;
   }
@@ -299,7 +309,9 @@ export class ContentItem extends LitElement {
   get imageDialogTemplate() {
     return !this.item.image ? null : html`
       <elix-dialog id="image-dialog">
-        <div class="image"><img src="${this.item.image}"></div>
+        <div class="image">
+          <img src="${this.item.image.file.url}">
+        </div>
         <div class="action">
           <a
             href="#"

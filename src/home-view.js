@@ -19,7 +19,7 @@ export class HomeView extends ViewBase {
   // #=== EVENTS ===#
 
   pageItemEnter(e) {
-    this.mainPages = this.mainPages.map(page => {
+    this.mainNavItems = this.mainNavItems.map(page => {
       return {
         ...page,
         hover: (e.target.dataset.key === page.key),
@@ -28,7 +28,7 @@ export class HomeView extends ViewBase {
   }
   
   pageItemLeave(e) {
-    this.mainPages = this.mainPages.map(page => {
+    this.mainNavItems = this.mainNavItems.map(page => {
       return {
         ...page,
         hover: ((e.target.dataset.key === page.key) ? false : page.hover),
@@ -317,7 +317,7 @@ export class HomeView extends ViewBase {
 
         <!-- #=== PAGE NAV LIST ===# -->
         <page-list>
-          ${this.mainPages.map(page => (page.key
+          ${this.mainNavItems.map(page => (page.key
             ? html`
               <page-item
                 class="${page.color} ${page.hover ? 'hover' : ''}"

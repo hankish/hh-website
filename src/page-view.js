@@ -2,13 +2,14 @@ import { html, css } from 'lit-element';
 
 import 'css-doodle';
 
-import { ViewBase } from './view-base.js';
-import { HhSelect } from './hh-select.js';
-import { ContentItem } from './content-item.js';
-import { LitScrollListener } from './lit-scroll-listener.js';
-import { LitScrollNav } from './lit-scroll-nav.js';
-import { backgroundStyles } from './styles/backgrounds.js';
-import { HhDoodle } from './hh-doodle.js';
+import { ViewBase } from './view-base';
+import { HhSelect } from './hh-select';
+import { ContentItem } from './content-item';
+import { LitScrollListener } from './lit-scroll-listener';
+import { LitScrollNav } from './lit-scroll-nav';
+import { backgroundStyles } from './styles/backgrounds';
+import { HhDoodle } from './hh-doodle';
+import { LitContentfulRichText } from './lit-contentful-rich-text';
 
 /* eslint-disable class-methods-use-this */
 
@@ -22,10 +23,10 @@ export class PageView extends ViewBase {
       notFound: { type: Boolean },
 
       title: { type: String },
+      summary: { type: String },
       pageKey: { type: String },
       itemFormat: { type: String },
       sectionFormat: { type: String },
-      tags: { type: Array },
       sections: { type: Array },
       color: { type: String },
       shape: { type: String },
@@ -47,18 +48,13 @@ export class PageView extends ViewBase {
 
   firstUpdated() {
     if (this.sectionFormat === 'scroll-nav') {
-      this.scrollListener = new LitScrollListener(
-        this.shadowRoot.querySelector('main-wrapper'),
-        this.tags,
-      );
-      
       if (this.locationPath !== this.pageKey) {
-        // If the location path points to one of the child tags, scroll to it
+        // If the location path points to one of the child sections, scroll to it
         this.updateComplete.then(() => {
           this.scrollToItem(this.locationPath)
         });
       }
-
+      
       // Queue up one more update to recalculate the offset tops once the update is complete
       this.updateComplete.then(() => {
         this.scrollListener.recalculateOffsetTops();
@@ -70,9 +66,7 @@ export class PageView extends ViewBase {
     // Extract location path from the router params then get its corresponding page key from paths
     this.locationPath = (location.params.key || '').toLowerCase();
 
-    if (!this.loading && !this.pageInitialized) {
-      this.initPageProperties();
-    }
+    this.initPageProperties();
   }
 
   onAfterLeave() {
@@ -82,9 +76,7 @@ export class PageView extends ViewBase {
   }
 
   contentLoaded() {
-    if (!this.loading && !this.pageInitialized) {
-      this.initPageProperties();
-    }
+    this.initPageProperties();
   }
 
   // #=== EVENTS ===#
@@ -125,41 +117,52 @@ export class PageView extends ViewBase {
   }
 
   initPageProperties() {
-    this.pageKey = this.paths[this.locationPath];
-
-    // Retrieve the matching page from pages
-    const page = this.pageKey ? this.allPages.find(p => p.key === this.pageKey) : null;
-    this.notFound = !page;
-
-    console.log(page);
-    
-    if (this.notFound) {
-      this.title = null;
-      this.itemFormat = null;
-      this.sectionFormat = null;
-      this.tags = null;
-      this.sections = null;
-      this.color = '';
-      this.shape = '';
-    } else {
-      this.title = page.title;
-      this.itemFormat = page.item_format;
-      this.sectionFormat = page.tag_format;
-      this.tags = page.tags;
-      this.sections = page.sections;
-      this.color = page.color;
-      this.shape = page.shape;
+    if (!this.loading && !this.pageInitialized) {
       
-      if (this.tags && this.tags.length) {
-        this.selectedTag = (this.locationPath === this.pageKey)
+      this.pageKey = this.paths[this.locationPath];
+      
+      // Retrieve the matching page from pages
+      const page = this.pageKey ? this.allPages.find(p => p.key === this.pageKey) : null;
+      this.notFound = !page;
+      
+      console.log(page);
+      console.log(page.summary);
+      
+      if (this.notFound) {
+        this.title = null;
+        this.summary = null;
+        this.itemFormat = null;
+        this.sectionFormat = null;
+        this.sections = null;
+        this.color = '';
+        this.shape = '';
+      } else {
+        this.title = page.title;
+        this.summary = page.summary;
+        this.itemFormat = page.itemFormat;
+        this.sectionFormat = page.sectionFormat;
+        this.sections = page.sections;
+        this.color = page.color;
+        this.shape = page.shape;
+        
+        if (this.tags && this.tags.length) {
+          this.selectedTag = (this.locationPath === this.pageKey)
           ? this.tags[0].key
           : this.locationPath;
-      } else {
-        this.selectedTag = null;
+        } else {
+          this.selectedTag = null;
+        }
+        
+        if (this.sectionFormat === 'scroll-nav') {
+          this.scrollListener = new LitScrollListener(
+            this.shadowRoot.querySelector('main-wrapper'),
+            this.sections,
+          );
+        }
       }
+      
+      this.pageInitialized = true;
     }
-
-    this.pageInitialized = true;
   }
 
   // #=== STYLES ===#
@@ -289,7 +292,10 @@ export class PageView extends ViewBase {
           color: var(--gray-9);
         }
 
+        page-summary,
         tag-dropdown {
+          display: block;
+          
           flex: 0 0 auto;
           padding: 12px 24px;
           max-width: 400px;
@@ -365,6 +371,13 @@ export class PageView extends ViewBase {
           margin-bottom: 2rem;
         }
 
+        /*=== CONTENTFUL RICH TEXT ===*/
+
+        lit-cf-rich-text h3 {
+          color: blue;
+        }
+
+
         /*=== TAG LIST (IN MAIN BODY) ===*/
 
         main tag-list {
@@ -427,25 +440,47 @@ export class PageView extends ViewBase {
       : `${this.color} ${this.shape}`;
   }
 
+  get itemsTemplate() {
+    if (this.notFound || !this.sections || !this.sections.length) return null;
+
+    // SECTION FORMAT: SCROLL NAV
+
+    if (this.sectionFormat === 'scroll-nav') return html`
+      ${this.sections.map(section => html`
+        
+        <h2 id="${section.key}">${section.title}</h2>
+        
+        ${(section.items || []).map(item => html`
+          <content-item .item=${item} .format=${this.itemFormat}></content-item>
+        `)}
+      
+      `)}
+    `;
+
+    // SECTION FORMAT: DROPDOWN
+
+    if (this.sectionFormat === 'dropdown') {
+      const currentSection = this.sections.find(s => s.key === this.selectedSection);
+      
+      return html`
+        ${(currentSection.items || []).map(item => html`
+          <content-item .item=${item} .format=${this.itemFormat}></content-item>
+        `)}
+      `;
+    }
+
+    // If there is no section format then create a "flattened" item list
+    const flatItemList = [].concat(...this.sections.map(s => s.items));
+
+    return html`
+      ${flatItemList.map(item => html`
+        <content-item .item=${item} .format=${this.itemFormat}></content-item>
+      `)}
+    `;
+  }
+
   get mainTemplate() {
     if (this.notFound) return this.notFoundTemplate;
-
-    // ITEM LIST LOGIC
-    
-    let itemList = this.items || [];
-    if (this.tags && this.tags.length && (this.sectionFormat === 'scroll-nav')) {
-      // Group the items by tag and insert section headers between them
-      itemList = this.tags.reduce((list, tag) => {
-        return [
-          ...list, 
-          { ...tag, type: 'tag' },
-          ...this.items.filter(item => item.tags.includes(tag.key))
-        ]
-      }, []);
-    } else if (this.items && this.selectedTag && (this.sectionFormat === 'dropdown')) {
-      // Filter the items based on the selected tag
-      itemList = this.items.filter(item => item.tags.includes(this.selectedTag));
-    }
 
     // MAIN HTML CONTENT
 
@@ -463,12 +498,18 @@ export class PageView extends ViewBase {
         ></hh-doodle>
       </page-header>
 
-      ${(this.tags && this.sectionFormat === 'dropdown') ? html`
+      ${!this.summary ? null : html`
+        <page-summary>
+          <lit-cf-rich-text .value=${this.summary}></lit-cf-rich-text>
+        </page-summary>
+      `}
+
+      ${(this.sections && this.sectionFormat === 'dropdown') ? html`
         <!-- #=== TAG DROPDOWN ===# -->
         <tag-dropdown>
           <hh-select
             .value=${this.selectedTag}
-            .options=${this.tags}
+            .options=${this.sections}
             valueFrom="key"
             labelFrom="title"
             @value-changed=${this.selectValueChanged}
@@ -478,14 +519,7 @@ export class PageView extends ViewBase {
 
       <!-- #=== ITEM LIST ===# -->
       <item-list class="${this.itemFormat} ${this.sectionFormat}">
-        ${(this.sections || []).map(section => html`
-          ${this.sectionFormat === 'none' ? null : html`
-            <h2 id="${section.key}">${section.title}</h2>
-          `}
-          ${(section.items || []).map(item => html`
-            <content-item .item=${item} .format=${this.itemFormat}></content-item>
-          `)}
-        `)}
+        ${this.itemsTemplate}
       </item-list>
 
       ${this.sectionFormat !== 'scroll-nav' ? null : html`

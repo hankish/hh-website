@@ -16,6 +16,7 @@ export class ViewBase extends LitElement {
       paths: { type: Array },
       internalLinks: { type: Array },
       externalLinks: { type: Array },
+      mainNavItems: { type: Array },
       mainPages: { type: Array },
       allPages: { type: Array },
       loading: { type: Boolean },
@@ -30,6 +31,7 @@ export class ViewBase extends LitElement {
     this.paths = [];
     this.externalLinks = [];
     this.internalLinks = [];
+    this.mainNavItems = [];
     this.mainPages = [];
     this.allPages = [];
     this.loading = true;
@@ -42,6 +44,7 @@ export class ViewBase extends LitElement {
       this.paths = response.paths;
       this.externalLinks = response.externalLinks;
       this.internalLinks = response.internalLinks;
+      this.mainNavItems = response.mainNavItems;
       this.mainPages = response.mainPages;
       this.allPages = response.allPages;
       this.loading = false;
