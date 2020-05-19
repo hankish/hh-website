@@ -131,6 +131,8 @@ export class PageView extends ViewBase {
       this.sections = null;
       this.color = '';
       this.shape = '';
+
+      this.setDocumentTitle('Page Not Found');
     } else {
       this.title = page.title;
       this.summary = page.summary;
@@ -139,6 +141,8 @@ export class PageView extends ViewBase {
       this.sections = page.sections;
       this.color = page.color;
       this.shape = page.shape;
+
+      this.setDocumentTitle(page.documentTitle);
       
       if (this.tags && this.tags.length) {
         this.selectedTag = (this.locationPath === this.pageKey)

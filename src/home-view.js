@@ -12,6 +12,10 @@ export class HomeView extends ViewBase {
   // #=== LIFECYCLE ===#
 
   firstUpdated() {
+    // Set the document title
+    this.setDocumentTitle();
+    
+    // Anchor the external links menu to the menu button
     this.shadowRoot.querySelector('#external-links-menu').anchor
       = this.shadowRoot.querySelector('#external-links-button');
   }
@@ -307,9 +311,9 @@ export class HomeView extends ViewBase {
       <main-inner>
         <!-- #=== LINK LIST ===# -->
         <ul id="link-list">
-          ${this.internalLinks.map(link => html`
+          ${this.internalLinks.map(item => html`
             <li>
-              <a href="${link.key}">${link.title}</a>
+              <a href="${item.link.key}">${item.title}</a>
               <span class="comma">,</span>
             </li>
           `)}

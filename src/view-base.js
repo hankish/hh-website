@@ -7,6 +7,10 @@ import { HhSpinner } from './hh-spinner.js';
 
 /* eslint-disable class-methods-use-this */
 
+// Use the setDocumentTitle() method to set the document title
+const defaultDocumentTitle = "Website of Hank Holiday";
+const pageSpecificDocumentTitle = (pageTitle) => `${pageTitle} - Hank Holiday`;
+
 export class ViewBase extends LitElement {
 
   // #=== PROPERTIES ===#
@@ -66,6 +70,14 @@ export class ViewBase extends LitElement {
   // This method is fired after CMS content is loaded and rendered. Useful for adding listeners
   // to rendered shadow children. Overwrite it if needed.
   contentLoadComplete() {}
+
+  // #=== ACTIONS ===#
+
+  setDocumentTitle(pageTitle) {
+    document.title = pageTitle
+      ? pageSpecificDocumentTitle(pageTitle)
+      : defaultDocumentTitle;
+  }
 
   // #=== STYLES ===#
 
