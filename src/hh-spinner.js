@@ -5,7 +5,6 @@ import { colorStyles } from './styles/colors.js';
 /* eslint-disable class-methods-use-this */
 
 export class HhSpinner extends LitElement {
-
   // #=== STYLES ===#
 
   static get styles() {
@@ -32,7 +31,7 @@ export class HhSpinner extends LitElement {
 
           clip-path: polygon(20% 50%, 50% 0%, 80% 50%, 50% 100%);
           background: var(--red-4);
-          animation: rainbow-spin 2.35s infinite linear;
+          animation: rainbow-spin 6s infinite linear;
         }
 
         @keyframes rainbow-spin {
@@ -75,25 +74,29 @@ export class HhSpinner extends LitElement {
           
           border-radius: 50%;
           border: var(--ring-width) solid transparent;
-          border-left-color: var(--gray-3);
+          border-top-color: var(--gray-3);
         }
-        ring-slice.red { border-left-color: var(--red-4); }
-        ring-slice.orange { border-left-color: var(--orange-4); }
-        ring-slice.yellow { border-left-color: var(--yellow-4); }
-        ring-slice.green { border-left-color: var(--green-4); }
-        ring-slice.blue { border-left-color: var(--blue-4); }
-        ring-slice.indigo { border-left-color: var(--indigo-4); }
-        ring-slice.purple { border-left-color: var(--purple-4); }
-        
-        ring-slice:nth-child(1) { transform: rotate(calc(360deg / 7 * 1)); z-index: 7; }
-        ring-slice:nth-child(2) { transform: rotate(calc(360deg / 7 * 2)); z-index: 6; }
-        ring-slice:nth-child(3) { transform: rotate(calc(360deg / 7 * 3)); z-index: 5; }
-        ring-slice:nth-child(4) { transform: rotate(calc(360deg / 7 * 4)); z-index: 4; }
-        ring-slice:nth-child(5) { transform: rotate(calc(360deg / 7 * 5)); z-index: 3; }
-        ring-slice:nth-child(6) { transform: rotate(calc(360deg / 7 * 6)); z-index: 2; }
-        ring-slice:nth-child(7) { transform: rotate(calc(360deg / 7 * 7)); z-index: 1; }
+        ring-slice:nth-child(1) {
+          clip-path: polygon(44.366% 0, 100% 0, 100% 50%, 50% 50%);
+        }
 
-      `
+        ring-slice:nth-child(1) { border-top-color: var(--red-4); }
+        ring-slice:nth-child(2) { border-top-color: var(--orange-4); }
+        ring-slice:nth-child(3) { border-top-color: var(--yellow-4); }
+        ring-slice:nth-child(4) { border-top-color: var(--green-4); }
+        ring-slice:nth-child(5) { border-top-color: var(--blue-4); }
+        ring-slice:nth-child(6) { border-top-color: var(--indigo-4); }
+        ring-slice:nth-child(7) { border-top-color: var(--purple-4); }
+        
+        ring-slice:nth-child(1) { transform: rotate(calc(360deg / 7 * -0.5)); z-index: 7; }
+        ring-slice:nth-child(2) { transform: rotate(calc(360deg / 7 * 0.5)); z-index: 6; }
+        ring-slice:nth-child(3) { transform: rotate(calc(360deg / 7 * 1.5)); z-index: 5; }
+        ring-slice:nth-child(4) { transform: rotate(calc(360deg / 7 * 2.5)); z-index: 4; }
+        ring-slice:nth-child(5) { transform: rotate(calc(360deg / 7 * 3.5)); z-index: 3; }
+        ring-slice:nth-child(6) { transform: rotate(calc(360deg / 7 * 4.5)); z-index: 2; }
+        ring-slice:nth-child(7) { transform: rotate(calc(360deg / 7 * 5.5)); z-index: 1; }
+
+      `,
     ];
   }
 
@@ -105,18 +108,17 @@ export class HhSpinner extends LitElement {
       <triangle></triangle>
 
       <ring>
-        <ring-slice class="red"></ring-slice>
-        <ring-slice class="orange"></ring-slice>
-        <ring-slice class="yellow"></ring-slice>
-        <ring-slice class="green"></ring-slice>
-        <ring-slice class="blue"></ring-slice>
-        <ring-slice class="indigo"></ring-slice>
-        <ring-slice class="purple"></ring-slice>
+        <ring-slice></ring-slice>
+        <ring-slice></ring-slice>
+        <ring-slice></ring-slice>
+        <ring-slice></ring-slice>
+        <ring-slice></ring-slice>
+        <ring-slice></ring-slice>
+        <ring-slice></ring-slice>
       </ring>
 
     `;
   }
-  
 }
 
 customElements.define('hh-spinner', HhSpinner);

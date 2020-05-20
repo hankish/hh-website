@@ -3,7 +3,6 @@ import { Router } from '@vaadin/router';
 
 import './home-view.js';
 import './page-view.js';
-import './not-found-view.js';
 
 // #=== ROUTING ===#
 
