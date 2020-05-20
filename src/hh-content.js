@@ -1,5 +1,5 @@
 import 'contentful/dist/contentful.browser.min.js'; /* global contentful */
-import { contentfulClientParams } from './credentials.js';
+import { contentfulClientParams } from './environment.js';
 
 // This constant is used to build the mainPages list. Each of these items will appear in mainPages
 // regardless of the content that comes back from the CMS. The main pages returned by the CMS will
