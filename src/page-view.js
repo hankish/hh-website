@@ -20,6 +20,7 @@ export class PageView extends ViewBase {
     return {
       pageInitialized: { type: Boolean },
       notFound: { type: Boolean },
+      dialogOpen: { type: Boolean },
 
       title: { type: String },
       summary: { type: String },
@@ -43,6 +44,7 @@ export class PageView extends ViewBase {
     super();
 
     this.pageInitialized = false;
+    this.dialogOpen = false;
   }
 
   onAfterEnter(location, commands, router) {
@@ -76,6 +78,11 @@ export class PageView extends ViewBase {
         });
       }
     }
+
+    this.shadowRoot.querySelectorAll('content-item').forEach((item) => {
+      item.addEventListener('dialog-opened', e => this.itemDialogOpened(e));
+      item.addEventListener('dialog-closed', e => this.itemDialogClosed(e));
+    });
   }
 
   // #=== EVENTS ===#
@@ -97,6 +104,14 @@ export class PageView extends ViewBase {
       e.preventDefault();
       this.scrollToItem(firingElement.id);
     }
+  }
+
+  itemDialogOpened() {
+    this.dialogOpen = true;
+  }
+
+  itemDialogClosed() {
+    this.dialogOpen = false;
   }
 
   // #=== ACTIONS ===#
@@ -282,13 +297,21 @@ export class PageView extends ViewBase {
           color: var(--gray-9);
         }
 
-        page-summary,
         tag-dropdown {
           display: block;
           
           flex: 0 0 auto;
           padding: 12px 24px;
           max-width: 400px;
+          z-index: 3;
+          
+          border-left: 5px solid var(--page-color-main);
+        }
+        page-summary {
+          display: block;
+          
+          flex: 0 0 auto;
+          padding: 12px 24px;
           z-index: 3;
           
           border-left: 5px solid var(--page-color-main);
@@ -354,17 +377,27 @@ export class PageView extends ViewBase {
         /*=== ITEM LIST - IMAGE FORMAT ===*/
 
         item-list.image {
-          column-count: 2;
-          column-gap: 2rem;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: stretch;
 
-          padding: 24px;
+          padding: 12px;
+        }
+        item-list.image h2 {
+          flex: 1 1 100%;
+          margin: 30px 12px;
+          font-family: 'Public Sans', sans-serif;
+          
+          font-size: 1.13rem;
+          font-weight: 300;
+        }
+        item-list.image h2:first-child {
+          margin-top: 12px;
         }
         item-list.image content-item {
-          display: inline-flex;
-          margin-bottom: 2rem;
-        }
-        item-list.text.none {
-          padding-top: 24px;
+          flex: 1 1 calc(50% - 24px);
+          margin: 12px;
+          min-width: 17em;
         }
 
         /*=== CONTENTFUL RICH TEXT ===*/
@@ -385,7 +418,7 @@ export class PageView extends ViewBase {
 
           background: white;
           border-top: 2px solid var(--gray-3-50);
-          z-index: 10;
+          z-index: 5;
         }
         @media(min-width: 1000px) {
           main tag-list {
@@ -520,7 +553,8 @@ export class PageView extends ViewBase {
         ${this.itemsTemplate}
       </item-list>
 
-      ${this.sectionFormat !== 'scroll-nav' ? null : html`
+      <!-- #=== MOBILE TAG LIST (HIDDEN WHEN DIALOG IS OPEN) ===# -->
+      ${(this.sectionFormat !== 'scroll-nav' || this.dialogOpen) ? null : html`
         <tag-list>
           <lit-scroll-nav
             class="pill-mode"

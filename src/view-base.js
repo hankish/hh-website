@@ -8,13 +8,12 @@ import { HhSpinner } from './hh-spinner.js';
 /* eslint-disable class-methods-use-this */
 
 // Use the setDocumentTitle() method to set the document title
-const defaultDocumentTitle = "Website of Hank Holiday";
-const pageSpecificDocumentTitle = (pageTitle) => `${pageTitle} - Hank Holiday`;
+const defaultDocumentTitle = 'Website of Hank Holiday';
+const pageSpecificDocumentTitle = pageTitle => `${pageTitle} - Hank Holiday`;
 
 export class ViewBase extends LitElement {
-
   // #=== PROPERTIES ===#
-  
+
   static get properties() {
     return {
       paths: { type: Array },
@@ -43,18 +42,18 @@ export class ViewBase extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    
-    cms.getContent().then(response => {
+
+    cms.getContent().then((response) => {
       this.paths = response.paths;
       this.externalLinks = response.externalLinks;
       this.internalLinks = response.internalLinks;
       this.mainNavItems = response.mainNavItems;
       this.mainPages = response.mainPages;
       this.allPages = response.allPages;
-      
+
       // First fire the content loaded callback
       this.contentLoaded();
-      
+
       // Then switch the loading boolean (which will cause the page content to render)
       this.loading = false;
 
@@ -515,7 +514,7 @@ export class ViewBase extends LitElement {
           #external-link-list > li > a > .narrowTitle { display: none; }
         }
 
-      `
+      `,
     ];
   }
 
@@ -539,15 +538,15 @@ export class ViewBase extends LitElement {
           <page-item class="${page.color} ${page.shape}">
             <a href="/${page.key}">${page.title}</a>
             <spacer style=${styleMap({
-                width: `${page.offset/2}rem`,
-            })}></spacer>
+    width: `${page.offset / 2}rem`,
+  })}></spacer>
           </page-item>
         `)}
       </page-list>
       
     `;
   }
-  
+
   // Overwrite this in sub elements if needed
   get sideRightTemplate() {
     return html`
@@ -566,7 +565,7 @@ export class ViewBase extends LitElement {
       </ul>
     `;
   }
-  
+
   // Overwrite this in sub elements (if you want to exclude the top nav)
   get mainTopNavTemplate() {
     return html`
@@ -586,7 +585,7 @@ export class ViewBase extends LitElement {
       </main-top-nav>
     `;
   }
-  
+
   // Overwrite this in sub elements (or there won't be any page content)
   get mainTemplate() {
     return html``;
@@ -598,11 +597,13 @@ export class ViewBase extends LitElement {
   }
 
   render() {
-    if (this.loading) return html`
+    if (this.loading) {
+      return html`
       <container class="loading">
         <hh-spinner></hh-spinner>
       </container>
     `;
+    }
 
     return html`
       <container class="${this.templateElementClasses}">
@@ -624,7 +625,6 @@ export class ViewBase extends LitElement {
       </container>
     `;
   }
-  
 }
 
 customElements.define('view-base', ViewBase);

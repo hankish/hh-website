@@ -1,19 +1,18 @@
 import { LitElement, html, css } from 'lit-element';
 
 export class LitScrollNav extends LitElement {
-
   // #=== PROPERTIES ===#
-  
+
   static get properties() {
     return {
       scrollListener: { type: Object },
       scrollItemTitleKey: { type: String },
       itemLinkIdPrefix: { type: String },
-      
+
       scrollItemIdKey: { type: String },
       scrollItemSelectedKey: { type: String },
       initialized: { type: Boolean },
-      
+
       scrollItems: { type: Array },
     };
   }
@@ -38,7 +37,7 @@ export class LitScrollNav extends LitElement {
       this.scrollItems = value.scrollItems;
 
       value.scrollingElement
-        .addEventListener('scroll-items-changed', (e) => this.scrollItemsChanged(e));
+        .addEventListener('scroll-items-changed', e => this.scrollItemsChanged(e));
 
       this.initialized = true;
     }
@@ -130,7 +129,7 @@ export class LitScrollNav extends LitElement {
           background: var(--lsn-pill-background-selected, var(--gray-0-70));
         }
 
-      `
+      `,
     ];
   }
 
@@ -152,7 +151,6 @@ export class LitScrollNav extends LitElement {
       </ul>
     `;
   }
-  
 }
 
 customElements.define('lit-scroll-nav', LitScrollNav);

@@ -317,8 +317,7 @@ export class HomeView extends ViewBase {
 
         <!-- #=== PAGE NAV LIST ===# -->
         <page-list>
-          ${this.mainNavItems.map(page => (page.key
-    ? html`
+          ${this.mainNavItems.map(page => (page.key ? html`
               <page-item
                 class="${page.color} ${page.hover ? 'hover' : ''}"
                 data-key="${page.key}"
@@ -328,12 +327,15 @@ export class HomeView extends ViewBase {
                 <label>
                   <a href="/${page.key}">${page.title}</a>
                 </label>
-                <connector-line style=${styleMap({
-      marginRight: (page.shape === 'triangle'
-        ? `calc(-${page.width}rem / 7)`
-        : '12px'
+                <connector-line
+                  style=${styleMap({
+      marginRight: (
+        page.shape === 'triangle'
+          ? `calc(-${page.width}rem / 7)`
+          : '12px'
       ),
-    })}></connector-line>
+    })}
+                ></connector-line>
                 <hh-shape
                   .shape=${page.shape}
                   style=${styleMap({
