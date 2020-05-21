@@ -17,7 +17,8 @@ export class HomeView extends ViewBase {
     this.setDocumentTitle();
 
     // Anchor the external links menu to the menu button
-    this.shadowRoot.querySelector('#external-links-menu').anchor = this.shadowRoot.querySelector('#external-links-button');
+    this.shadowRoot.querySelector('#external-links-menu').anchor
+      = this.shadowRoot.querySelector('#external-links-button');
   }
 
   // #=== EVENTS ===#
@@ -329,23 +330,23 @@ export class HomeView extends ViewBase {
                 </label>
                 <connector-line
                   style=${styleMap({
-      marginRight: (
-        page.shape === 'triangle'
-          ? `calc(-${page.width}rem / 7)`
-          : '12px'
-      ),
-    })}
+                    marginRight: (
+                      page.shape === 'triangle'
+                        ? `calc(-${page.width}rem / 7)`
+                        : '12px'
+                    ),
+                  })}
                 ></connector-line>
                 <hh-shape
                   .shape=${page.shape}
                   style=${styleMap({
-      width: `${page.width}rem`,
-      height: `${page.height}rem`,
-      marginRight: (page.hover
-        ? `calc(50% - ${page.width}rem / 2)`
-        : `${page.offset}rem`
-      ),
-    })}
+                    width: `${page.width}rem`,
+                    height: `${page.height}rem`,
+                    marginRight: (page.hover
+                      ? `calc(50% - ${page.width}rem / 2)`
+                      : `${page.offset}rem`
+                    ),
+                  })}
                 ></hh-shape>
               </page-item>
             ` : html`
@@ -354,14 +355,14 @@ export class HomeView extends ViewBase {
                 <hh-shape
                   .shape=${page.shape}
                   style=${styleMap({
-      width: `${page.width}rem`,
-      height: `${page.height}rem`,
-      marginRight: `${page.offset}rem`,
-    })}
+                    width: `${page.width}rem`,
+                    height: `${page.height}rem`,
+                    marginRight: `${page.offset}rem`,
+                  })}
                 ></hh-shape>
               </page-item>
             `
-  ))}
+          ))}
         </page-list>
       </main-inner>
     `;
