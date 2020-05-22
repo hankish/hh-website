@@ -14,7 +14,7 @@ export class HomeView extends ViewBase {
 
   firstUpdated() {
     super.firstUpdated();
-    
+
     // Set the document title
     this.setDocumentTitle();
   }
@@ -233,7 +233,11 @@ export class HomeView extends ViewBase {
           --item-color-light: var(--purple-3);
         }
 
+        page-item label {
+          z-index: 2;
+        }
         page-item a {
+          white-space: nowrap;
           text-decoration: none;
           font-weight: 300;
           
@@ -262,6 +266,8 @@ export class HomeView extends ViewBase {
         hh-shape {
           transition: margin 700ms;
           --hh-shape-color: var(--item-color-medium);
+
+          z-index: 1;
         }
       `,
     ];

@@ -38,7 +38,7 @@ const mainPageStyles = [
     shape: 'triangle',
     height: 8,
     width: 8,
-    offset: 6.4,
+    offset: 5.4,
   },
   {
     color: 'indigo',
