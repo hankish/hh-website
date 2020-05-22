@@ -346,12 +346,32 @@ export class PageView extends ViewBase {
             margin-bottom: 24px;
           }
         }
+        item-list h2 {
+          flex: 1 1 100%;
+          margin: 30px 12px;
+          font-family: 'Public Sans', sans-serif;
+          
+          font-size: 1.13rem;
+          font-weight: 300;
+        }
         item-list h2 a, item-list h2 a:visited {
           position: relative;
           top: 0.18em;
           font-size: 1.1em;
           margin-left: 6px;
           color: var(--page-color-light);
+        }
+        item-list section-summary {
+          flex: 1 1 100%;
+          margin: -12px 12px 30px 12px;
+          font-size: 1rem;
+          color: var(--page-color-main);
+          font-weight: 200;
+          font-style: italic;
+
+          opacity: 0.7;
+
+          --cfrt-p-margin: 0;
         }
 
         content-item {
@@ -371,14 +391,6 @@ export class PageView extends ViewBase {
 
           padding: 12px;
         }
-        item-list.card-icon h2, item-list.card-hero h2 {
-          flex: 1 1 100%;
-          margin: 30px 12px;
-          font-family: 'Public Sans', sans-serif;
-          
-          font-size: 1.13rem;
-          font-weight: 300;
-        }
         item-list.card-icon h2:first-child, item-list.card-hero h2:first-child {
           margin-top: 12px;
         }
@@ -396,14 +408,6 @@ export class PageView extends ViewBase {
           align-items: stretch;
 
           padding: 12px;
-        }
-        item-list.image h2 {
-          flex: 1 1 100%;
-          margin: 30px 12px;
-          font-family: 'Public Sans', sans-serif;
-          
-          font-size: 1.13rem;
-          font-weight: 300;
         }
         item-list.image h2:first-child {
           margin-top: 12px;
@@ -496,6 +500,11 @@ export class PageView extends ViewBase {
           ${section.title}
           <a href="${`/${section.key}`}"><ion-icon name="link"></ion-icon></a>
         </h2>
+        ${!section.summary ? null : html`
+          <section-summary>
+            <lit-cf-rich-text .value=${section.summary}></lit-cf-rich-text>
+          </section-summary>
+        `}
         
         ${(section.items || []).map(item => html`
           <content-item .item=${item} .format=${this.itemFormat}></content-item>

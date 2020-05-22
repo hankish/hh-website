@@ -80,6 +80,14 @@ export class LitContentfulRichText extends LitElement {
 
         li > p { margin: 0.5em 0; }
 
+        a { 
+          font-weight: var(--a-font-weight, normal);
+          text-decoration: var(--a-text-decoration, underline);
+          transition: all 0.3s;
+        }
+        a, a:visited { color: var(--a-color, inherit); }
+        a:hover, a:focus { color: var(--a-focus-color, inherit); }
+
       `,
     ];
   }
