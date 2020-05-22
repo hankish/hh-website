@@ -62,6 +62,8 @@ export class ViewBase extends LitElement {
     });
   }
 
+  firstUpdated() {}
+
   // This method is fired when the CMS content is loaded but before the page body is rendered.
   // Overwrite it if needed.
   contentLoaded() {}
@@ -135,11 +137,12 @@ export class ViewBase extends LitElement {
           justify-content: center;
 
           height: 100vh;
+          height: calc(var(--vh, 1vh) * 100);
         }
 
         side-left {
           width: var(--side-width);
-          height: calc(100vh - (2 * var(--side-padding)));
+          height: calc((var(--vh, 1vh) * 100) - (2 * var(--side-padding)));
           flex: 0 0 auto;
           position: relative;
           
@@ -150,7 +153,7 @@ export class ViewBase extends LitElement {
 
         side-right {
           width: var(--side-width);
-          height: calc(100vh - (2 * var(--side-padding)));
+          height: calc((var(--vh, 1vh) * 100) - (2 * var(--side-padding)));
           flex: 0 0 auto;
           position: relative;
 
@@ -169,7 +172,7 @@ export class ViewBase extends LitElement {
 
           max-width: var(--main-max-width);
           padding: 0;
-          height: 100vh;
+          height: calc(var(--vh, 1vh) * 100);
           background: white;
         }
         
@@ -178,7 +181,7 @@ export class ViewBase extends LitElement {
           flex-direction: column;
           padding: var(--main-padding);
           position: relative;
-          min-height: calc(100vh - (2 * var(--main-padding)));
+          min-height: calc((var(--vh, 1vh) * 100) - (2 * var(--main-padding)));
         }
         main h1, main h2 {
           font-family: 'Playfair Display', serif;
@@ -572,7 +575,7 @@ export class ViewBase extends LitElement {
       <!-- #=== PAGE NAV LIST ===# -->
       <main-top-nav>
         <home-link>
-          <a href="/"><ion-icon icon="arrow-back"></ion-icon> Back Home</a>
+          <a href="/"><ion-icon name="arrow-back"></ion-icon> Back Home</a>
         </home-link>
         <page-links>
           ${this.mainPages.map(page => html`

@@ -181,30 +181,37 @@ export class PageView extends ViewBase {
         /*=== COLOR MODES ===*/
 
         container.blue {
+          --page-color-light: var(--blue-4);
           --page-color-main: var(--blue-5);
         }
         
         container.green {
+          --page-color-light: var(--green-4);
           --page-color-main: var(--green-5);
         }
         
         container.indigo {
+          --page-color-light: var(--indigo-4);
           --page-color-main: var(--indigo-5);
         }
         
         container.orange {
+          --page-color-light: var(--orange-4);
           --page-color-main: var(--orange-5);
         }
         
         container.purple {
+          --page-color-light: var(--purple-4);
           --page-color-main: var(--purple-5);
         }
         
         container.red {
+          --page-color-light: var(--red-4);
           --page-color-main: var(--red-5);
         }
         
         container.yellow {
+          --page-color-light: var(--yellow-6);
           --page-color-main: var(--yellow-7);
         }
 
@@ -338,6 +345,13 @@ export class PageView extends ViewBase {
           item-list.scroll-nav {
             margin-bottom: 24px;
           }
+        }
+        item-list h2 a, item-list h2 a:visited {
+          position: relative;
+          top: 0.18em;
+          font-size: 1.1em;
+          margin-left: 6px;
+          color: var(--page-color-light);
         }
 
         content-item {
@@ -478,7 +492,10 @@ export class PageView extends ViewBase {
       return html`
       ${this.sections.map(section => html`
         
-        <h2 id="${section.key}">${section.title}</h2>
+        <h2 id="${section.key}">
+          ${section.title}
+          <a href="${`/${section.key}`}"><ion-icon name="link"></ion-icon></a>
+        </h2>
         
         ${(section.items || []).map(item => html`
           <content-item .item=${item} .format=${this.itemFormat}></content-item>

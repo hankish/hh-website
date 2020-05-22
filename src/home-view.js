@@ -13,12 +13,16 @@ export class HomeView extends ViewBase {
   // #=== LIFECYCLE ===#
 
   firstUpdated() {
+    super.firstUpdated();
+    
     // Set the document title
     this.setDocumentTitle();
+  }
 
+  contentLoadComplete() {
     // Anchor the external links menu to the menu button
-    this.shadowRoot.querySelector('#external-links-menu').anchor
-      = this.shadowRoot.querySelector('#external-links-button');
+    this.shadowRoot.querySelector('#external-links-menu').anchor = this
+      .shadowRoot.querySelector('#external-links-button');
   }
 
   // #=== EVENTS ===#
@@ -300,8 +304,8 @@ export class HomeView extends ViewBase {
           href="#"
           @click=${this.externalLinksButtonClick}
         >
-          <ion-icon icon="link"></ion-icon>
-          <ion-icon icon="md-arrow-dropdown"></ion-icon>
+          <ion-icon name="link"></ion-icon>
+          <ion-icon name="caret-down-outline"></ion-icon>
         </a>
       </page-header>
       

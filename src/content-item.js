@@ -485,7 +485,7 @@ export class ContentItem extends LitElement {
             href="#"
             tabindex="-1"
             @click=${this.closeImageDialog}
-          ><ion-icon icon="close"></ion-icon></a>
+          ><ion-icon name="close"></ion-icon></a>
         </dialog-header>
 
         ${(this.item.images.length === 1) ? html`

@@ -145,7 +145,7 @@ export class LitScrollNav extends LitElement {
             <a
               id="${item[this.scrollItemIdKey]}"
               href="${this.itemLinkIdPrefix + item[this.scrollItemIdKey]}"
-            ><ion-icon name="md-arrow-dropright"></ion-icon> ${item[this.scrollItemTitleKey]}</a>
+            ><ion-icon name="caret-forward-outline"></ion-icon> ${item[this.scrollItemTitleKey]}</a>
           </li>
         `)}
       </ul>
