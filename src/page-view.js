@@ -382,6 +382,12 @@ export class PageView extends ViewBase {
           margin-bottom: 0;
         }
 
+        /*=== ITEM LIST - TEXT FORMAT ===*/
+
+        item-list.text h2 {
+          margin: 30px 0;
+        }
+
         /*=== ITEM LIST - CARD ICON FORMAT & CARD HERO ICON FORMAT ===*/
 
         item-list.card-icon, item-list.card-hero {
