@@ -187,11 +187,13 @@ export class ContentItem extends LitElement {
           font-weight: 200;
         }
         .card-hero-format .image {
-          flex: 1 1 10rem;
+          flex: 0 0 10rem;
           display: flex;
           flex-direction: row;
           align-items: center;
           overflow: hidden;
+          border-top: 1px solid var(--gray-1);
+          border-bottom: 1px solid var(--gray-1);
         }
         .card-hero-format .image img {
           width: 100%;
