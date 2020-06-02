@@ -88,11 +88,12 @@ export class cms {
     }));
   }
 
+  // The shape and color of the hidden pages is based on the first two characters of the key
   static decorateHiddenPages(hiddenPages) {
     return hiddenPages.map(p => ({
       ...p,
-      shape: pageShapes[Math.floor(Math.random() * pageShapes.length)],
-      color: pageColors[Math.floor(Math.random() * pageColors.length)],
+      shape: pageShapes[p.key.charCodeAt(0) % pageShapes.length],
+      color: pageColors[(p.key.charCodeAt(1) + 1) % pageColors.length],
     }));
   }
 
