@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map';
 import { styleMap } from 'lit-html/directives/style-map';
 
 import Dialog from 'elix/define/Dialog.js';
@@ -11,6 +12,7 @@ export class ContentItem extends LitElement {
     return {
       item: { type: Object },
       format: { type: String },
+      bodyExpanded: { type: Boolean },
     };
   }
 
@@ -21,6 +23,8 @@ export class ContentItem extends LitElement {
 
     this.item = {};
     this.format = 'text';
+    this.bodyExpandable = false;
+    this.bodyExpanded = false;
   }
 
   firstUpdated() {
@@ -66,6 +70,12 @@ export class ContentItem extends LitElement {
     }));
   }
 
+  toggleBodyExpanded(e) {
+    e.preventDefault();
+
+    this.bodyExpanded = !this.bodyExpanded;
+  }
+
   // #=== STYLES ===#
 
   static get styles() {
@@ -98,6 +108,30 @@ export class ContentItem extends LitElement {
           font-size: 1em;
           line-height: 125%;
           font-weight: 200;
+        }
+        .body .expand-toggle {
+          display: block;
+          border-top: 1px solid var(--gray-4-70);
+          margin-top: 0;
+          transition: all 1s;
+        }
+        .body.expanded .expand-toggle {
+          margin-top: 1rem;
+        }
+        .body .expand-toggle a, .body .expand-toggle a:visited {
+          display: block;
+          text-align: center;
+          color: var(--gray-4-70);
+          padding: 0.5rem;
+          text-decoration: none;
+        }
+        .body.expandable lit-cf-rich-text {
+          max-height: 3.9em;
+          overflow: hidden;
+          transition: all 2s;
+        }
+        .body.expandable.expanded lit-cf-rich-text {
+          max-height: 100rem;
         }
         
         h3 a,
@@ -451,8 +485,31 @@ export class ContentItem extends LitElement {
     if (!this.item.body) return null;
 
     return html`
-      <div class="body">
+      <div 
+        class=${classMap({ 
+          body: true, 
+          expandable: this.bodyExpandable, 
+          expanded: this.bodyExpanded
+        })}
+      >
         <lit-cf-rich-text .value=${this.item.body}></lit-cf-rich-text>
+        ${!this.bodyExpandable ? null : html`
+          <div class="expand-toggle">
+            <a href="#" @click=${this.toggleBodyExpanded}>
+              ${this.bodyExpanded
+                ? html`
+                  <ion-icon name="chevron-up-outline"></ion-icon>
+                    Hide Full Text
+                  <ion-icon name="chevron-up-outline"></ion-icon>
+                ` : html`
+                  <ion-icon name="chevron-down-outline"></ion-icon>
+                    Show Full Text
+                  <ion-icon name="chevron-down-outline"></ion-icon>
+                `
+              }
+            </a>
+          </div>
+        `}
       </div>
     `;
   }

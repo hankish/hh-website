@@ -325,7 +325,7 @@ export class PageView extends ViewBase {
         }
         page-summary lit-cf-rich-text {
           background: rgba(255, 255, 255, 0.75);
-          
+
           --cfrt-p-margin: 0;
           --cfrt-p-first-margin-top: 0;
           --cfrt-p-last-margin-bottom: 0;
@@ -501,28 +501,34 @@ export class PageView extends ViewBase {
   get itemsTemplate() {
     if (this.notFound || !this.sections || !this.sections.length) return null;
 
+    const itemTemplate = (item) => html`
+      <content-item
+        .item=${item}
+        .format=${this.itemFormat}
+        .bodyExpandable=${this.itemFormat.includes('card')}
+      ></content-item>
+    `;
+
     // SECTION FORMAT: SCROLL NAV
 
     if (this.sectionFormat === 'scroll-nav') {
       return html`
-      ${this.sections.map(section => html`
+        ${this.sections.map(section => html`
         
-        <h2 id="${section.key}">
-          ${section.title}
-          <a href="${`/${section.key}`}"><ion-icon name="link"></ion-icon></a>
-        </h2>
-        ${!section.summary ? null : html`
-          <section-summary>
-            <lit-cf-rich-text .value=${section.summary}></lit-cf-rich-text>
-          </section-summary>
-        `}
+          <h2 id="${section.key}">
+            ${section.title}
+            <a href="${`/${section.key}`}"><ion-icon name="link"></ion-icon></a>
+          </h2>
+          ${!section.summary ? null : html`
+            <section-summary>
+              <lit-cf-rich-text .value=${section.summary}></lit-cf-rich-text>
+            </section-summary>
+          `}
+          
+          ${(section.items || []).map(item => itemTemplate(item))}
         
-        ${(section.items || []).map(item => html`
-          <content-item .item=${item} .format=${this.itemFormat}></content-item>
         `)}
-      
-      `)}
-    `;
+      `;
     }
 
     // SECTION FORMAT: DROPDOWN
@@ -530,21 +536,13 @@ export class PageView extends ViewBase {
     if (this.sectionFormat === 'dropdown') {
       const currentSection = this.sections.find(s => s.key === this.selectedSection);
 
-      return html`
-        ${(currentSection.items || []).map(item => html`
-          <content-item .item=${item} .format=${this.itemFormat}></content-item>
-        `)}
-      `;
+      return (currentSection.items || []).map(item => itemTemplate(item));
     }
 
     // If there is no section format then create a "flattened" item list
     const flatItemList = [].concat(...this.sections.map(s => s.items));
 
-    return html`
-      ${flatItemList.map(item => html`
-        <content-item .item=${item} .format=${this.itemFormat}></content-item>
-      `)}
-    `;
+    return flatItemList.map(item => itemTemplate(item));
   }
 
   get mainTemplate() {
