@@ -47,6 +47,8 @@ export class ContentItem extends LitElement {
       window.open(this.item.link, '_blank');
     } else {
       this.shadowRoot.querySelector('#image-dialog').open();
+
+      HhAnalytics.trackDialogOpen(this.item.internalTitle);
     }
   }
 
@@ -77,7 +79,6 @@ export class ContentItem extends LitElement {
 
     this.bodyExpanded = !this.bodyExpanded;
     
-    // Track Custom Event in Google Analytics
     if (this.bodyExpanded) {
       HhAnalytics.trackCardExpansion(this.item.internalTitle);
     } else {
@@ -428,13 +429,36 @@ export class ContentItem extends LitElement {
           left: 3rem;
           bottom: 2.5rem;
           max-width: 80vw;
-          padding: 2px 0;
+          padding: 0.3rem 1.2rem 0.3rem 0rem;
           z-index: 12;
+
+          overflow: hidden;
+          transition: all 1s;
+          max-height: 4em;
         }
-        @media(min-width: 700px) {
-          #image-dialog image-wrapper image-description {
-            max-width: 40vw;
-          }
+        #image-dialog image-wrapper image-description:hover,
+        #image-dialog image-wrapper image-description:focus {
+          max-height: 20em;
+        }
+        image-description expand-label {
+          display: flex;
+          align-items: center;
+          
+          font-size: 0.9em;
+          line-height: 100%;
+          margin-bottom: 0.5rem;
+          color: rgba(255, 255, 255, 0.6);
+          
+          transform: scale(1);
+          transform-origin: left;
+          transition: all 0.5s;
+        }
+        image-description:hover expand-label,
+        image-description:focus expand-label {
+          transform: scale(0);
+        }
+        image-description expand-label ion-icon {
+          margin-right: 6px;
         }
         image-description inner-span {
           display: inline;
@@ -446,6 +470,10 @@ export class ContentItem extends LitElement {
 
           box-decoration-break: clone;
           -webkit-box-decoration-break: clone;
+        }
+        #image-dialog image-wrapper image-description:hover inner-span,
+        #image-dialog image-wrapper image-description:focus inner-span {
+          opacity: 1.0;
         }
 
       `,
@@ -585,6 +613,10 @@ export class ContentItem extends LitElement {
                 <img src="${image.file.url}">
                 ${!image.description ? null : html`
                   <image-description>
+                    <expand-label>
+                      <ion-icon name="arrow-down-circle"></ion-icon>
+                      Tap or hover to see full text
+                    </expand-label>
                     <inner-span>${image.description}</inner-span>
                   </image-description>
                 `}
