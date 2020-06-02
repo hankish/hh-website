@@ -21,7 +21,9 @@ const nodeTemplates = {
   unknown: (n, c) => `<div><strong>Unknown Content Type:</strong> ${n.nodeType}</div>`,
   document: (n, c) => `<div class="rt-document">${c}</div>`,
   paragraph: (n, c) => `<p>${c}</p>`,
-  hyperlink: (n, c) => `<a href="${n.data.uri}" target="_blank">${c}</a>`,
+  hyperlink: (n, c) => (
+    `<a href="${n.data.uri}" ${n.data.uri.startsWith('/') ? '' : 'target="_blank"'}>${c}</a>`
+  ),
   'unordered-list': (n, c) => `<ul>${c}</ul>`,
   'ordered-list': (n, c) => `<ol>${c}</ol>`,
   'list-item': (n, c) => `<li>${c}</li>`,
