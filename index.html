@@ -7,7 +7,9 @@
     <base href="/">
 
     <!-- #=== GOOGLE ANALYTICS ===# -->
-    <script>
+    <script type="module">
+      import 'autotrack';
+      
       window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
       ga('create', 'UA-168189007-1', 'auto');
       
@@ -20,7 +22,6 @@
       ga('send', 'pageview');
     </script>
     <script async src="https://www.google-analytics.com/analytics.js"></script>
-    <script async src="lib/autotrack.js"></script>
 
     <!-- #=== GOOGLE FONTS ===# -->
     <style>
