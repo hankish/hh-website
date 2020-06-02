@@ -8,7 +8,7 @@
     "test": "karma start --coverage",
     "test:watch": "karma start --auto-watch=true --single-run=false",
     "start:build": "es-dev-server --root-dir dist --app-index index.html --open --compatibility none",
-    "build": "rimraf dist && rollup -c rollup.config.js && cp thumbnail.png dist/thumbnail.png",
+    "build": "rimraf dist && rollup -c rollup.config.js && cp *.png dist",
     "start": "es-dev-server"
   },
   "devDependencies": {
