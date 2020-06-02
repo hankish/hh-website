@@ -116,6 +116,10 @@ export class ContentItem extends LitElement {
           text-decoration: underline;
         }
 
+        lit-cf-rich-text {
+          --cfrt-letter-spacing: 0.5px;
+        }
+
 
         /*=== CARD ICON FORMAT ===*/
 
@@ -230,10 +234,12 @@ export class ContentItem extends LitElement {
 
           background: linear-gradient(
             0deg, 
-            var(--page-color-main, rgba(0, 0, 0, 0.9)) 0%, 
+            var(--purple-5, rgba(0, 0, 0, 0.9)) 0%, 
+            var(--purple-5, rgba(0, 0, 0, 0.9)) 20%, 
             transparent 100%
           );
           color: white;
+          text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
         }
         .image-format h3 {
           flex: 0 0 auto;
@@ -243,6 +249,8 @@ export class ContentItem extends LitElement {
           margin: 0;
           padding: 1rem;
           line-height: 130%;
+
+          text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
         }
         .image-format .body {
           flex: 0 0 auto;

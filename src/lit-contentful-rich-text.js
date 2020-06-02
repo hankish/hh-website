@@ -57,9 +57,15 @@ export class LitContentfulRichText extends LitElement {
     return [
       css`
 
-        :host { display: block; }
+        :host {
+          display: block;
+          line-height: var(--cfrt-line-height, 150%);
+          letter-spacing: var(--cfrt-letter-spacing, 0.15px);
+        }
 
         p { margin: var(--cfrt-p-margin, 1em 0); }
+        p:first-child { margin-top: var(--cfrt-p-first-margin-top, inherit); }
+        p:last-child { margin-bottom: var(--cfrt-p-last-margin-bottom, inherit); }
 
         img { max-width: 100%; max-height: 50vh; }
 

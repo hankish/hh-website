@@ -324,7 +324,11 @@ export class PageView extends ViewBase {
           border-left: 5px solid var(--page-color-main);
         }
         page-summary lit-cf-rich-text {
+          background: rgba(255, 255, 255, 0.75);
+          
           --cfrt-p-margin: 0;
+          --cfrt-p-first-margin-top: 0;
+          --cfrt-p-last-margin-bottom: 0;
         }
 
         /*=== ITEM LIST ===*/
@@ -371,7 +375,8 @@ export class PageView extends ViewBase {
 
           opacity: 0.7;
 
-          --cfrt-p-margin: 0;
+          --cfrt-p-first-margin-top: 0;
+          --cfrt-p-last-margin-bottom: 0;
         }
 
         content-item {

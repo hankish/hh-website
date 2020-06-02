@@ -145,6 +145,7 @@ export class ViewBase extends LitElement {
           height: calc((var(--vh, 1vh) * 100) - (2 * var(--side-padding)));
           flex: 0 0 auto;
           position: relative;
+          overflow-y: scroll;
           
           display: var(--side-display);
           flex-direction: column;
@@ -156,6 +157,7 @@ export class ViewBase extends LitElement {
           height: calc((var(--vh, 1vh) * 100) - (2 * var(--side-padding)));
           flex: 0 0 auto;
           position: relative;
+          overflow-y: scroll;
 
           display: var(--side-display);
           flex-direction: column;
