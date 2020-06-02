@@ -5,6 +5,8 @@ import { styleMap } from 'lit-html/directives/style-map';
 import Dialog from 'elix/define/Dialog.js';
 import Carousel from 'elix/define/Carousel.js';
 
+import HhAnalytics from './hh-analytics.js';
+
 export class ContentItem extends LitElement {
   // #=== PROPERTIES ===#
 
@@ -74,6 +76,13 @@ export class ContentItem extends LitElement {
     e.preventDefault();
 
     this.bodyExpanded = !this.bodyExpanded;
+    
+    // Track Custom Event in Google Analytics
+    if (this.bodyExpanded) {
+      HhAnalytics.trackCardExpansion(this.item.internalTitle);
+    } else {
+      HhAnalytics.trackCardCollapse(this.item.internalTitle);
+    }
   }
 
   // #=== STYLES ===#
