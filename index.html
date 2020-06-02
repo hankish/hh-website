@@ -55,6 +55,10 @@
     <script type="module" src="./src/hh-main.js"></script>
 
     <script>
+
+      // This is used by the <hh-content> component to temporarily cache the CMS return
+      let hhContentCache = null;
+
       // Set the vh custom variable so we can have exact heights on mobile
       const documentViewHeight = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${documentViewHeight}px`);

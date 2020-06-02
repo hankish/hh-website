@@ -99,56 +99,62 @@ export class cms {
   static getContent() {
     const client = contentful.createClient(contentfulClientParams);
 
-    const siteEntries = client.getEntries({
-      content_type: 'site',
-      include: 5,
-    });
-
     return new Promise((resolve, reject) => {
-      siteEntries.then((values) => {
-        const siteContent = this.flattenContentfulFields(
-          values.items.find(s => s.fields.key === 'main'),
-        );
+      // Attempt to pull the content from the cache variable declared in the index.html file
+      if (hhContentCache) {
+        resolve(hhContentCache);
+      } else {
+        // Query the server if this is the initial page load
+        client.getEntries({
+          content_type: 'site',
+          include: 5,
+        }).then((values) => {
+          const siteContent = this.flattenContentfulFields(
+            values.items.find(s => s.fields.key === 'main'),
+          );
 
-        siteContent.mainNavItems = this.buildMainNavItems(siteContent.mainPages);
-        siteContent.mainPages = siteContent.mainNavItems.filter(p => !!p.key);
-        siteContent.hiddenPages = this.decorateHiddenPages(siteContent.hiddenPages);
-        siteContent.allPages = [...siteContent.mainPages, ...siteContent.hiddenPages];
+          siteContent.mainNavItems = this.buildMainNavItems(siteContent.mainPages);
+          siteContent.mainPages = siteContent.mainNavItems.filter(p => !!p.key);
+          siteContent.hiddenPages = this.decorateHiddenPages(siteContent.hiddenPages);
+          siteContent.allPages = [...siteContent.mainPages, ...siteContent.hiddenPages];
 
-        /*
-          SITE CONTENT PATHS SETUP
+          /*
+            SITE CONTENT PATHS SETUP
 
-          The paths object contains keys for all of the navigable top-level url paths. It contains
-          keys for each page and for each section within each page.
+            The paths object contains keys for all of the navigable top-level url paths. It contains
+            keys for each page and for each section within each page.
 
-          A page path maps to itself, a section path maps to the parent page. It looks like this:
+            A page path maps to itself, a section path maps to the parent page. It looks like this:
 
-          ```
-            {
-              'example-page-key': 'example-page-key',
-              'example-section-key': 'parent-page-key',
-              'another-section-key': 'parent-page-key',
-            }
-          ```
-        */
-        siteContent.paths = Object.fromEntries([
-          // First extract all of the section keys from their pages and create entry pairs.
-          // A page starts like this => { key:'page-key', sections: [{ key:'s1' }, { key:'s2' }] }
-          // And we want to conver it to this => ['s1': 'page-key'], ['s2': 'page-key']
-          ...siteContent.allPages.reduce((outerList, page) => [
-            ...outerList,
-            ...page.sections.reduce((innerList, section) => [
-              ...innerList,
-              [section.key, page.key],
+            ```
+              {
+                'example-page-key': 'example-page-key',
+                'example-section-key': 'parent-page-key',
+                'another-section-key': 'parent-page-key',
+              }
+            ```
+          */
+          siteContent.paths = Object.fromEntries([
+            // First extract all of the section keys from their pages and create entry pairs.
+            // A page starts like this => { key:'page-key', sections: [{ key:'s1' }, { key:'s2' }] }
+            // And we want to conver it to this => ['s1': 'page-key'], ['s2': 'page-key']
+            ...siteContent.allPages.reduce((outerList, page) => [
+              ...outerList,
+              ...page.sections.reduce((innerList, section) => [
+                ...innerList,
+                [section.key, page.key],
+              ], []),
             ], []),
-          ], []),
+  
+            // Then add all of the page keys themselves => ['page-key': 'page-key']
+            ...siteContent.allPages.map(page => [page.key, page.key]),
+          ]);
 
-          // Then add all of the page keys themselves => ['page-key': 'page-key']
-          ...siteContent.allPages.map(page => [page.key, page.key]),
-        ]);
-
-        resolve(siteContent);
-      });
+          // Cache the content for the next page navigation, then resolve the promise
+          hhContentCache = siteContent;
+          resolve(siteContent);
+        });
+      }
     });
   }
 }
